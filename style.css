@@ -122,6 +122,12 @@ button {
   letter-spacing: -0.5px;
   color: var(--text-primary);
   white-space: nowrap;
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.nav-logo:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
 }
 
 .nav-logo .logo-icon {
@@ -135,12 +141,18 @@ button {
   color: var(--white);
   font-size: 14px;
   font-weight: 700;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s var(--ease);
+}
+
+.nav-logo:hover .logo-icon {
+  transform: rotate(-8deg) scale(1.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 2px;
 }
 
 .nav-links a {
@@ -148,13 +160,71 @@ button {
   font-weight: 500;
   color: var(--text-secondary);
   letter-spacing: 0.01em;
-  transition: color 0.2s var(--ease);
   white-space: nowrap;
+  padding: 7px 16px;
+  border-radius: 22px;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.22s var(--ease), background 0.22s var(--ease), transform 0.2s var(--ease), box-shadow 0.22s var(--ease);
 }
 
-.nav-links a:hover,
-.nav-links a.active {
+/* Shimmer sweep on hover */
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.55) 50%, transparent 60%);
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  border-radius: inherit;
+  transition: background-position 0.5s ease;
+  pointer-events: none;
+}
+
+/* Underline indicator */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: calc(100% - 28px);
+  height: 2px;
+  background: var(--accent-blue);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-links a:hover {
   color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.nav-links a:hover::before {
+  background-position: -200% 0;
+}
+
+.nav-links a:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.nav-links a:active {
+  transform: translateY(0px) scale(0.97);
+  transition-duration: 0.1s;
+}
+
+.nav-links a.active {
+  color: var(--accent-blue);
+  background: rgba(0, 113, 227, 0.09);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px rgba(0,113,227,0.18);
+}
+
+.nav-links a.active::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
 .nav-actions {
@@ -199,6 +269,7 @@ button {
   color: var(--text-primary);
   transition: background 0.2s var(--ease);
   position: relative;
+  overflow: visible !important; /* keep cart badge visible outside bounds */
 }
 
 .btn-icon:hover {
@@ -444,16 +515,39 @@ button {
   padding: 28px 20px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s var(--ease);
+  /* Only transform on GPU — box-shadow/border set by JS instantly */
+  transition: transform 0.22s cubic-bezier(0.34,1.4,0.64,1);
   text-decoration: none;
   color: inherit;
   display: block;
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
 }
 
-.category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: transparent;
+/* Glow sweep on hover */
+.category-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,113,227,0.06) 0%, rgba(0,113,227,0) 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.category-card:hover { 
+  transform: translateY(-7px) scale(1.02);
+  box-shadow: 0 16px 48px rgba(0,113,227,0.13), 0 4px 12px rgba(0,0,0,0.07);
+  border-color: rgba(0,113,227,0.2);
+}
+
+.category-card:hover::before { opacity: 1; }
+
+.category-card:active {
+  transform: translateY(-2px) scale(0.99);
+  transition-duration: 0.1s;
 }
 
 .category-icon {
@@ -466,11 +560,9 @@ button {
   justify-content: center;
   margin: 0 auto 16px;
   font-size: 26px;
-  transition: background 0.3s var(--ease);
-}
-
-.category-card:hover .category-icon {
-  background: rgba(0,113,227,0.1);
+  /* GPU only */
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  will-change: transform;
 }
 
 .category-name {
@@ -478,6 +570,7 @@ button {
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 4px;
+  transition: color 0.15s ease;
 }
 
 .category-count {
@@ -500,15 +593,30 @@ button {
   border: 1px solid var(--light-gray);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all 0.3s var(--ease);
+  /* GPU only */
+  transition: transform 0.22s cubic-bezier(0.34,1.4,0.64,1);
   cursor: pointer;
   position: relative;
+  will-change: transform;
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
-  border-color: transparent;
+  transform: translateY(-7px) scale(1.015);
+  box-shadow: 0 20px 52px rgba(0,0,0,0.12), 0 4px 14px rgba(0,113,227,0.07);
+  border-color: rgba(0,113,227,0.14);
+}
+
+.product-card:active {
+  transform: translateY(-2px) scale(0.98);
+  transition-duration: 0.09s;
+}
+
+/* Image zoom on hover */
+.product-card .product-image {
+  transition: transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.product-card:hover .product-image {
+  transform: scale(1.04);
 }
 
 .product-badge {
@@ -613,15 +721,40 @@ button {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s var(--ease);
+  /* GPU only — no box-shadow in transition */
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
   display: flex;
   align-items: center;
   gap: 5px;
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+/* Shimmer on hover */
+.btn-add-cart::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.45s ease;
+  pointer-events: none;
 }
 
 .btn-add-cart:hover {
   background: var(--accent-blue-hover);
-  transform: scale(1.04);
+  transform: scale(1.08) translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0,113,227,0.35);
+  letter-spacing: 0.02em;
+}
+
+.btn-add-cart:hover::after { left: 140%; }
+
+.btn-add-cart:active {
+  transform: scale(0.96);
+  transition-duration: 0.1s;
 }
 
 /* ===========================
@@ -896,4 +1029,120 @@ footer {
 @media (max-width: 480px) {
   .category-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-actions { flex-direction: column; align-items: center; }
+}
+
+/* ===============================
+   PREMIUM BUTTON INTERACTIONS
+   Smooth click animations for a
+   polished, premium experience
+   =============================== */
+
+/* ─ Spring press on all buttons / links ─ */
+button,
+.btn-primary,
+.btn-large,
+.btn-filled,
+.btn-outlined,
+.btn-add-cart,
+.btn-checkout,
+.btn-apply,
+.btn-submit-review,
+.btn-submit-contact,
+.btn-helpful,
+.btn-remove,
+.btn-apply-filter,
+.page-btn,
+a.btn-primary,
+a.btn-large,
+a.btn-checkout,
+a.btn-outlined,
+a.btn-filled {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ripple keyframe */
+@keyframes ripple-expand {
+  0%   { transform: scale(0); opacity: 0.45; }
+  60%  { opacity: 0.15; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+
+/* Spring press-down */
+@keyframes btn-press {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.95); }
+  70%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* Ripple layer injected via JS */
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  animation: ripple-expand 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  transform: scale(0);
+  z-index: 10;
+}
+
+/* For dark-bg buttons the ripple is white, for light-bg use subtle gray */
+.btn-outlined .ripple-wave,
+.btn-remove .ripple-wave,
+.btn-helpful .ripple-wave,
+.qty-btn .ripple-wave,
+.page-btn .ripple-wave,
+.btn-apply .ripple-wave {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Active spring press on all interactive elements */
+button:active,
+a.btn-primary:active,
+a.btn-large:active,
+a.btn-checkout:active,
+a.btn-outlined:active,
+a.btn-filled:active {
+  animation: btn-press 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Page-btn active bounce */
+.page-btn:active,
+.tag:active,
+.category-card:active {
+  transform: scale(0.96);
+  transition: transform 0.1s;
+}
+
+/* Smooth transitions for interactive cards — do NOT include category-card here */
+.product-card,
+.order-card,
+.review-card,
+.contact-card {
+  transition: all 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Smooth fade-in for page load */
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-wrapper {
+  animation: page-fade-in 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* ─── Card entrance animation ───
+   Use animation-fill-mode: backwards so that after
+   the animation finishes, hover transitions take full control.
+   JS removes the .card-anim class after the animation ends.
+─────────────────────────────────── */
+@keyframes card-pop {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.card-anim {
+  animation: card-pop 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) backwards;
 }
