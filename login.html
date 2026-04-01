@@ -52,43 +52,33 @@
       <div class="login-logo">N</div>
       <h1 class="login-title">Welcome back</h1>
       <p class="login-sub">Sign in to your NexGear account</p>
-      <form id="loginForm" onsubmit="handleLogin(event)">
+      <form id="login-form">
         <div class="login-field">
           <label class="login-label">Email Address</label>
-          <input type="email" class="login-input" placeholder="you@example.com" required autocomplete="email"/>
+          <input type="email" class="login-input" id="login-email" placeholder="you@example.com" required autocomplete="email"/>
         </div>
         <div class="login-field">
           <label class="login-label">Password <a href="#">Forgot password?</a></label>
           <div class="pwd-wrap">
-            <input type="password" class="login-input" id="pwdInput" placeholder="••••••••" required autocomplete="current-password"/>
-            <button type="button" class="eye-btn" id="togglePwd" aria-label="Toggle password">
-              <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <input type="password" class="login-input" id="login-password" placeholder="••••••••" required autocomplete="current-password"/>
+            <button type="button" class="eye-btn toggle-password" aria-label="Toggle password">
+              👁️
             </button>
           </div>
         </div>
         <label class="login-remember"><input type="checkbox"/> Remember me for 30 days</label>
+        
+        <!-- Error message placeholder — filled by auth.js -->
+        <div id="login-error" style="display:none; margin-bottom: 16px;"></div>
+
         <button type="submit" class="login-btn" id="signInBtn">Sign In →</button>
       </form>
       <div class="login-footer">Don't have an account? <a href="register.html">Create one →</a></div>
     </div>
   </div>
 
-  <script>
-    document.getElementById('togglePwd').addEventListener('click', function() {
-      const p = document.getElementById('pwdInput');
-      const show = p.type === 'password';
-      p.type = show ? 'text' : 'password';
-      document.getElementById('eyeIcon').innerHTML = show
-        ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`
-        : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
-    });
-    function handleLogin(e) {
-      e.preventDefault();
-      const btn = document.getElementById('signInBtn');
-      btn.textContent = 'Signing in…';
-      btn.disabled = true;
-      setTimeout(() => { window.location.href = 'home.html'; }, 900);
-    }
-  </script>
+  <!-- JS Files -->
+  <script src="ui.js"></script>
+  <script src="auth.js"></script>
 </body>
 </html>
