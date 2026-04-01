@@ -23,25 +23,17 @@
   margin-bottom: 14px;
 }
 
-.track-inputs {
-  display: flex;
-  gap: 12px;
-}
-
+.track-inputs { display: flex; gap: 12px; }
 .track-inputs .form-input { flex: 1; }
 
-.orders-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.orders-list { display: flex; flex-direction: column; gap: 20px; }
 
 .order-card {
   background: var(--white);
   border: 1px solid var(--light-gray);
   border-radius: var(--radius-lg);
   padding: 24px;
-  transition: box-shadow 0.2s var(--ease);
+  transition: box-shadow 0.2s;
 }
 
 .order-card:hover { box-shadow: var(--shadow-md); }
@@ -61,11 +53,7 @@
   letter-spacing: -0.2px;
 }
 
-.order-date {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 3px;
-}
+.order-date { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
 
 .order-status {
   font-size: 12px;
@@ -75,27 +63,11 @@
   white-space: nowrap;
 }
 
-.order-status.delivered {
-  background: rgba(48,209,88,0.12);
-  color: #1a7a34;
-}
+.order-status.delivered { background: rgba(48,209,88,0.12); color: #1a7a34; }
+.order-status.transit   { background: rgba(0,113,227,0.1);  color: var(--accent-blue); }
+.order-status.processing{ background: rgba(255,149,0,0.12); color: #b36200; }
 
-.order-status.transit {
-  background: rgba(0,113,227,0.1);
-  color: var(--accent-blue);
-}
-
-.order-status.processing {
-  background: rgba(255,149,0,0.12);
-  color: #b36200;
-}
-
-.order-items-preview {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
+.order-items-preview { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
 
 .order-item-chip {
   background: var(--off-white);
@@ -138,13 +110,8 @@
   z-index: 0;
 }
 
-.timeline-step.done:not(:last-child)::after {
-  background: var(--accent-green);
-}
-
-.timeline-step.active:not(:last-child)::after {
-  background: linear-gradient(to right, var(--accent-blue), var(--light-gray));
-}
+.timeline-step.done:not(:last-child)::after   { background: var(--accent-green); }
+.timeline-step.active:not(:last-child)::after { background: linear-gradient(to right, var(--accent-blue), var(--light-gray)); }
 
 .timeline-dot {
   width: 24px;
@@ -155,7 +122,6 @@
   position: relative;
   z-index: 1;
   flex-shrink: 0;
-  transition: all 0.3s;
 }
 
 .timeline-dot.done {
@@ -173,18 +139,9 @@
   background: var(--accent-blue);
   border-color: var(--accent-blue);
   box-shadow: 0 0 0 4px rgba(0,113,227,0.2);
-  animation: pulse 1.5s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(0,113,227,0.2); }
-  50% { box-shadow: 0 0 0 8px rgba(0,113,227,0.08); }
-}
-
-.timeline-content {
-  text-align: center;
-  margin-top: 8px;
-}
+.timeline-content { text-align: center; margin-top: 8px; }
 
 .timeline-label {
   font-size: 12px;
@@ -193,11 +150,7 @@
   margin-bottom: 2px;
 }
 
-.timeline-date {
-  font-size: 10px;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
+.timeline-date { font-size: 10px; color: var(--text-secondary); line-height: 1.4; }
 
 /* FOOTER */
 .order-footer {
@@ -210,15 +163,8 @@
   flex-wrap: wrap;
 }
 
-.order-total {
-  font-size: 14px;
-  color: var(--text-secondary);
-}
-
-.order-total strong {
-  color: var(--text-primary);
-  font-size: 16px;
-}
+.order-total { font-size: 14px; color: var(--text-secondary); }
+.order-total strong { color: var(--text-primary); font-size: 16px; }
 
 .order-actions { display: flex; gap: 10px; }
 
@@ -228,7 +174,7 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s var(--ease);
+  transition: background 0.2s, border-color 0.2s;
   display: inline-flex;
   align-items: center;
 }
@@ -239,9 +185,7 @@
   background: transparent;
 }
 
-.btn-outlined.btn-sm:hover {
-  background: rgba(0,113,227,0.06);
-}
+.btn-outlined.btn-sm:hover { background: rgba(0,113,227,0.06); }
 
 .btn-secondary {
   background: var(--off-white);
@@ -253,6 +197,6 @@
 
 @media (max-width: 600px) {
   .track-inputs { flex-direction: column; }
-  .tracking-timeline { gap: 0; padding: 16px 12px; }
+  .tracking-timeline { padding: 16px 12px; }
   .timeline-step { min-width: 72px; }
 }

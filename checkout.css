@@ -15,7 +15,7 @@
 }
 
 .step.active { color: var(--accent-blue); }
-.step.done { color: var(--accent-green); }
+.step.done   { color: var(--accent-green); }
 
 .step-line {
   width: 32px;
@@ -95,12 +95,10 @@
   font-weight: 500;
   color: var(--text-primary);
   cursor: pointer;
-  transition: all 0.2s var(--ease);
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.payment-method input {
-  accent-color: var(--accent-blue);
-}
+.payment-method input { accent-color: var(--accent-blue); }
 
 .payment-method.active,
 .payment-method:has(input:checked) {
@@ -158,10 +156,7 @@
   flex-shrink: 0;
 }
 
-.checkout-item-info {
-  flex: 1;
-  min-width: 0;
-}
+.checkout-item-info { flex: 1; min-width: 0; }
 
 .checkout-item-name {
   font-size: 13px;
@@ -202,7 +197,7 @@
 }
 
 .text-green { color: var(--accent-green); font-weight: 600; }
-.text-red { color: var(--accent-red); font-weight: 600; }
+.text-red   { color: var(--accent-red);   font-weight: 600; }
 
 .summary-total {
   display: flex;
@@ -223,16 +218,12 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s var(--ease);
+  transition: background 0.2s;
   margin-bottom: 12px;
   letter-spacing: -0.01em;
 }
 
-.btn-place-order:hover {
-  background: var(--accent-blue-hover);
-  transform: scale(1.01);
-  box-shadow: 0 8px 24px rgba(0,113,227,0.28);
-}
+.btn-place-order:hover { background: var(--accent-blue-hover); }
 
 .secure-note {
   text-align: center;

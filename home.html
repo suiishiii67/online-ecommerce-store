@@ -24,9 +24,10 @@
         <li><a href="feedback.html">Contact Us</a></li>
       </ul>
       <div class="nav-actions">
-        <div class="nav-search">
+        <div class="nav-search" id="searchWrapper">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Search accessories...
+          <input type="text" id="navSearchInput" placeholder="Search accessories..." autocomplete="off"/>
+          <div class="search-dropdown" id="searchDropdown"></div>
         </div>
         <a href="cart.html" class="btn-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -177,7 +178,7 @@
                   <span class="price-current">₹24,999</span>
                   <span class="price-original">₹28,999</span>
                 </div>
-                <button class="btn-add-cart">+ Cart</button>
+                <button class="btn-add-cart" data-id="arctis-nova-pro">+ Cart</button>
               </div>
             </div>
           </div>
@@ -199,7 +200,7 @@
                   <span class="price-current">₹32,499</span>
                   <span class="price-original">₹38,000</span>
                 </div>
-                <button class="btn-add-cart">+ Cart</button>
+                <button class="btn-add-cart" data-id="lg-ultragear">+ Cart</button>
               </div>
             </div>
           </div>
@@ -219,7 +220,7 @@
                 <div class="product-price">
                   <span class="price-current">₹14,999</span>
                 </div>
-                <button class="btn-add-cart">+ Cart</button>
+                <button class="btn-add-cart" data-id="keychron-q3">+ Cart</button>
               </div>
             </div>
           </div>
@@ -241,7 +242,7 @@
                   <span class="price-current">₹13,495</span>
                   <span class="price-original">₹15,999</span>
                 </div>
-                <button class="btn-add-cart">+ Cart</button>
+                <button class="btn-add-cart" data-id="logitech-super2">+ Cart</button>
               </div>
             </div>
           </div>
@@ -262,7 +263,7 @@
                   <span class="price-current">₹42,999</span>
                   <span class="price-original">₹48,000</span>
                 </div>
-                <button class="btn-add-cart">+ Cart</button>
+                <button class="btn-add-cart" data-id="secretlab-titan">+ Cart</button>
               </div>
             </div>
           </div>
@@ -283,7 +284,7 @@
                 <div class="product-price">
                   <span class="price-current">₹11,999</span>
                 </div>
-                <button class="btn-add-cart">+ Cart</button>
+                <button class="btn-add-cart" data-id="hyperx-quadcast">+ Cart</button>
               </div>
             </div>
           </div>
@@ -362,6 +363,5 @@
     </div>
   </footer>
 
-  <script src="animations.js"></script>
 </body>
 </html>
