@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Arctis Nova Pro Wireless — NexGear</title>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="product-detail.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="product-detail.css" />
 </head>
+
 <body>
   <nav class="navbar">
     <div class="nav-container">
-      <a href="home.html" class="nav-logo"><div class="logo-icon">N</div>NexGear</a>
+      <a href="home.html" class="nav-logo">
+        <div class="logo-icon">N</div>NexGear
+      </a>
       <ul class="nav-links">
         <li><a href="home.html">Home</a></li>
         <li><a href="products.html" class="active">Products</a></li>
@@ -20,7 +24,11 @@
       </ul>
       <div class="nav-actions">
         <a href="cart.html" class="btn-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
+          </svg>
           <span class="cart-badge">3</span>
         </a>
         <a href="login.html" class="btn-primary">Sign In</a>
@@ -44,17 +52,41 @@
           <!-- GALLERY -->
           <div class="gallery-section">
             <div class="gallery-main" id="mainImage">
-              <span class="gallery-emoji" id="mainEmoji">🎧</span>
+              <img src="https://m.media-amazon.com/images/I/614IQytqAuL._SX679_.jpg" alt="Headset" id="mainEmoji"
+                style="width: 100%; height: 100%; object-fit: contain; border-radius: 24px;" />
               <span class="product-badge new" style="position:absolute;top:16px;left:16px;">New</span>
               <button class="wishlist-btn" id="wishlistBtn" title="Wishlist">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
               </button>
             </div>
             <div class="gallery-thumbs">
-              <div class="gallery-thumb active" onclick="setThumb(this,'🎧')">🎧</div>
-              <div class="gallery-thumb" onclick="setThumb(this,'🔊')">🔊</div>
-              <div class="gallery-thumb" onclick="setThumb(this,'📦')">📦</div>
-              <div class="gallery-thumb" onclick="setThumb(this,'🔌')">🔌</div>
+              <div class="gallery-thumb active"
+                onclick="setThumb(this,'https://m.media-amazon.com/images/I/614IQytqAuL._SX679_.jpg')"
+                style="padding:0; overflow:hidden;">
+                <img src="https://m.media-amazon.com/images/I/614IQytqAuL._SX679_.jpg"
+                  style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" />
+              </div>
+              <div class="gallery-thumb"
+                onclick="setThumb(this,'https://m.media-amazon.com/images/I/71T4MPGjT3L._SX679_.jpg')"
+                style="padding:0; overflow:hidden;">
+                <img src="https://m.media-amazon.com/images/I/71T4MPGjT3L._SX679_.jpg"
+                  style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" />
+              </div>
+              <div class="gallery-thumb"
+                onclick="setThumb(this,'https://m.media-amazon.com/images/I/61Rdx-IlpGL._SX679_.jpg')"
+                style="padding:0; overflow:hidden;">
+                <img src="https://m.media-amazon.com/images/I/61Rdx-IlpGL._SX679_.jpg"
+                  style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" />
+              </div>
+              <div class="gallery-thumb"
+                onclick="setThumb(this,'https://m.media-amazon.com/images/I/81FDSi5YBuL._SL1500_.jpg')"
+                style="padding:0; overflow:hidden;">
+                <img src="https://m.media-amazon.com/images/I/81FDSi5YBuL._SL1500_.jpg"
+                  style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" />
+              </div>
             </div>
           </div>
 
@@ -64,7 +96,8 @@
             <h1 class="product-detail-title">Arctis Nova Pro Wireless</h1>
 
             <div class="rating-row">
-              <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+              <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                  class="star">★</span><span class="star">★</span></div>
               <span class="rating-score">4.9</span>
               <a href="#reviews" class="rating-link">284 reviews</a>
               <span class="divider-dot">·</span>
@@ -108,7 +141,11 @@
                 </div>
               </div>
               <button class="btn-cart-main" onclick="addToCartFromDetail('arctis-nova-pro')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17">
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
                 Add to Cart
               </button>
               <button class="btn-buy-now" onclick="buyNow('arctis-nova-pro')">Buy Now</button>
@@ -116,9 +153,24 @@
             <div class="cart-toast" id="cartToast">✓ Added to cart!</div>
 
             <div class="delivery-info">
-              <div class="delivery-item"><span class="delivery-icon">🚚</span><div><div class="delivery-title">Free Delivery</div><div class="delivery-sub">Estimated by <strong>3 Apr 2025</strong></div></div></div>
-              <div class="delivery-item"><span class="delivery-icon">↩️</span><div><div class="delivery-title">7-Day Easy Returns</div><div class="delivery-sub">Hassle-free return policy</div></div></div>
-              <div class="delivery-item"><span class="delivery-icon">🛡️</span><div><div class="delivery-title">2 Year Warranty</div><div class="delivery-sub">Official SteelSeries warranty</div></div></div>
+              <div class="delivery-item"><span class="delivery-icon">🚚</span>
+                <div>
+                  <div class="delivery-title">Free Delivery</div>
+                  <div class="delivery-sub">Estimated by <strong>3 Apr 2025</strong></div>
+                </div>
+              </div>
+              <div class="delivery-item"><span class="delivery-icon">↩️</span>
+                <div>
+                  <div class="delivery-title">7-Day Easy Returns</div>
+                  <div class="delivery-sub">Hassle-free return policy</div>
+                </div>
+              </div>
+              <div class="delivery-item"><span class="delivery-icon">🛡️</span>
+                <div>
+                  <div class="delivery-title">2 Year Warranty</div>
+                  <div class="delivery-sub">Official SteelSeries warranty</div>
+                </div>
+              </div>
             </div>
 
             <div class="highlights">
@@ -146,13 +198,31 @@
           <div class="tab-panel active" id="tab-description">
             <div class="description-content">
               <h3>About the Arctis Nova Pro Wireless</h3>
-              <p>The Arctis Nova Pro Wireless is SteelSeries' flagship gaming headset, combining premium Hi-Res certified audio, industry-leading ANC, and a dual-wireless system in one package.</p>
-              <p>Built with a steel-reinforced headband and premium aluminum speaker plates, every aspect is engineered for comfort during marathon gaming sessions without compromising audio fidelity.</p>
+              <p>The Arctis Nova Pro Wireless is SteelSeries' flagship gaming headset, combining premium Hi-Res
+                certified audio, industry-leading ANC, and a dual-wireless system in one package.</p>
+              <p>Built with a steel-reinforced headband and premium aluminum speaker plates, every aspect is engineered
+                for comfort during marathon gaming sessions without compromising audio fidelity.</p>
               <div class="desc-feature-grid">
-                <div class="desc-feature"><div class="desc-feature-icon">🎵</div><div class="desc-feature-title">Hi-Res Audio</div><div class="desc-feature-text">40mm drivers, 10–40,000Hz response</div></div>
-                <div class="desc-feature"><div class="desc-feature-icon">🔕</div><div class="desc-feature-title">Active Noise Cancel</div><div class="desc-feature-text">Dual-mic ANC, blocks up to 38dB</div></div>
-                <div class="desc-feature"><div class="desc-feature-icon">📡</div><div class="desc-feature-title">Dual Wireless</div><div class="desc-feature-text">2.4GHz + Bluetooth simultaneously</div></div>
-                <div class="desc-feature"><div class="desc-feature-icon">🔋</div><div class="desc-feature-title">22hr Battery</div><div class="desc-feature-text">Hot-swappable battery system</div></div>
+                <div class="desc-feature">
+                  <div class="desc-feature-icon">🎵</div>
+                  <div class="desc-feature-title">Hi-Res Audio</div>
+                  <div class="desc-feature-text">40mm drivers, 10–40,000Hz response</div>
+                </div>
+                <div class="desc-feature">
+                  <div class="desc-feature-icon">🔕</div>
+                  <div class="desc-feature-title">Active Noise Cancel</div>
+                  <div class="desc-feature-text">Dual-mic ANC, blocks up to 38dB</div>
+                </div>
+                <div class="desc-feature">
+                  <div class="desc-feature-icon">📡</div>
+                  <div class="desc-feature-title">Dual Wireless</div>
+                  <div class="desc-feature-text">2.4GHz + Bluetooth simultaneously</div>
+                </div>
+                <div class="desc-feature">
+                  <div class="desc-feature-icon">🔋</div>
+                  <div class="desc-feature-title">22hr Battery</div>
+                  <div class="desc-feature-text">Hot-swappable battery system</div>
+                </div>
               </div>
             </div>
           </div>
@@ -161,29 +231,42 @@
             <div class="specs-table">
               <div class="specs-section">
                 <h4 class="specs-section-title">Audio</h4>
-                <div class="spec-row"><span class="spec-key">Driver Size</span><span class="spec-val">40mm High-Fidelity Neodymium</span></div>
-                <div class="spec-row"><span class="spec-key">Frequency</span><span class="spec-val">10–40,000 Hz</span></div>
-                <div class="spec-row"><span class="spec-key">Impedance</span><span class="spec-val">32 Ohm @ 1kHz</span></div>
-                <div class="spec-row"><span class="spec-key">Surround Sound</span><span class="spec-val">360° Spatial via Sonar</span></div>
+                <div class="spec-row"><span class="spec-key">Driver Size</span><span class="spec-val">40mm High-Fidelity
+                    Neodymium</span></div>
+                <div class="spec-row"><span class="spec-key">Frequency</span><span class="spec-val">10–40,000 Hz</span>
+                </div>
+                <div class="spec-row"><span class="spec-key">Impedance</span><span class="spec-val">32 Ohm @ 1kHz</span>
+                </div>
+                <div class="spec-row"><span class="spec-key">Surround Sound</span><span class="spec-val">360° Spatial
+                    via Sonar</span></div>
               </div>
               <div class="specs-section">
                 <h4 class="specs-section-title">Connectivity & Battery</h4>
-                <div class="spec-row"><span class="spec-key">Primary Wireless</span><span class="spec-val">2.4GHz USB Dongle</span></div>
-                <div class="spec-row"><span class="spec-key">Secondary</span><span class="spec-val">Bluetooth 5.0</span></div>
-                <div class="spec-row"><span class="spec-key">Battery Life</span><span class="spec-val">22hr (ANC off) / 15hr (ANC on)</span></div>
-                <div class="spec-row"><span class="spec-key">Charging</span><span class="spec-val">USB-C, Hot-Swappable</span></div>
+                <div class="spec-row"><span class="spec-key">Primary Wireless</span><span class="spec-val">2.4GHz USB
+                    Dongle</span></div>
+                <div class="spec-row"><span class="spec-key">Secondary</span><span class="spec-val">Bluetooth 5.0</span>
+                </div>
+                <div class="spec-row"><span class="spec-key">Battery Life</span><span class="spec-val">22hr (ANC off) /
+                    15hr (ANC on)</span></div>
+                <div class="spec-row"><span class="spec-key">Charging</span><span class="spec-val">USB-C,
+                    Hot-Swappable</span></div>
               </div>
               <div class="specs-section">
                 <h4 class="specs-section-title">Microphone</h4>
-                <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Retractable ClearCast Gen 2</span></div>
-                <div class="spec-row"><span class="spec-key">Pickup</span><span class="spec-val">Bidirectional Noise-Cancelling</span></div>
-                <div class="spec-row"><span class="spec-key">Freq Response</span><span class="spec-val">100–10,000 Hz</span></div>
+                <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Retractable ClearCast Gen
+                    2</span></div>
+                <div class="spec-row"><span class="spec-key">Pickup</span><span class="spec-val">Bidirectional
+                    Noise-Cancelling</span></div>
+                <div class="spec-row"><span class="spec-key">Freq Response</span><span class="spec-val">100–10,000
+                    Hz</span></div>
               </div>
               <div class="specs-section">
                 <h4 class="specs-section-title">Design</h4>
                 <div class="spec-row"><span class="spec-key">Weight</span><span class="spec-val">338g</span></div>
-                <div class="spec-row"><span class="spec-key">Compatibility</span><span class="spec-val">PC, Mac, PS5, PS4, Mobile</span></div>
-                <div class="spec-row"><span class="spec-key">Warranty</span><span class="spec-val">2 Years (Official)</span></div>
+                <div class="spec-row"><span class="spec-key">Compatibility</span><span class="spec-val">PC, Mac, PS5,
+                    PS4, Mobile</span></div>
+                <div class="spec-row"><span class="spec-key">Warranty</span><span class="spec-val">2 Years
+                    (Official)</span></div>
               </div>
             </div>
           </div>
@@ -195,11 +278,31 @@
                 <div class="summary-stars">★★★★★</div>
                 <div class="summary-count">284 ratings</div>
                 <div class="rating-bars">
-                  <div class="rbar-row"><span>5★</span><div class="rbar"><div class="rbar-fill" style="width:88%"></div></div><span>88%</span></div>
-                  <div class="rbar-row"><span>4★</span><div class="rbar"><div class="rbar-fill" style="width:9%"></div></div><span>9%</span></div>
-                  <div class="rbar-row"><span>3★</span><div class="rbar"><div class="rbar-fill" style="width:2%"></div></div><span>2%</span></div>
-                  <div class="rbar-row"><span>2★</span><div class="rbar"><div class="rbar-fill" style="width:1%"></div></div><span>1%</span></div>
-                  <div class="rbar-row"><span>1★</span><div class="rbar"><div class="rbar-fill" style="width:0%"></div></div><span>0%</span></div>
+                  <div class="rbar-row"><span>5★</span>
+                    <div class="rbar">
+                      <div class="rbar-fill" style="width:88%"></div>
+                    </div><span>88%</span>
+                  </div>
+                  <div class="rbar-row"><span>4★</span>
+                    <div class="rbar">
+                      <div class="rbar-fill" style="width:9%"></div>
+                    </div><span>9%</span>
+                  </div>
+                  <div class="rbar-row"><span>3★</span>
+                    <div class="rbar">
+                      <div class="rbar-fill" style="width:2%"></div>
+                    </div><span>2%</span>
+                  </div>
+                  <div class="rbar-row"><span>2★</span>
+                    <div class="rbar">
+                      <div class="rbar-fill" style="width:1%"></div>
+                    </div><span>1%</span>
+                  </div>
+                  <div class="rbar-row"><span>1★</span>
+                    <div class="rbar">
+                      <div class="rbar-fill" style="width:0%"></div>
+                    </div><span>0%</span>
+                  </div>
                 </div>
                 <a href="feedback.html" class="btn-write-review">Write a Review</a>
               </div>
@@ -207,26 +310,36 @@
                 <div class="review-card">
                   <div class="review-header">
                     <div class="reviewer-avatar">A</div>
-                    <div><div class="reviewer-name">Arjun S.</div><div class="review-meta">Verified · 15 Mar 2025</div></div>
+                    <div>
+                      <div class="reviewer-name">Arjun S.</div>
+                      <div class="review-meta">Verified · 15 Mar 2025</div>
+                    </div>
                     <div class="review-stars">★★★★★</div>
                   </div>
                   <div class="review-title">Absolutely worth every rupee!</div>
-                  <div class="review-body">Sound quality is exceptional, ANC is fantastic and the build feels premium. Delivery was faster than expected. Highly recommend for any serious gamer.</div>
+                  <div class="review-body">Sound quality is exceptional, ANC is fantastic and the build feels premium.
+                    Delivery was faster than expected. Highly recommend for any serious gamer.</div>
                   <div class="review-footer">
-                    <div class="review-tags"><span class="rtag">Sound Quality 🎵</span><span class="rtag">Great Build 💪</span></div>
+                    <div class="review-tags"><span class="rtag">Sound Quality 🎵</span><span class="rtag">Great Build
+                        💪</span></div>
                     <button class="btn-helpful">👍 Helpful (12)</button>
                   </div>
                 </div>
                 <div class="review-card">
                   <div class="review-header">
                     <div class="reviewer-avatar" style="background:#30d158">R</div>
-                    <div><div class="reviewer-name">Rahul K.</div><div class="review-meta">Verified · 21 Mar 2025</div></div>
+                    <div>
+                      <div class="reviewer-name">Rahul K.</div>
+                      <div class="review-meta">Verified · 21 Mar 2025</div>
+                    </div>
                     <div class="review-stars">★★★★★</div>
                   </div>
                   <div class="review-title">Best headset for PS5 and PC</div>
-                  <div class="review-body">Dual wireless is a game changer. Sound stage is incredible, mic quality is top-notch. Battery lasts all day easily.</div>
+                  <div class="review-body">Dual wireless is a game changer. Sound stage is incredible, mic quality is
+                    top-notch. Battery lasts all day easily.</div>
                   <div class="review-footer">
-                    <div class="review-tags"><span class="rtag">Dual Wireless 📡</span><span class="rtag">Long Battery 🔋</span></div>
+                    <div class="review-tags"><span class="rtag">Dual Wireless 📡</span><span class="rtag">Long Battery
+                        🔋</span></div>
                     <button class="btn-helpful">👍 Helpful (24)</button>
                   </div>
                 </div>
@@ -242,19 +355,47 @@
           <div class="related-grid">
             <div class="product-card" onclick="window.location='product-detail.html'">
               <div class="product-image">🎧</div>
-              <div class="product-info"><div class="product-brand">Razer</div><div class="product-name">BlackShark V2 Pro 2023</div><div class="product-footer" style="margin-top:10px"><div class="product-price"><span class="price-current">₹17,999</span></div><button class="btn-add-cart">+ Cart</button></div></div>
+              <div class="product-info">
+                <div class="product-brand">Razer</div>
+                <div class="product-name">BlackShark V2 Pro 2023</div>
+                <div class="product-footer" style="margin-top:10px">
+                  <div class="product-price"><span class="price-current">₹17,999</span></div><button
+                    class="btn-add-cart">+ Cart</button>
+                </div>
+              </div>
             </div>
             <div class="product-card" onclick="window.location='product-detail.html'">
               <div class="product-image">🎧</div>
-              <div class="product-info"><div class="product-brand">HyperX</div><div class="product-name">Cloud III Wireless</div><div class="product-footer" style="margin-top:10px"><div class="product-price"><span class="price-current">₹12,999</span><span class="price-original">₹14,990</span></div><button class="btn-add-cart">+ Cart</button></div></div>
+              <div class="product-info">
+                <div class="product-brand">HyperX</div>
+                <div class="product-name">Cloud III Wireless</div>
+                <div class="product-footer" style="margin-top:10px">
+                  <div class="product-price"><span class="price-current">₹12,999</span><span
+                      class="price-original">₹14,990</span></div><button class="btn-add-cart">+ Cart</button>
+                </div>
+              </div>
             </div>
             <div class="product-card" onclick="window.location='product-detail.html'">
               <div class="product-image">🎧</div>
-              <div class="product-info"><div class="product-brand">Logitech</div><div class="product-name">G935 Wireless 7.1</div><div class="product-footer" style="margin-top:10px"><div class="product-price"><span class="price-current">₹10,499</span></div><button class="btn-add-cart">+ Cart</button></div></div>
+              <div class="product-info">
+                <div class="product-brand">Logitech</div>
+                <div class="product-name">G935 Wireless 7.1</div>
+                <div class="product-footer" style="margin-top:10px">
+                  <div class="product-price"><span class="price-current">₹10,499</span></div><button
+                    class="btn-add-cart">+ Cart</button>
+                </div>
+              </div>
             </div>
             <div class="product-card" onclick="window.location='product-detail.html'">
               <div class="product-image">🎧</div>
-              <div class="product-info"><div class="product-brand">Corsair</div><div class="product-name">HS80 RGB Wireless</div><div class="product-footer" style="margin-top:10px"><div class="product-price"><span class="price-current">₹9,999</span><span class="price-original">₹11,500</span></div><button class="btn-add-cart">+ Cart</button></div></div>
+              <div class="product-info">
+                <div class="product-brand">Corsair</div>
+                <div class="product-name">HS80 RGB Wireless</div>
+                <div class="product-footer" style="margin-top:10px">
+                  <div class="product-price"><span class="price-current">₹9,999</span><span
+                      class="price-original">₹11,500</span></div><button class="btn-add-cart">+ Cart</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -266,10 +407,34 @@
   <footer>
     <div class="footer-container">
       <div class="footer-top">
-        <div class="footer-brand"><div class="logo-text">NexGear</div><p>Your one-stop destination for premium PC and gaming accessories.</p></div>
-        <div class="footer-col"><h4>Shop</h4><ul><li><a href="products.html">All Products</a></li><li><a href="#">Monitors</a></li><li><a href="#">Keyboards</a></li></ul></div>
-        <div class="footer-col"><h4>Account</h4><ul><li><a href="login.html">Sign In</a></li><li><a href="register.html">Register</a></li><li><a href="cart.html">My Cart</a></li></ul></div>
-        <div class="footer-col"><h4>Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Returns</a></li><li><a href="#">Contact Us</a></li></ul></div>
+        <div class="footer-brand">
+          <div class="logo-text">NexGear</div>
+          <p>Your one-stop destination for premium PC and gaming accessories.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="products.html">All Products</a></li>
+            <li><a href="#">Monitors</a></li>
+            <li><a href="#">Keyboards</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="login.html">Sign In</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="cart.html">My Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
       </div>
       <div class="footer-bottom">
         <p>© 2025 NexGear. All rights reserved.</p>
@@ -283,10 +448,10 @@
   <script src="search.js"></script>
   <script>
     function changeQty(d) { const e = document.getElementById('qtyVal'); let v = parseInt(e.textContent) + d; e.textContent = Math.min(99, Math.max(1, v)); }
-    function addToCartFromDetail(productId) { 
+    function addToCartFromDetail(productId) {
       if (typeof addToCart !== 'function') return;
       const qty = parseInt(document.getElementById('qtyVal').textContent) || 1;
-      
+
       let cart = loadCart();
       let existing = cart.find(i => i.id === productId);
       if (existing) {
@@ -297,20 +462,21 @@
       saveCart(cart);
       updateCartBadge();
 
-      const t = document.getElementById('cartToast'); 
-      t.classList.add('show'); 
-      setTimeout(() => t.classList.remove('show'), 2500); 
+      const t = document.getElementById('cartToast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
     }
-    
+
     function buyNow(productId) {
       addToCartFromDetail(productId);
       window.location.href = 'checkout.html';
     }
-    document.getElementById('wishlistBtn').addEventListener('click', function() { this.classList.toggle('active'); });
-    function setThumb(el, emoji) { document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active')); el.classList.add('active'); document.getElementById('mainEmoji').textContent = emoji; }
+    document.getElementById('wishlistBtn').addEventListener('click', function () { this.classList.toggle('active'); });
+    function setThumb(el, src) { document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active')); el.classList.add('active'); document.getElementById('mainEmoji').src = src; }
     function switchTab(btn, id) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active')); btn.classList.add('active'); document.getElementById('tab-' + id).classList.add('active'); }
-    document.querySelectorAll('.color-btn').forEach(btn => btn.addEventListener('click', function() { document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); const s = document.querySelector('.variant-label strong'); if(s) s.textContent = this.dataset.label; }));
-    document.querySelectorAll('.text-btn').forEach(btn => btn.addEventListener('click', function() { this.closest('.variant-options').querySelectorAll('.text-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); }));
+    document.querySelectorAll('.color-btn').forEach(btn => btn.addEventListener('click', function () { document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); const s = document.querySelector('.variant-label strong'); if (s) s.textContent = this.dataset.label; }));
+    document.querySelectorAll('.text-btn').forEach(btn => btn.addEventListener('click', function () { this.closest('.variant-options').querySelectorAll('.text-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); }));
   </script>
 </body>
+
 </html>
