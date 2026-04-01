@@ -171,15 +171,5 @@
     </div>
   </footer>
 
-  <script>
-    function changeQty(btn, delta) {
-      const qtyEl = btn.parentElement.querySelector('.qty-value');
-      let val = parseInt(qtyEl.textContent) + delta;
-      if (val < 1) val = 1;
-      if (val > 99) val = 99;
-      qtyEl.textContent = val;
-    }
-  </script>
-
 </body>
 </html>

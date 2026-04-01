@@ -222,26 +222,5 @@
     </div>
   </footer>
 
-  <script>
-    const stars = document.querySelectorAll('.star-pick');
-    const label = document.getElementById('ratingLabel');
-    const labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
-    let selected = 0;
-
-    stars.forEach((s, i) => {
-      s.addEventListener('mouseenter', () => {
-        stars.forEach((el, j) => el.classList.toggle('hovered', j <= i));
-      });
-      s.addEventListener('mouseleave', () => {
-        stars.forEach((el, j) => el.classList.toggle('hovered', j < selected));
-      });
-      s.addEventListener('click', () => {
-        selected = i + 1;
-        label.textContent = labels[selected];
-        stars.forEach((el, j) => el.classList.toggle('selected', j < selected));
-      });
-    });
-  </script>
-
 </body>
 </html>
