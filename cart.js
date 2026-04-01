@@ -1,11 +1,13 @@
-
 var PRODUCTS = {
   "arctis-nova-pro":   { name: "Arctis Nova Pro Wireless", brand: "SteelSeries", price: 24999, icon: "🎧" },
   "lg-ultragear":      { name: "UltraGear 27GP850-B",      brand: "LG",          price: 32499, icon: "🖥️" },
   "keychron-q3":       { name: "Q3 Pro Wireless QMK",      brand: "Keychron",    price: 14999, icon: "⌨️" },
   "logitech-super2":   { name: "G Pro X Superlight 2",     brand: "Logitech",    price: 13495, icon: "🖱️" },
   "secretlab-titan":   { name: "TITAN Evo XL Series",      brand: "SecretLab",   price: 42999, icon: "🪑" },
-  "hyperx-quadcast":   { name: "QuadCast S USB Mic",       brand: "HyperX",      price: 11999, icon: "🎤" }
+  "hyperx-quadcast":   { name: "QuadCast S USB Mic",       brand: "HyperX",      price: 11999, icon: "🎤" },
+  "facecam-pro":       { name: "Facecam Pro 4K",           brand: "Elgato",      price: 19999, icon: "📷" },
+  "corsair-mat":       { name: "MM700 RGB Desk Mat",       brand: "Corsair",     price: 5499,  icon: "🟦" },
+  "fractal-case":      { name: "Define 7 PC Case",         brand: "Fractal",     price: 9999,  icon: "🖥️" }
 };
 
 // Load cart from localStorage (returns an array of {id, qty})

@@ -1,15 +1,3 @@
-/**
- * ui.js — NexGear Shared UI Helpers
- * ────────────────────────────────────
- * Small utility functions used across all pages:
- *  1. showToast()   — pops a small notification at the bottom of the screen
- *  2. Active nav    — auto-highlights the current page link in the navbar
- *  3. Scroll-to-top — button appears when user scrolls down
- *  4. Smooth scroll — for all anchor links on the page
- */
-
-// ── 1. TOAST NOTIFICATIONS ────────────────────────────────────────────────────
-// Call showToast("message") from any other script to show a popup
 
 function showToast(message) {
   // Remove any existing toast first

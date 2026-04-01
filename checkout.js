@@ -72,10 +72,11 @@ function initPlaceOrderButton() {
   if (!btn) return;
 
   btn.addEventListener("click", function() {
-    // Simple validation: check that required fields are not empty
-    var requiredInputs = document.querySelectorAll(".checkout-forms input[type='text'], .checkout-forms input[type='tel']");
+    var requiredInputs = document.querySelectorAll(".checkout-forms input");
     var allFilled = true;
     requiredInputs.forEach(function(input) {
+      if (input.placeholder.includes("optional")) return; // skip address line 2
+      if (input.closest(".payment-form") && input.closest(".payment-form").style.display === "none") return; // skip hidden forms
       if (input.value.trim() === "") allFilled = false;
     });
 
