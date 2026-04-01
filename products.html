@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products — NexGear</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="products.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="home.html" class="nav-logo">
+        <div class="logo-icon">N</div>
+        NexGear
+      </a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="products.html" class="active">Products</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="order-tracking.html">Orders</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="nav-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search accessories...
+        </div>
+        <a href="cart.html" class="btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge">3</span>
+        </a>
+        <a href="login.html" class="btn-primary">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <section class="section">
+      <div class="container">
+
+        <div class="breadcrumb">
+          <a href="home.html">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span>All Products</span>
+        </div>
+
+        <div class="products-layout">
+
+          <!-- SIDEBAR FILTERS -->
+          <aside class="sidebar">
+            <div class="filter-block">
+              <h3 class="filter-title">Categories</h3>
+              <ul class="filter-list">
+                <li><label class="filter-check"><input type="checkbox" checked/> All Products <span>500</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Monitors <span>48</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Headphones & Headsets <span>62</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Keyboards <span>74</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Mouse <span>55</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Gaming Chairs <span>29</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> PC Cabinets <span>38</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Webcams <span>22</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Microphones <span>18</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Mouse Pads & Desk Mats <span>34</span></label></li>
+                <li><label class="filter-check"><input type="checkbox"/> PC Hardware <span>120</span></label></li>
+              </ul>
+            </div>
+
+            <div class="filter-block">
+              <h3 class="filter-title">Price Range</h3>
+              <div class="price-range">
+                <div class="price-inputs">
+                  <div class="price-field">
+                    <label>Min (₹)</label>
+                    <input type="number" class="form-input" placeholder="0" value="0"/>
+                  </div>
+                  <span class="price-dash">—</span>
+                  <div class="price-field">
+                    <label>Max (₹)</label>
+                    <input type="number" class="form-input" placeholder="100000" value="100000"/>
+                  </div>
+                </div>
+                <input type="range" class="range-slider" min="0" max="100000" value="100000"/>
+              </div>
+            </div>
+
+            <div class="filter-block">
+              <h3 class="filter-title">Brand</h3>
+              <ul class="filter-list">
+                <li><label class="filter-check"><input type="checkbox"/> Logitech</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> SteelSeries</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Razer</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Corsair</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> HyperX</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> LG</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> ASUS</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Keychron</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> SecretLab</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> Elgato</label></li>
+              </ul>
+            </div>
+
+            <div class="filter-block">
+              <h3 class="filter-title">Rating</h3>
+              <ul class="filter-list">
+                <li><label class="filter-check"><input type="radio" name="rating"/> ★★★★★ 5 Star</label></li>
+                <li><label class="filter-check"><input type="radio" name="rating"/> ★★★★☆ 4+ Stars</label></li>
+                <li><label class="filter-check"><input type="radio" name="rating"/> ★★★☆☆ 3+ Stars</label></li>
+              </ul>
+            </div>
+
+            <div class="filter-block">
+              <h3 class="filter-title">Availability</h3>
+              <ul class="filter-list">
+                <li><label class="filter-check"><input type="checkbox" checked/> In Stock</label></li>
+                <li><label class="filter-check"><input type="checkbox"/> On Discount</label></li>
+              </ul>
+            </div>
+
+            <button class="btn-apply-filter btn-primary" style="width:100%; padding:12px; border-radius:12px; font-size:14px;">Apply Filters</button>
+          </aside>
+
+          <!-- PRODUCT LISTING -->
+          <div class="listing-area">
+            <div class="listing-header">
+              <div class="listing-info">
+                <h1 class="listing-title">All Products</h1>
+                <p class="listing-count">Showing 1–12 of 500 results</p>
+              </div>
+              <div class="listing-controls">
+                <div class="filter-tags">
+                  <span class="tag active">All</span>
+                  <span class="tag">New Arrivals</span>
+                  <span class="tag">On Sale</span>
+                  <span class="tag">Best Rated</span>
+                </div>
+                <select class="form-select sort-select">
+                  <option>Sort: Featured</option>
+                  <option>Price: Low to High</option>
+                  <option>Price: High to Low</option>
+                  <option>Newest First</option>
+                  <option>Best Rated</option>
+                  <option>Most Popular</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="product-grid">
+              <!-- Products repeating pattern -->
+              <div class="product-card">
+                <span class="product-badge new">New</span>
+                <div class="product-image">🎧</div>
+                <div class="product-info">
+                  <div class="product-brand">SteelSeries</div>
+                  <div class="product-name">Arctis Nova Pro Wireless</div>
+                  <div class="product-specs">Hi-Fi Audio · 22hr Battery · ANC</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(284)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹24,999</span><span class="price-original">₹28,999</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <span class="product-badge sale">Sale</span>
+                <div class="product-image">🖥️</div>
+                <div class="product-info">
+                  <div class="product-brand">LG</div>
+                  <div class="product-name">UltraGear 27GP850-B</div>
+                  <div class="product-specs">27" QHD · 165Hz · Nano IPS · 1ms</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(512)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹32,499</span><span class="price-original">₹38,000</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-image">⌨️</div>
+                <div class="product-info">
+                  <div class="product-brand">Keychron</div>
+                  <div class="product-name">Q3 Pro Wireless QMK</div>
+                  <div class="product-specs">75% Layout · Gateron G Pro · Hot-swap</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(396)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹14,999</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <span class="product-badge">Popular</span>
+                <div class="product-image">🖱️</div>
+                <div class="product-info">
+                  <div class="product-brand">Logitech</div>
+                  <div class="product-name">G Pro X Superlight 2</div>
+                  <div class="product-specs">60g Ultra-light · HERO 25K · 95hr Battery</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(701)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹13,495</span><span class="price-original">₹15,999</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-image">🪑</div>
+                <div class="product-info">
+                  <div class="product-brand">SecretLab</div>
+                  <div class="product-name">TITAN Evo XL Series</div>
+                  <div class="product-specs">SoftWeave Fabric · 4D Armrests · Lumbar</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(328)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹42,999</span><span class="price-original">₹48,000</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <span class="product-badge new">New</span>
+                <div class="product-image">🎤</div>
+                <div class="product-info">
+                  <div class="product-brand">HyperX</div>
+                  <div class="product-name">QuadCast S USB Mic</div>
+                  <div class="product-specs">Multi-Pattern · RGB · Anti-Vibration</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(219)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹11,999</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-image">📷</div>
+                <div class="product-info">
+                  <div class="product-brand">Elgato</div>
+                  <div class="product-name">Facecam Pro 4K</div>
+                  <div class="product-specs">4K 60fps · Sony Sensor · Fixed Lens</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(189)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹19,999</span><span class="price-original">₹22,000</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <span class="product-badge sale">Sale</span>
+                <div class="product-image">🖥️</div>
+                <div class="product-info">
+                  <div class="product-brand">Fractal</div>
+                  <div class="product-name">Define 7 Compact PC Case</div>
+                  <div class="product-specs">mATX · Sound Dampened · 3 Fans</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(143)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹9,999</span><span class="price-original">₹12,500</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-image">🟦</div>
+                <div class="product-info">
+                  <div class="product-brand">Corsair</div>
+                  <div class="product-name">MM700 RGB Extended Desk Mat</div>
+                  <div class="product-specs">930×400mm · RGB · Non-slip Base</div>
+                  <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="rating-count">(412)</span></div>
+                  <div class="product-footer" style="margin-top:14px">
+                    <div class="product-price"><span class="price-current">₹5,499</span></div>
+                    <button class="btn-add-cart">+ Cart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="pagination">
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">3</button>
+              <span class="page-dots">···</span>
+              <button class="page-btn">42</button>
+              <button class="page-btn next">Next →</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">NexGear</div>
+          <p>Your one-stop destination for premium PC and gaming accessories.</p>
+        </div>
+        <div class="footer-col"><h4>Shop</h4><ul><li><a href="products.html">All Products</a></li><li><a href="#">Monitors</a></li><li><a href="#">Keyboards</a></li></ul></div>
+        <div class="footer-col"><h4>Account</h4><ul><li><a href="login.html">Sign In</a></li><li><a href="register.html">Register</a></li><li><a href="cart.html">My Cart</a></li></ul></div>
+        <div class="footer-col"><h4>Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Returns</a></li><li><a href="#">Contact Us</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 NexGear. All rights reserved.</p>
+        <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback & Reviews — NexGear</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="feedback.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="home.html" class="nav-logo"><div class="logo-icon">N</div>NexGear</a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="order-tracking.html">Orders</a></li>
+        <li><a href="feedback.html" class="active">Feedback</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="btn-primary">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <section class="section">
+      <div class="container">
+
+        <div class="breadcrumb">
+          <a href="home.html">Home</a><span class="breadcrumb-sep">/</span>
+          <span>Feedback & Reviews</span>
+        </div>
+
+        <div class="feedback-layout">
+
+          <!-- WRITE REVIEW -->
+          <div class="feedback-main">
+            <div class="feedback-form-card">
+              <h2 class="form-section-title">Write a Review</h2>
+              <p class="form-section-sub">Share your experience with NexGear or a specific product.</p>
+
+              <form class="feedback-form">
+                <div class="form-group">
+                  <label class="form-label">Select Product (from your purchases)</label>
+                  <select class="form-select">
+                    <option>— Choose a product you purchased —</option>
+                    <option>SteelSeries Arctis Nova Pro Wireless</option>
+                    <option>Keychron Q3 Pro Wireless QMK</option>
+                    <option>Logitech G Pro X Superlight 2</option>
+                    <option>SecretLab TITAN Evo XL</option>
+                    <option>General Feedback (no specific product)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Overall Rating</label>
+                  <div class="star-rating" id="starRating">
+                    <span class="star-pick" data-val="1">★</span>
+                    <span class="star-pick" data-val="2">★</span>
+                    <span class="star-pick" data-val="3">★</span>
+                    <span class="star-pick" data-val="4">★</span>
+                    <span class="star-pick" data-val="5">★</span>
+                    <span class="rating-label" id="ratingLabel">Click to rate</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Review Title</label>
+                  <input type="text" class="form-input" placeholder="Summarize your experience in one line"/>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Detailed Review</label>
+                  <textarea class="form-textarea" rows="5" placeholder="Tell others what you liked or didn't like. Mention build quality, performance, delivery experience, etc."></textarea>
+                </div>
+
+                <div class="rating-categories">
+                  <h4 class="rating-cat-title">Rate Individual Aspects</h4>
+                  <div class="rating-cat-grid">
+                    <div class="rating-cat-item">
+                      <span>Product Quality</span>
+                      <div class="mini-stars">★★★★★</div>
+                    </div>
+                    <div class="rating-cat-item">
+                      <span>Value for Money</span>
+                      <div class="mini-stars">★★★★☆</div>
+                    </div>
+                    <div class="rating-cat-item">
+                      <span>Delivery Speed</span>
+                      <div class="mini-stars">★★★★★</div>
+                    </div>
+                    <div class="rating-cat-item">
+                      <span>Packaging</span>
+                      <div class="mini-stars">★★★★★</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Your Name (displayed publicly)</label>
+                  <input type="text" class="form-input" placeholder="e.g. Arjun S." value="Arjun S."/>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Email (not shown publicly)</label>
+                  <input type="email" class="form-input" placeholder="for verification only"/>
+                </div>
+
+                <button type="submit" class="btn-submit-review">Submit Review →</button>
+              </form>
+            </div>
+
+            <!-- REVIEWS LIST -->
+            <div class="reviews-section">
+              <h2 class="reviews-title">Customer Reviews</h2>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-avatar">A</div>
+                  <div>
+                    <div class="reviewer-name">Arjun S.</div>
+                    <div class="review-meta">Verified Purchase · SteelSeries Arctis Nova Pro</div>
+                  </div>
+                  <div class="review-stars">★★★★★</div>
+                </div>
+                <div class="review-title">Absolutely worth every rupee!</div>
+                <div class="review-body">The sound quality is exceptional, the ANC is fantastic, and the build feels premium. Delivery was faster than expected — arrived 2 days early. NexGear packaging was solid too. Highly recommend!</div>
+                <div class="review-footer">
+                  <span class="review-date">15 Mar 2025</span>
+                  <button class="btn-helpful">👍 Helpful (12)</button>
+                </div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-avatar" style="background:#ff9500">P</div>
+                  <div>
+                    <div class="reviewer-name">Priya M.</div>
+                    <div class="review-meta">Verified Purchase · Keychron Q3 Pro</div>
+                  </div>
+                  <div class="review-stars">★★★★★</div>
+                </div>
+                <div class="review-title">Best keyboard I've ever used</div>
+                <div class="review-body">Smooth typing, gorgeous build, and the hot-swap feature is a game-changer. The wireless connection is rock solid. Only minor gripe is the keycap legends could be slightly brighter. Overall 10/10.</div>
+                <div class="review-footer">
+                  <span class="review-date">21 Mar 2025</span>
+                  <button class="btn-helpful">👍 Helpful (8)</button>
+                </div>
+              </div>
+
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-avatar" style="background:#30d158">R</div>
+                  <div>
+                    <div class="reviewer-name">Rahul K.</div>
+                    <div class="review-meta">Verified Purchase · Logitech G Pro X Superlight 2</div>
+                  </div>
+                  <div class="review-stars">★★★★★</div>
+                </div>
+                <div class="review-title">Lightest gaming mouse, period.</div>
+                <div class="review-body">60 grams and you barely feel it in hand. The HERO 25K sensor is flawless — zero smoothing or acceleration. Battery lasts forever. Worth the premium if you're serious about gaming.</div>
+                <div class="review-footer">
+                  <span class="review-date">29 Mar 2025</span>
+                  <button class="btn-helpful">👍 Helpful (24)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIDEBAR: RATING SUMMARY -->
+          <aside class="feedback-sidebar">
+            <div class="rating-summary">
+              <h3>Overall Rating</h3>
+              <div class="overall-score">4.8</div>
+              <div class="overall-stars">★★★★★</div>
+              <div class="overall-count">Based on 1,248 reviews</div>
+
+              <div class="rating-breakdown">
+                <div class="breakdown-row">
+                  <span>5★</span>
+                  <div class="breakdown-bar"><div class="bar-fill" style="width:82%"></div></div>
+                  <span>82%</span>
+                </div>
+                <div class="breakdown-row">
+                  <span>4★</span>
+                  <div class="breakdown-bar"><div class="bar-fill" style="width:12%"></div></div>
+                  <span>12%</span>
+                </div>
+                <div class="breakdown-row">
+                  <span>3★</span>
+                  <div class="breakdown-bar"><div class="bar-fill" style="width:4%"></div></div>
+                  <span>4%</span>
+                </div>
+                <div class="breakdown-row">
+                  <span>2★</span>
+                  <div class="breakdown-bar"><div class="bar-fill" style="width:1%"></div></div>
+                  <span>1%</span>
+                </div>
+                <div class="breakdown-row">
+                  <span>1★</span>
+                  <div class="breakdown-bar"><div class="bar-fill" style="width:1%"></div></div>
+                  <span>1%</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-bottom" style="padding-top:0;border-top:none;">
+        <p>© 2025 NexGear. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const stars = document.querySelectorAll('.star-pick');
+    const label = document.getElementById('ratingLabel');
+    const labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+    let selected = 0;
+
+    stars.forEach((s, i) => {
+      s.addEventListener('mouseenter', () => {
+        stars.forEach((el, j) => el.classList.toggle('hovered', j <= i));
+      });
+      s.addEventListener('mouseleave', () => {
+        stars.forEach((el, j) => el.classList.toggle('hovered', j < selected));
+      });
+      s.addEventListener('click', () => {
+        selected = i + 1;
+        label.textContent = labels[selected];
+        stars.forEach((el, j) => el.classList.toggle('selected', j < selected));
+      });
+    });
+  </script>
+
+</body>
+</html>

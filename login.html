@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In — NexGear</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="auth.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="home.html" class="nav-logo">
+        <div class="logo-icon">N</div>
+        NexGear
+      </a>
+      <div class="nav-actions">
+        <a href="register.html" class="btn-primary">Create Account</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-page page-wrapper">
+    <div class="auth-container">
+
+      <!-- AUTH CARD -->
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-logo">
+            <div class="logo-icon" style="width:48px;height:48px;border-radius:14px;font-size:22px;font-weight:700; display:flex;align-items:center;justify-content:center;background:var(--text-primary);color:white;">N</div>
+          </div>
+          <h1 class="auth-title">Welcome back</h1>
+          <p class="auth-subtitle">Sign in to your NexGear account</p>
+        </div>
+
+        <form class="auth-form">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="you@example.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="display:flex;justify-content:space-between;">
+              Password
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </label>
+            <div class="input-with-icon">
+              <input type="password" class="form-input" placeholder="••••••••"/>
+              <button type="button" class="input-icon-btn" id="togglePwd">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="remember-row">
+            <label class="filter-check">
+              <input type="checkbox"/> Remember me for 30 days
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit">Sign In</button>
+
+          <div class="auth-divider"><span>or continue with</span></div>
+
+          <div class="social-btns">
+            <button type="button" class="btn-social">
+              <span>🌐</span> Google
+            </button>
+            <button type="button" class="btn-social">
+              <span>📱</span> Phone OTP
+            </button>
+          </div>
+        </form>
+
+        <div class="auth-footer">
+          Don't have an account? <a href="register.html">Create one →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('togglePwd').addEventListener('click', function() {
+      const pwd = this.closest('.input-with-icon').querySelector('input');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    });
+  </script>
+</body>
+</html>

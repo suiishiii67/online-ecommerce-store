@@ -1,0 +1,61 @@
+/* home.css — Homepage-specific styles */
+
+.promo-banner {
+  background: var(--text-primary);
+  padding: 72px 24px;
+}
+
+.promo-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.promo-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+  margin-bottom: 12px;
+}
+
+.promo-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.promo-desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.promo-visual {
+  font-size: 120px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.promo-content .btn-filled {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.promo-content .btn-filled:hover {
+  background: var(--accent-blue-hover);
+}
+
+@media (max-width: 768px) {
+  .promo-content { flex-direction: column; text-align: center; }
+  .promo-visual { font-size: 72px; }
+  .promo-desc { margin: 0 auto; }
+}

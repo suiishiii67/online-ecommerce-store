@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Tracking — NexGear</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="order-tracking.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="home.html" class="nav-logo"><div class="logo-icon">N</div>NexGear</a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="order-tracking.html" class="active">Orders</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="btn-primary">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <section class="section">
+      <div class="container">
+
+        <div class="breadcrumb">
+          <a href="home.html">Home</a><span class="breadcrumb-sep">/</span>
+          <span>My Orders</span>
+        </div>
+
+        <h1 class="page-title">My Orders</h1>
+
+        <!-- TRACK BY ID -->
+        <div class="track-form">
+          <h3>Track an Order</h3>
+          <div class="track-inputs">
+            <input type="text" class="form-input" placeholder="Enter Order ID (e.g. NGR-2025-0891)"/>
+            <button class="btn-primary" style="padding:12px 24px; border-radius:10px; font-size:14px;">Track →</button>
+          </div>
+        </div>
+
+        <!-- ORDER LIST -->
+        <div class="orders-list">
+
+          <!-- Order 1 — Delivered -->
+          <div class="order-card">
+            <div class="order-header">
+              <div>
+                <div class="order-id">Order #NGR-2025-0891</div>
+                <div class="order-date">Placed on 12 March 2025 · 3 items</div>
+              </div>
+              <div class="order-status delivered">✓ Delivered</div>
+            </div>
+
+            <div class="order-items-preview">
+              <div class="order-item-chip">🎧 Arctis Nova Pro Wireless</div>
+              <div class="order-item-chip">⌨️ Keychron Q3 Pro</div>
+              <div class="order-item-chip">🖱️ G Pro X Superlight 2</div>
+            </div>
+
+            <!-- TRACKING TIMELINE -->
+            <div class="tracking-timeline">
+              <div class="timeline-step done">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Order Placed</div>
+                  <div class="timeline-date">12 Mar, 2:30 PM</div>
+                </div>
+              </div>
+              <div class="timeline-step done">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Payment Confirmed</div>
+                  <div class="timeline-date">12 Mar, 2:35 PM</div>
+                </div>
+              </div>
+              <div class="timeline-step done">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Packed & Dispatched</div>
+                  <div class="timeline-date">13 Mar, 10:00 AM</div>
+                </div>
+              </div>
+              <div class="timeline-step done">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Out for Delivery</div>
+                  <div class="timeline-date">15 Mar, 8:00 AM</div>
+                </div>
+              </div>
+              <div class="timeline-step done">
+                <div class="timeline-dot done final"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Delivered</div>
+                  <div class="timeline-date">15 Mar, 1:45 PM · Signed by Arjun</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-footer">
+              <div class="order-total">Total: <strong>₹60,258</strong></div>
+              <div class="order-actions">
+                <a href="feedback.html" class="btn-outlined btn-sm">Write Review</a>
+                <button class="btn-sm btn-secondary">Download Invoice</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order 2 — In Transit -->
+          <div class="order-card">
+            <div class="order-header">
+              <div>
+                <div class="order-id">Order #NGR-2025-1042</div>
+                <div class="order-date">Placed on 28 March 2025 · 1 item</div>
+              </div>
+              <div class="order-status transit">🚚 In Transit</div>
+            </div>
+
+            <div class="order-items-preview">
+              <div class="order-item-chip">🪑 SecretLab TITAN Evo XL</div>
+            </div>
+
+            <div class="tracking-timeline">
+              <div class="timeline-step done">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Order Placed</div>
+                  <div class="timeline-date">28 Mar, 6:00 PM</div>
+                </div>
+              </div>
+              <div class="timeline-step done">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Payment Confirmed</div>
+                  <div class="timeline-date">28 Mar, 6:05 PM</div>
+                </div>
+              </div>
+              <div class="timeline-step active">
+                <div class="timeline-dot active"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">In Transit</div>
+                  <div class="timeline-date">Expected: 2 Apr, 2025</div>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Out for Delivery</div>
+                  <div class="timeline-date">—</div>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <div class="timeline-label">Delivered</div>
+                  <div class="timeline-date">—</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-footer">
+              <div class="order-total">Total: <strong>₹42,999</strong></div>
+              <div class="order-actions">
+                <button class="btn-sm btn-secondary">Cancel Order</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-bottom" style="padding-top:0;border-top:none;">
+        <p>© 2025 NexGear. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

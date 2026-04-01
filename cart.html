@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Cart — NexGear</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="cart.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="home.html" class="nav-logo"><div class="logo-icon">N</div>NexGear</a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="cart.html" class="active">Cart</a></li>
+        <li><a href="order-tracking.html">Orders</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="cart.html" class="btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge">3</span>
+        </a>
+        <a href="login.html" class="btn-primary">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <section class="section">
+      <div class="container">
+
+        <div class="breadcrumb">
+          <a href="home.html">Home</a><span class="breadcrumb-sep">/</span>
+          <a href="products.html">Products</a><span class="breadcrumb-sep">/</span>
+          <span>My Cart</span>
+        </div>
+
+        <h1 class="page-title">My Cart <span class="cart-count-badge">3 Items</span></h1>
+
+        <div class="cart-layout">
+          <!-- CART ITEMS -->
+          <div class="cart-items">
+
+            <div class="cart-item">
+              <div class="cart-item-image">🎧</div>
+              <div class="cart-item-info">
+                <div class="cart-item-brand">SteelSeries</div>
+                <div class="cart-item-name">Arctis Nova Pro Wireless</div>
+                <div class="cart-item-meta">Color: Black · Warranty: 2 Years</div>
+                <div class="cart-item-tags">
+                  <span class="tag">In Stock</span>
+                </div>
+              </div>
+              <div class="cart-item-controls">
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty(this, -1)">−</button>
+                  <span class="qty-value">1</span>
+                  <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <div class="cart-item-price">₹24,999</div>
+                <button class="btn-remove">🗑 Remove</button>
+              </div>
+            </div>
+
+            <div class="cart-item">
+              <div class="cart-item-image">⌨️</div>
+              <div class="cart-item-info">
+                <div class="cart-item-brand">Keychron</div>
+                <div class="cart-item-name">Q3 Pro Wireless QMK Keyboard</div>
+                <div class="cart-item-meta">Switch: Gateron G Pro Red · Layout: 75%</div>
+                <div class="cart-item-tags">
+                  <span class="tag">In Stock</span>
+                </div>
+              </div>
+              <div class="cart-item-controls">
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty(this, -1)">−</button>
+                  <span class="qty-value">1</span>
+                  <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <div class="cart-item-price">₹14,999</div>
+                <button class="btn-remove">🗑 Remove</button>
+              </div>
+            </div>
+
+            <div class="cart-item">
+              <div class="cart-item-image">🖱️</div>
+              <div class="cart-item-info">
+                <div class="cart-item-brand">Logitech</div>
+                <div class="cart-item-name">G Pro X Superlight 2 Mouse</div>
+                <div class="cart-item-meta">Color: White · Wireless</div>
+                <div class="cart-item-tags">
+                  <span class="tag">In Stock</span>
+                  <span class="tag" style="background: rgba(255,59,48,0.1); color: var(--accent-red); border-color: rgba(255,59,48,0.2);">15% Off</span>
+                </div>
+              </div>
+              <div class="cart-item-controls">
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty(this, -1)">−</button>
+                  <span class="qty-value">1</span>
+                  <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+                </div>
+                <div class="cart-item-price">₹13,495</div>
+                <button class="btn-remove">🗑 Remove</button>
+              </div>
+            </div>
+
+            <!-- COUPON -->
+            <div class="coupon-row">
+              <input type="text" class="form-input coupon-input" placeholder="Enter coupon code"/>
+              <button class="btn-apply">Apply</button>
+            </div>
+          </div>
+
+          <!-- ORDER SUMMARY -->
+          <aside class="cart-summary">
+            <h2 class="summary-title">Order Summary</h2>
+
+            <div class="summary-rows">
+              <div class="summary-row">
+                <span>Subtotal (3 items)</span>
+                <span>₹53,493</span>
+              </div>
+              <div class="summary-row">
+                <span>Delivery Charges</span>
+                <span class="text-green">FREE</span>
+              </div>
+              <div class="summary-row">
+                <span>Discount Applied</span>
+                <span class="text-red">−₹2,504</span>
+              </div>
+              <div class="summary-row">
+                <span>GST (18%)</span>
+                <span>₹9,269</span>
+              </div>
+            </div>
+
+            <div class="summary-total">
+              <span>Total</span>
+              <span>₹60,258</span>
+            </div>
+
+            <a href="checkout.html" class="btn-checkout">Proceed to Checkout →</a>
+
+            <div class="summary-secure">
+              <span>🔒</span> Secure 256-bit SSL Encryption
+            </div>
+
+            <div class="payment-icons">
+              <span class="payment-icon">💳</span>
+              <span class="payment-icon">📱</span>
+              <span class="payment-icon">🏦</span>
+            </div>
+          </aside>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-bottom" style="padding-top: 0; border-top: none;">
+        <p>© 2025 NexGear. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function changeQty(btn, delta) {
+      const qtyEl = btn.parentElement.querySelector('.qty-value');
+      let val = parseInt(qtyEl.textContent) + delta;
+      if (val < 1) val = 1;
+      if (val > 99) val = 99;
+      qtyEl.textContent = val;
+    }
+  </script>
+
+</body>
+</html>

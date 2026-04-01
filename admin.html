@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — NexGear</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="admin.css"/>
+</head>
+<body class="admin-body">
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-logo">
+      <div class="logo-icon">N</div>
+      <span>NexGear <span class="admin-tag">Admin</span></span>
+    </div>
+
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <p class="nav-section-label">Overview</p>
+        <a href="#" class="admin-nav-link active">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
+        <a href="#" class="admin-nav-link">
+          <span class="nav-icon">📈</span> Sales Reports
+        </a>
+      </div>
+      <div class="admin-nav-section">
+        <p class="nav-section-label">Products</p>
+        <a href="#" class="admin-nav-link">
+          <span class="nav-icon">📦</span> All Products
+        </a>
+        <a href="#" class="admin-nav-link">
+          <span class="nav-icon">➕</span> Add Product
+        </a>
+        <a href="#" class="admin-nav-link">
+          <span class="nav-icon">🏷️</span> Discounts
+        </a>
+        <a href="#" class="admin-nav-link">
+          <span class="nav-icon">📋</span> Inventory
+        </a>
+      </div>
+      <div class="admin-nav-section">
+        <p class="nav-section-label">Orders & Users</p>
+        <a href="#" class="admin-nav-link">
+          <span class="nav-icon">🛒</span> Orders
+        </a>
+        <a href="#" class="admin-nav-link">
+          <span class="nav-icon">👥</span> Customers
+        </a>
+        <a href="#" class="admin-nav-link">
+          <span class="nav-icon">💬</span> Feedback
+        </a>
+      </div>
+      <div class="admin-nav-section">
+        <p class="nav-section-label">Account</p>
+        <a href="home.html" class="admin-nav-link">
+          <span class="nav-icon">🌐</span> View Store
+        </a>
+        <a href="login.html" class="admin-nav-link">
+          <span class="nav-icon">🚪</span> Logout
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ADMIN MAIN -->
+  <main class="admin-main">
+
+    <!-- TOP BAR -->
+    <div class="admin-topbar">
+      <div>
+        <h1 class="admin-page-title">Dashboard</h1>
+        <p class="admin-page-sub">Welcome back, Admin · April 1, 2025</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-primary" style="padding: 9px 18px; border-radius: 10px; font-size:13px;">+ Add Product</button>
+      </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon" style="background: rgba(0,113,227,0.1); color: var(--accent-blue);">💰</div>
+        <div class="stat-card-label">Total Revenue</div>
+        <div class="stat-card-value">₹18,42,560</div>
+        <div class="stat-card-change positive">+14.2% vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon" style="background: rgba(48,209,88,0.1); color: var(--accent-green);">🛒</div>
+        <div class="stat-card-label">Total Orders</div>
+        <div class="stat-card-value">1,284</div>
+        <div class="stat-card-change positive">+8.6% vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon" style="background: rgba(255,149,0,0.1); color: var(--accent-orange);">📦</div>
+        <div class="stat-card-label">Products Listed</div>
+        <div class="stat-card-value">500</div>
+        <div class="stat-card-change neutral">+12 this month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon" style="background: rgba(255,59,48,0.1); color: var(--accent-red);">⚠️</div>
+        <div class="stat-card-label">Low Stock Items</div>
+        <div class="stat-card-value">18</div>
+        <div class="stat-card-change negative">Needs attention</div>
+      </div>
+    </div>
+
+    <!-- PRODUCT MANAGEMENT -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h2 class="admin-card-title">Product Management</h2>
+        <div class="admin-card-actions">
+          <input type="text" class="form-input admin-search" placeholder="Search products..."/>
+          <select class="form-select" style="width:auto; padding:8px 12px; font-size:13px;">
+            <option>All Categories</option>
+            <option>Monitors</option>
+            <option>Headphones</option>
+            <option>Keyboards</option>
+            <option>Mouse</option>
+            <option>Chairs</option>
+          </select>
+        </div>
+      </div>
+
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Discount</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="table-product"><span class="table-emoji">🎧</span> Arctis Nova Pro Wireless</div></td>
+            <td>Headphones</td>
+            <td>SteelSeries</td>
+            <td>₹24,999</td>
+            <td><span class="stock-badge good">142</span></td>
+            <td>14%</td>
+            <td><span class="status-chip active">Active</span></td>
+            <td class="table-actions">
+              <button class="table-btn edit">✏️ Edit</button>
+              <button class="table-btn delete">🗑</button>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="table-product"><span class="table-emoji">🖥️</span> UltraGear 27GP850-B</div></td>
+            <td>Monitors</td>
+            <td>LG</td>
+            <td>₹32,499</td>
+            <td><span class="stock-badge good">87</span></td>
+            <td>15%</td>
+            <td><span class="status-chip active">Active</span></td>
+            <td class="table-actions">
+              <button class="table-btn edit">✏️ Edit</button>
+              <button class="table-btn delete">🗑</button>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="table-product"><span class="table-emoji">⌨️</span> Q3 Pro Wireless QMK</div></td>
+            <td>Keyboards</td>
+            <td>Keychron</td>
+            <td>₹14,999</td>
+            <td><span class="stock-badge low">8</span></td>
+            <td>—</td>
+            <td><span class="status-chip active">Active</span></td>
+            <td class="table-actions">
+              <button class="table-btn edit">✏️ Edit</button>
+              <button class="table-btn delete">🗑</button>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="table-product"><span class="table-emoji">🖱️</span> G Pro X Superlight 2</div></td>
+            <td>Mouse</td>
+            <td>Logitech</td>
+            <td>₹13,495</td>
+            <td><span class="stock-badge good">213</span></td>
+            <td>—</td>
+            <td><span class="status-chip active">Active</span></td>
+            <td class="table-actions">
+              <button class="table-btn edit">✏️ Edit</button>
+              <button class="table-btn delete">🗑</button>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="table-product"><span class="table-emoji">🪑</span> TITAN Evo XL Series</div></td>
+            <td>Chairs</td>
+            <td>SecretLab</td>
+            <td>₹42,999</td>
+            <td><span class="stock-badge critical">3</span></td>
+            <td>11%</td>
+            <td><span class="status-chip active">Active</span></td>
+            <td class="table-actions">
+              <button class="table-btn edit">✏️ Edit</button>
+              <button class="table-btn delete">🗑</button>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="table-product"><span class="table-emoji">🎤</span> QuadCast S USB Mic</div></td>
+            <td>Microphones</td>
+            <td>HyperX</td>
+            <td>₹11,999</td>
+            <td><span class="stock-badge good">64</span></td>
+            <td>—</td>
+            <td><span class="status-chip inactive">Inactive</span></td>
+            <td class="table-actions">
+              <button class="table-btn edit">✏️ Edit</button>
+              <button class="table-btn delete">🗑</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ADD / EDIT PRODUCT FORM -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h2 class="admin-card-title">Add New Product</h2>
+      </div>
+      <form class="product-form">
+        <div class="form-row-3">
+          <div class="form-group">
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-input" placeholder="e.g. Razer BlackWidow V4"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Brand</label>
+            <input type="text" class="form-input" placeholder="e.g. Razer"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-select">
+              <option>Select Category</option>
+              <option>Monitors</option>
+              <option>Headphones & Headsets</option>
+              <option>Keyboards</option>
+              <option>Mouse</option>
+              <option>Gaming Chairs</option>
+              <option>PC Cabinets</option>
+              <option>Webcams</option>
+              <option>Microphones</option>
+              <option>Mouse Pads & Desk Mats</option>
+              <option>PC Hardware</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <label class="form-label">MRP (₹)</label>
+            <input type="number" class="form-input" placeholder="0"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Selling Price (₹)</label>
+            <input type="number" class="form-input" placeholder="0"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Stock Quantity</label>
+            <input type="number" class="form-input" placeholder="0"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Discount (%)</label>
+            <input type="number" class="form-input" placeholder="0" min="0" max="100"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SKU / Product Code</label>
+            <input type="text" class="form-input" placeholder="e.g. RZR-BW-V4-001"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Product Description</label>
+          <textarea class="form-textarea" placeholder="Describe the product, key features, and specs..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Specifications (one per line)</label>
+          <textarea class="form-textarea" rows="4" placeholder="e.g.&#10;Switch: Razer Yellow&#10;Layout: Full-size&#10;Connectivity: Wired USB-A&#10;Backlight: RGB Chroma"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Product Status</label>
+          <select class="form-select">
+            <option>Active (Published)</option>
+            <option>Inactive (Draft)</option>
+            <option>Out of Stock</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-submit-admin">Save Product</button>
+          <button type="reset" class="btn-cancel-admin">Clear Form</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ORDERS TABLE -->
+    <div class="admin-card">
+      <div class="admin-card-header">
+        <h2 class="admin-card-title">Recent Orders</h2>
+        <div class="admin-card-actions">
+          <button class="btn-export">📥 Export CSV</button>
+        </div>
+      </div>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="order-id-cell">NGR-2025-0891</td>
+            <td>Arjun Sharma</td>
+            <td>3</td>
+            <td>₹60,258</td>
+            <td>Credit Card</td>
+            <td><span class="status-chip delivered">Delivered</span></td>
+            <td>15 Mar 2025</td>
+            <td class="table-actions"><button class="table-btn edit">👁 View</button></td>
+          </tr>
+          <tr>
+            <td class="order-id-cell">NGR-2025-1042</td>
+            <td>Priya Mehta</td>
+            <td>1</td>
+            <td>₹42,999</td>
+            <td>UPI</td>
+            <td><span class="status-chip transit">In Transit</span></td>
+            <td>28 Mar 2025</td>
+            <td class="table-actions"><button class="table-btn edit">👁 View</button></td>
+          </tr>
+          <tr>
+            <td class="order-id-cell">NGR-2025-1103</td>
+            <td>Rahul Kumar</td>
+            <td>2</td>
+            <td>₹17,498</td>
+            <td>Net Banking</td>
+            <td><span class="status-chip processing">Processing</span></td>
+            <td>31 Mar 2025</td>
+            <td class="table-actions"><button class="table-btn edit">👁 View</button></td>
+          </tr>
+          <tr>
+            <td class="order-id-cell">NGR-2025-1108</td>
+            <td>Sneha Rao</td>
+            <td>4</td>
+            <td>₹89,490</td>
+            <td>Credit Card</td>
+            <td><span class="status-chip processing">Processing</span></td>
+            <td>1 Apr 2025</td>
+            <td class="table-actions"><button class="table-btn edit">👁 View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+</body>
+</html>
