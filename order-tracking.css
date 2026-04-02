@@ -195,6 +195,79 @@
 
 .btn-secondary:hover { background: var(--light-gray); }
 
+/* CUSTOM MODAL */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  backdrop-filter: blur(4px);
+}
+.custom-modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+.custom-modal {
+  background: var(--white);
+  width: 90%;
+  max-width: 400px;
+  border-radius: var(--r-lg);
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.custom-modal-overlay.show .custom-modal {
+  transform: translateY(0) scale(1);
+}
+.custom-modal-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+.custom-modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.custom-modal-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.custom-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.custom-modal-actions button {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: var(--r-md);
+  margin: 0; /* Override any global margins */
+}
+.btn-danger {
+  background: var(--red);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
 @media (max-width: 600px) {
   .track-inputs { flex-direction: column; }
   .tracking-timeline { padding: 16px 12px; }

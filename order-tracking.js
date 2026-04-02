@@ -76,25 +76,55 @@ function showTrackMessage(el, message, type) {
 
 function initCancelButtons() {
   var cancelBtns = document.querySelectorAll(".btn-secondary");
+  var modal = document.getElementById("cancel-modal");
+  var btnNo = document.getElementById("btn-cancel-no");
+  var btnYes = document.getElementById("btn-cancel-yes");
+  var currentCardToRemove = null;
+
   cancelBtns.forEach(function(btn) {
     if (btn.textContent.trim() !== "Cancel Order") return;
 
     btn.addEventListener("click", function() {
-      var confirmed = confirm("Are you sure you want to cancel this order?\nThis action cannot be undone.");
-      if (confirmed) {
-        // Find the parent order card and remove it
-        var card = btn.closest(".order-card");
-        if (card) {
-          card.style.opacity = "0";
-          card.style.transition = "opacity 0.4s";
-          setTimeout(function() { card.remove(); }, 400);
-        }
-        if (typeof showToast === "function") {
-          showToast("🗑️ Order cancelled successfully.");
+      currentCardToRemove = btn.closest(".order-card");
+      if (modal) {
+        modal.classList.add("show");
+      } else {
+        // Fallback for missing modal HTML
+        var confirmed = confirm("Are you sure you want to cancel this order?\nThis action cannot be undone.");
+        if (confirmed) {
+          executeCancel(currentCardToRemove);
         }
       }
     });
   });
+
+  if (btnNo) {
+    btnNo.addEventListener("click", function() {
+      modal.classList.remove("show");
+      currentCardToRemove = null;
+    });
+  }
+
+  if (btnYes) {
+    btnYes.addEventListener("click", function() {
+      modal.classList.remove("show");
+      if (currentCardToRemove) {
+        executeCancel(currentCardToRemove);
+        currentCardToRemove = null;
+      }
+    });
+  }
+}
+
+function executeCancel(card) {
+  if (card) {
+    card.style.opacity = "0";
+    card.style.transition = "opacity 0.4s";
+    setTimeout(function() { card.remove(); }, 400);
+  }
+  if (typeof showToast === "function") {
+    showToast("🗑️ Order cancelled successfully.");
+  }
 }
 
 // ── 5. INIT ───────────────────────────────────────────────────────────────────
