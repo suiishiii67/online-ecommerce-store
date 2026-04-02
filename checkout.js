@@ -72,19 +72,100 @@ function initPlaceOrderButton() {
   if (!btn) return;
 
   btn.addEventListener("click", function() {
-    var requiredInputs = document.querySelectorAll(".checkout-forms input");
-    var allFilled = true;
-    requiredInputs.forEach(function(input) {
-      if (input.placeholder.includes("optional")) return; // skip address line 2
-      if (input.closest(".payment-form") && input.closest(".payment-form").style.display === "none") return; // skip hidden forms
-      if (input.value.trim() === "") allFilled = false;
-    });
-
-    if (!allFilled) {
+    var cart = JSON.parse(localStorage.getItem("nexgear_cart") || "[]");
+    if (cart.length === 0) {
       if (typeof showToast === "function") {
-        showToast("⚠️ Please fill in all delivery details!");
+        showToast("⚠️ Your cart is empty. Please add items to proceed!");
       } else {
-        alert("Please fill in all delivery details!");
+        alert("Your cart is empty. Please add items to proceed!");
+      }
+      return;
+    }
+
+    var requiredInputs = document.querySelectorAll(".checkout-forms input");
+    var errorMsg = "";
+
+    for (var i = 0; i < requiredInputs.length; i++) {
+      var input = requiredInputs[i];
+      
+      // Skip optional fields
+      if (input.placeholder.includes("optional")) continue; 
+      
+      // Skip hidden payment forms
+      var paymentForm = input.closest(".payment-form");
+      if (paymentForm && paymentForm.style.display === "none") continue;
+
+      var val = input.value.trim();
+
+      // Basic empty check
+      if (val === "") {
+        // Find the label text if possible for a better error message
+        var label = input.closest(".form-group") ? input.closest(".form-group").querySelector(".form-label") : null;
+        var fieldName = label ? label.textContent : "all required fields";
+        errorMsg = "Please fill in " + fieldName + "!";
+        break;
+      }
+
+      // First Name / Last Name check
+      if (input.placeholder === "John" || input.placeholder === "Doe" || input.placeholder === "As printed on card") {
+        if (!/^[a-zA-Z\s\.\-]{2,}$/.test(val)) {
+          errorMsg = "Please enter a valid name (letters only, min 2 characters).";
+          break;
+        }
+      }
+
+      // Phone check
+      if (input.type === "tel") {
+        var digits = val.replace(/\D/g, "");
+        if (digits.length === 12 && digits.startsWith("91")) {
+            digits = digits.substring(2);
+        }
+        if (digits.length !== 10) {
+          errorMsg = "Phone number must be exactly 10 digits.";
+          break;
+        }
+      }
+
+      // Pincode check
+      if (input.placeholder === "400001") {
+        var digits = val.replace(/\D/g, "");
+        if (digits.length !== 6 || val.replace(/\s/g, "").length !== 6) {
+          errorMsg = "PIN code must be exactly 6 digits.";
+          break;
+        }
+      }
+
+      // Card number check
+      if (input.placeholder === "1234 5678 9012 3456") {
+        var cardDigits = val.replace(/\D/g, "");
+        if (cardDigits.length !== 15 && cardDigits.length !== 16) {
+          errorMsg = "Please enter a valid 15 or 16 digit card number.";
+          break;
+        }
+      }
+
+      // Expiry Date check
+      if (input.placeholder === "MM / YY") {
+        if (!/^\d{2}\s\/\s\d{2}$/.test(val)) {
+          errorMsg = "Please enter a valid expiry date (MM / YY).";
+          break;
+        }
+      }
+
+      // CVV check
+      if (input.placeholder === "•••") {
+        if (!/^\d{3,4}$/.test(val)) {
+          errorMsg = "CVV must be 3 or 4 digits.";
+          break;
+        }
+      }
+    }
+
+    if (errorMsg) {
+      if (typeof showToast === "function") {
+        showToast("⚠️ " + errorMsg);
+      } else {
+        alert(errorMsg);
       }
       return;
     }
@@ -141,10 +222,32 @@ function showOrderSuccessModal() {
 // ── 5. POPULATE ORDER SUMMARY FROM CART ──────────────────────────────────────
 
 function populateCheckoutSummary() {
-  // The checkout page has static demo items, so we just update totals
   // In a real app you'd read from localStorage cart here
   var cart = JSON.parse(localStorage.getItem("nexgear_cart") || "[]");
-  if (cart.length === 0) return; // keep the static demo if cart is empty
+  var itemsContainer = document.querySelector(".checkout-items");
+  if (!itemsContainer) return;
+
+  if (cart.length === 0) {
+    itemsContainer.innerHTML = '<div style="text-align:center; padding: 30px 10px; color: #86868b; font-size: 15px;">Your cart is empty. <br/><a href="products.html" style="color: #0071e3; text-decoration: none; display: inline-block; margin-top: 10px;">Browse Products</a></div>';
+    
+    // Update summary totals to zero
+    var summaryRows = document.querySelectorAll(".checkout-summary .summary-row span:last-child");
+    if (summaryRows[0]) summaryRows[0].textContent = "₹0";
+    if (summaryRows[1]) summaryRows[1].textContent = "FREE";
+    if (summaryRows[2]) summaryRows[2].textContent = "₹0";
+    if (summaryRows[3]) summaryRows[3].textContent = "₹0";
+
+    var sumTotal = document.querySelector(".checkout-summary .summary-total span:last-child");
+    if (sumTotal) sumTotal.textContent = "₹0";
+
+    var checkoutBtn = document.querySelector(".btn-place-order");
+    if (checkoutBtn) {
+      checkoutBtn.textContent = "Your Cart is Empty";
+      checkoutBtn.style.opacity = "0.5";
+      checkoutBtn.style.cursor = "not-allowed";
+    }
+    return;
+  }
 
   var PRODUCTS = {
     "arctis-nova-pro": { name: "Arctis Nova Pro Wireless", brand: "SteelSeries", price: 24999, icon: "🎧" },
@@ -154,10 +257,6 @@ function populateCheckoutSummary() {
     "secretlab-titan": { name: "TITAN Evo XL Series",      brand: "SecretLab",   price: 42999, icon: "🪑" },
     "hyperx-quadcast": { name: "QuadCast S USB Mic",       brand: "HyperX",      price: 11999, icon: "🎤" }
   };
-
-  var itemsContainer = document.querySelector(".checkout-items");
-  if (!itemsContainer) return;
-
   var subtotal = 0;
   var html = cart.map(item => {
     var p = PRODUCTS[item.id];

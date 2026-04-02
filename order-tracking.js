@@ -97,45 +97,6 @@ function initCancelButtons() {
   });
 }
 
-// ── 4. DOWNLOAD INVOICE ───────────────────────────────────────────────────────
-
-function initInvoiceButtons() {
-  var invoiceBtns = document.querySelectorAll(".btn-secondary");
-  invoiceBtns.forEach(function(btn) {
-    if (btn.textContent.trim() !== "Download Invoice") return;
-
-    btn.addEventListener("click", function() {
-      var card = btn.closest(".order-card");
-      var orderId   = card ? card.querySelector(".order-id").textContent   : "N/A";
-      var orderDate = card ? card.querySelector(".order-date").textContent  : "N/A";
-      var total     = card ? card.querySelector(".order-total strong").textContent : "N/A";
-
-      // Open a new window with a printable invoice
-      var win = window.open("", "_blank");
-      win.document.write([
-        '<html><head><title>Invoice — ' + orderId + '</title>',
-        '<style>body{font-family:Arial,sans-serif;padding:40px;color:#1d1d1f;} h1{font-size:28px; margin-bottom:4px;} .meta{color:#6e6e73; font-size:14px; margin-bottom:32px;} table{width:100%; border-collapse:collapse; margin-bottom:24px;} th,td{border:1px solid #e5e5ea; padding:10px 14px; text-align:left;} th{background:#f5f5f7;} .total-row{font-weight:700; font-size:16px;}</style>',
-        '</head><body>',
-        '<h1>NexGear Tax Invoice</h1>',
-        '<div class="meta">' + orderId + ' · ' + orderDate + '</div>',
-        '<table>',
-        '  <thead><tr><th>Item</th><th>Brand</th><th>Qty</th><th>Amount</th></tr></thead>',
-        '  <tbody>',
-        '    <tr><td>Arctis Nova Pro Wireless</td><td>SteelSeries</td><td>1</td><td>₹24,999</td></tr>',
-        '    <tr><td>Q3 Pro Wireless QMK</td><td>Keychron</td><td>1</td><td>₹14,999</td></tr>',
-        '    <tr><td>G Pro X Superlight 2</td><td>Logitech</td><td>1</td><td>₹13,495</td></tr>',
-        '  </tbody>',
-        '</table>',
-        '<p class="total-row">Total Paid: ' + total + '</p>',
-        '<p style="color:#6e6e73; font-size:13px; margin-top:32px;">Thank you for shopping with NexGear. For support: support@nexgear.in</p>',
-        '<script>window.print();<\/script>',
-        '</body></html>'
-      ].join(""));
-      win.document.close();
-    });
-  });
-}
-
 // ── 5. INIT ───────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -154,5 +115,4 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   initCancelButtons();
-  initInvoiceButtons();
 });
