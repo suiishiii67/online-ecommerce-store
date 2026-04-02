@@ -7,7 +7,11 @@ var PRODUCTS = {
   "hyperx-quadcast":   { name: "QuadCast S USB Mic",       brand: "HyperX",      price: 11999, icon: "🎤" },
   "facecam-pro":       { name: "Facecam Pro 4K",           brand: "Elgato",      price: 19999, icon: "📷" },
   "corsair-mat":       { name: "MM700 RGB Desk Mat",       brand: "Corsair",     price: 5499,  icon: "🟦" },
-  "fractal-case":      { name: "Define 7 PC Case",         brand: "Fractal",     price: 9999,  icon: "🖥️" }
+  "fractal-case":      { name: "Define 7 PC Case",         brand: "Fractal",     price: 9999,  icon: "🖥️" },
+  "razer-blackshark":  { name: "BlackShark V2 Pro 2023",   brand: "Razer",       price: 17999, icon: "🎧" },
+  "hyperx-cloud3":     { name: "Cloud III Wireless",       brand: "HyperX",      price: 12999, icon: "🎧" },
+  "logitech-g935":     { name: "G935 Wireless 7.1",        brand: "Logitech",    price: 10499, icon: "🎧" },
+  "corsair-hs80":      { name: "HS80 RGB Wireless",        brand: "Corsair",     price: 9999,  icon: "🎧" }
 };
 
 // Load cart from localStorage (returns an array of {id, qty})

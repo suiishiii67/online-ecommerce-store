@@ -195,8 +195,8 @@
 }
 
 .page-btn.active {
-  background: var(--accent-blue);
-  border-color: var(--accent-blue);
+  background: #0071e3;
+  border-color: #0071e3;
   color: white;
 }
 

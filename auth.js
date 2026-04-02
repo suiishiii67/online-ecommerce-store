@@ -1,13 +1,3 @@
-/**
- * auth.js — NexGear Login & Register
- * ──────────────────────────────────────
- * Handles:
- *  1. Login form submission with basic validation
- *  2. Register form submission with password match check
- *  3. Show/hide password toggle button
- *  4. Saving "logged in" state to sessionStorage (demo only)
- *  5. Redirecting to home after successful login/register
- */
 
 // ── 1. DEMO USER DATABASE ─────────────────────────────────────────────────────
 // In a real app, this would be checked against a backend

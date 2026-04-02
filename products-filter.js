@@ -55,7 +55,7 @@ function updateList() {
     else if (p.tag === "sale") badgeHtml = '<span class="product-badge sale">Sale</span>';
     else if (p.tag === "popular") badgeHtml = '<span class="product-badge">Popular</span>';
 
-    res += '<div class="product-card" onclick="window.location=\'product-detail.html\'">' +
+    res += '<div class="product-card" onclick="window.location=\'product-detail.html?id=' + p.id + '\'">' +
       badgeHtml +
       '<div class="product-image">' + p.icon + '</div>' +
       '<div class="product-info">' +
@@ -84,11 +84,12 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!document.querySelector(".product-grid")) return;
 
   var slider = document.querySelector(".range-slider");
+  var minInput = document.querySelector(".price-inputs input");
   var maxInput = document.querySelectorAll(".price-inputs input")[1];
+  
   if (slider && maxInput) {
     slider.addEventListener("input", function () {
       maxInput.value = this.value;
-      // Do not update list immediately while sliding to be simpler
     });
   }
 
