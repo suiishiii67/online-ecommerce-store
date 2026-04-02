@@ -99,17 +99,15 @@ function initPasswordToggle() {
   var toggleBtns = document.querySelectorAll(".toggle-password");
   toggleBtns.forEach(function(btn) {
     btn.addEventListener("click", function() {
-      // Find the associated password input (sibling)
-      var wrapper = btn.parentElement;
-      var input   = wrapper ? wrapper.querySelector("input[type='password'], input[type='text']") : null;
+      var input = btn.previousElementSibling;
       if (!input) return;
 
       if (input.type === "password") {
         input.type = "text";
-        btn.textContent = "🙈"; // hide icon
+        btn.textContent = "👁️"; // show password icon
       } else {
         input.type = "password";
-        btn.textContent = "👁️"; // show icon
+        btn.textContent = "🙈"; // hide password icon
       }
     });
   });
