@@ -1,12 +1,3 @@
-/**
- * search.js — NexGear Navbar Search
- * ────────────────────────────────────
- * Handles:
- *  1. Listening to the search input in the navbar
- *  2. Filtering a product list and showing a dropdown
- *  3. Clicking a suggestion navigates to the product detail page
- *  4. Pressing Escape or clicking outside closes the dropdown
- */
 
 // ── 1. ALL SEARCHABLE PRODUCTS ───────────────────────────────────────────────
 var SEARCH_CATALOG = [
