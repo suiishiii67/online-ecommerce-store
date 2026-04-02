@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexus Admin - Inventory Management</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="admin.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="admin-body">
+  
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-logo">
+        <div class="logo-icon-dark">N</div>
+        <span>Nexus Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="#" class="admin-nav-item">
+          <span class="icon">📊</span>
+          Dashboard
+        </a>
+        <a href="#" class="admin-nav-item active">
+          <span class="icon">📦</span>
+          Inventory
+        </a>
+        <a href="#" class="admin-nav-item">
+          <span class="icon">🛒</span>
+          Orders
+        </a>
+        <a href="#" class="admin-nav-item">
+          <span class="icon">👥</span>
+          Customers
+        </a>
+        <a href="#" class="admin-nav-item">
+          <span class="icon">⚙️</span>
+          Settings
+        </a>
+      </nav>
+      
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-avatar">A</div>
+          <div class="admin-user-details">
+            <span class="admin-name">Admin User</span>
+            <span class="admin-role">Superadmin</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div>
+          <h1 class="admin-page-title">Inventory Management</h1>
+          <p class="admin-page-subtitle">Manage your product catalog, pricing, and stock levels.</p>
+        </div>
+        <div class="admin-header-actions">
+          <div class="admin-search">
+            <span>🔍</span>
+            <input type="text" id="adminSearchInput" placeholder="Search products..." />
+          </div>
+          <button class="btn-admin-primary" id="addBtn">
+            <span>+</span> Add Product
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats Overview -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div class="stat-icon purple">📦</div>
+          <div class="stat-info">
+            <span class="stat-val" id="totalProducts">0</span>
+            <span class="stat-label">Total Products</span>
+          </div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="stat-icon green">💰</div>
+          <div class="stat-info">
+            <span class="stat-val" id="totalValue">₹0</span>
+            <span class="stat-label">Inventory Value</span>
+          </div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="stat-icon orange">⚠️</div>
+          <div class="stat-info">
+            <span class="stat-val" id="lowStock">0</span>
+            <span class="stat-label">Low Stock items</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory Table -->
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product Details</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryTableBody">
+            <!-- Rows injected by admin.js -->
+          </tbody>
+        </table>
+        
+        <!-- Empty State -->
+        <div id="emptyState" class="admin-empty-state" style="display: none;">
+          <div class="empty-icon">📭</div>
+          <h3>No products found</h3>
+          <p>Add some products to populate your inventory.</p>
+          <button class="btn-admin-primary mt-3" id="emptyAddBtn">+ Add Product</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal overlay -->
+  <div class="admin-modal-overlay" id="productModal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h2 id="modalTitle">Add New Product</h2>
+        <button class="admin-modal-close" id="closeModalBtn">×</button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="productForm">
+          <input type="hidden" id="prodId" />
+          
+          <div class="form-row">
+            <div class="form-col">
+              <label class="admin-label">Product Name</label>
+              <input type="text" class="admin-input" id="prodName" required placeholder="e.g. UltraGear 27GP850-B" />
+            </div>
+            <div class="form-col">
+              <label class="admin-label">Brand</label>
+              <input type="text" class="admin-input" id="prodBrand" required placeholder="e.g. LG" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col">
+              <label class="admin-label">Category</label>
+              <select class="admin-select" id="prodCat" required>
+                <option value="Monitors">Monitors</option>
+                <option value="Headphones">Headphones</option>
+                <option value="Keyboards">Keyboards</option>
+                <option value="Mouse">Mouse</option>
+                <option value="Microphones">Microphones</option>
+                <option value="Webcams">Webcams</option>
+                <option value="Gaming Chairs">Gaming Chairs</option>
+                <option value="Accessories">Accessories</option>
+              </select>
+            </div>
+            <div class="form-col">
+              <label class="admin-label">Icon (Emoji)</label>
+              <input type="text" class="admin-input" id="prodIcon" required placeholder="e.g. 🖥️" />
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <label class="admin-label">Price (₹)</label>
+              <input type="number" class="admin-input" id="prodPrice" required min="0" placeholder="0" />
+            </div>
+            <div class="form-col">
+              <label class="admin-label">Stock Quantity</label>
+              <input type="number" class="admin-input" id="prodStock" required min="0" placeholder="0" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-col">
+              <label class="admin-label">Tag (Optional)</label>
+              <select class="admin-select" id="prodTag">
+                <option value="">None</option>
+                <option value="new">New</option>
+                <option value="sale">Sale</option>
+                <option value="popular">Popular</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin-modal-footer">
+            <button type="button" class="btn-admin-secondary" id="cancelModalBtn">Cancel</button>
+            <button type="submit" class="btn-admin-primary">Save Product</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
