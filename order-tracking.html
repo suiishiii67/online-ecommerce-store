@@ -184,6 +184,19 @@
     </div>
   </footer>
 
+  <!-- Custom Cancel Modal -->
+  <div id="cancel-modal" class="custom-modal-overlay">
+    <div class="custom-modal">
+      <div class="custom-modal-icon">⚠️</div>
+      <h3 class="custom-modal-title">Cancel Order</h3>
+      <p class="custom-modal-desc">Are you sure you want to cancel this order?<br>This action cannot be undone.</p>
+      <div class="custom-modal-actions">
+        <button id="btn-cancel-no" class="btn-sm btn-secondary" style="font-weight:600; padding:12px; font-size:14px; border-radius:12px; cursor:pointer;">Keep Order</button>
+        <button id="btn-cancel-yes" class="btn-sm btn-danger">Yes, Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <!-- JS Files -->
   <script src="ui.js"></script>
   <script src="order-tracking.js"></script>
