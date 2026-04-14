@@ -1,12 +1,9 @@
 <?php
-// Connect to the database
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 
-// Variables to store messages
 $error   = "";
 $success = "";
 
-// This runs only when the user submits the form using POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $name     = trim($_POST["name"]);
@@ -14,44 +11,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone    = trim($_POST["phone"]);
     $password = trim($_POST["password"]);
 
-    // Check if name is empty
     if ($name == "") {
         $error = "Please enter your full name.";
-    }
-    // Check if email is empty or not valid
-    elseif ($email == "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } elseif ($email == "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email address.";
-    }
-    // Check if phone has at least 10 digits
-    elseif (strlen(preg_replace('/\D/', '', $phone)) < 10) {
+    } elseif (strlen(preg_replace('/\D/', '', $phone)) < 10) {
         $error = "Please enter a valid 10-digit phone number.";
-    }
-    // Check if password is at least 6 characters
-    elseif (strlen($password) < 6) {
+    } elseif (strlen($password) < 6) {
         $error = "Password must be at least 6 characters.";
-    }
-    else {
-        // Check if this email is already registered
+    } else {
+        // check if email already exists
         $check = pg_query_params($conn, "SELECT id FROM users WHERE email = $1", array($email));
 
         if (pg_num_rows($check) > 0) {
-            $error = "This email is already registered. Please sign in instead.";
-        }
-        else {
-            // Hash the password before saving
+            $error = "This email is already registered.";
+        } else {
             $hashed = password_hash($password, PASSWORD_DEFAULT);
 
-            // Save the new user into the database
             $insert = pg_query_params($conn,
                 "INSERT INTO users (name, email, phone, password) VALUES ($1, $2, $3, $4)",
                 array($name, $email, $phone, $hashed)
             );
 
             if ($insert) {
-                // Registration successful — show a success message
-                $success = "Account created successfully! Welcome, " . $name . ". You can now sign in.";
-            }
-            else {
+                $success = "Account created successfully! You can now sign in.";
+            } else {
                 $error = "Something went wrong. Please try again.";
             }
         }
@@ -95,17 +79,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <h1 class="login-title">Create Account</h1>
       <p class="login-sub">Join NexGear today</p>
 
-      <!-- Show success message if registration worked -->
       <?php if ($success != "") { ?>
         <p style="color:green; font-size:13px; margin-bottom:14px;"><?php echo $success; ?></p>
       <?php } ?>
 
-      <!-- Show error message if something went wrong -->
       <?php if ($error != "") { ?>
         <p style="color:#dc3545; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
       <?php } ?>
 
-      <!-- Form submits to register.php using POST method -->
       <form id="register-form" method="POST" action="register.php">
 
         <div class="form-group">

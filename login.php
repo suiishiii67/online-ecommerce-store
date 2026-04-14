@@ -1,42 +1,28 @@
 <?php
-// Connect to the database
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 
-// Variables to store messages
 $error   = "";
 $success = "";
 
-// This runs only when the user submits the form using POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email    = trim($_POST["email"]);
     $password = trim($_POST["password"]);
 
-    // Check if email is empty
     if ($email == "") {
         $error = "Please enter your email address.";
-    }
-    // Check if password is empty
-    elseif ($password == "") {
+    } elseif ($password == "") {
         $error = "Please enter your password.";
-    }
-    // Check if email format is valid
-    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email address.";
-    }
-    else {
-        // Search for this email in the users table
+    } else {
         $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
         $user   = pg_fetch_assoc($result);
 
         if ($user && password_verify($password, $user["password"])) {
-            // Login successful — send user to home page
-            header("Location: home.php");
-            exit();
-        }
-        else {
-            // Email not found or wrong password
-            $error = "Incorrect email or password. Please try again.";
+            $success = "Welcome back, " . $user["name"] . "! Redirecting...";
+        } else {
+            $error = "Incorrect email or password.";
         }
     }
 }
@@ -49,6 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <title>Sign In - NexGear</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="login.css" />
+  <?php if ($success != "") { ?>
+    <meta http-equiv="refresh" content="2;url=home.php" />
+  <?php } ?>
 </head>
 <body>
 
@@ -78,17 +67,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <h1 class="login-title">Welcome Back</h1>
       <p class="login-sub">Sign in to your NexGear account</p>
 
-      <!-- Show success message if login worked -->
       <?php if ($success != "") { ?>
         <p style="color:green; font-size:13px; margin-bottom:14px;"><?php echo $success; ?></p>
       <?php } ?>
 
-      <!-- Show error message if something went wrong -->
       <?php if ($error != "") { ?>
         <p style="color:#dc3545; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
       <?php } ?>
 
-      <!-- Form submits to login.php using POST method -->
       <form id="login-form" method="POST" action="login.php">
 
         <div class="form-group">

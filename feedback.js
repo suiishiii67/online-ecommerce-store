@@ -1,5 +1,4 @@
-// feedback.js
-// Client-side validation before the form submits to feedback.php
+// validation before form submits to feedback.php
 
 document.getElementById("contact-form").addEventListener("submit", function(e) {
   var fname   = document.getElementById("cfname").value.trim();
@@ -23,6 +22,4 @@ document.getElementById("contact-form").addEventListener("submit", function(e) {
     showToast("Please write a message before submitting.");
     return;
   }
-
-  // If all ok, form submits to feedback.php (POST)
 });

@@ -1,8 +1,4 @@
-// products-filter.js
-// Products are loaded from backend
-// TODO: Replace this fetch with your actual PHP endpoint
-
-var allProducts = []; // will be filled from backend
+var allProducts = [];
 
 function buildProductCard(product) {
   var badgeHTML = "";
@@ -49,7 +45,6 @@ function showProducts(list) {
   container.innerHTML = html;
   if (countEl) countEl.textContent = "Showing " + list.length + " products";
 
-  // Attach add to cart buttons
   var btns = container.querySelectorAll(".btn-add-cart");
   for (var j = 0; j < btns.length; j++) {
     btns[j].addEventListener("click", function(e) {
@@ -88,14 +83,4 @@ document.getElementById("resetFilters").addEventListener("click", function() {
   showProducts(allProducts);
 });
 
-// TODO: Replace with real fetch from your backend
-// Example:
-// fetch("server.php?action=getProducts")
-//   .then(function(res) { return res.json(); })
-//   .then(function(data) {
-//     allProducts = data;
-//     showProducts(allProducts);
-//   });
-
-// For now show empty until backend is connected
 showProducts(allProducts);

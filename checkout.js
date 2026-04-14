@@ -1,18 +1,12 @@
-// checkout.js
-// Reads cart items straight from localStorage - no hardcoded product list needed.
-// Cart items already contain: { id, name, brand, price, icon, qty }
-
-// Load cart items and fill the order summary on checkout page
 function loadCheckoutSummary() {
-  var cart    = JSON.parse(localStorage.getItem("nexgear_cart") || "[]");
+  var cart     = JSON.parse(localStorage.getItem("nexgear_cart") || "[]");
   var itemsBox = document.getElementById("checkout-items");
   if (!itemsBox) return;
 
-  // Empty cart
   if (cart.length === 0) {
     itemsBox.innerHTML =
       '<p style="font-size:13px; color:#888; padding:10px 0;">' +
-        'Cart is empty. <a href="products.html" style="color:#0071e3;">Add items</a>' +
+        'Cart is empty. <a href="products.php" style="color:#0071e3;">Add items</a>' +
       '</p>';
     return;
   }
@@ -38,7 +32,6 @@ function loadCheckoutSummary() {
 
   itemsBox.innerHTML = html;
 
-  // Calculate totals
   var discount = Math.floor(subtotal * 0.05);
   var gst      = Math.floor((subtotal - discount) * 0.18);
   var total    = subtotal - discount + gst;
@@ -53,7 +46,6 @@ function loadCheckoutSummary() {
   if (btn) btn.textContent = "Place Order & Pay ₹" + total.toLocaleString("en-IN");
 }
 
-// Show/hide payment sub-forms based on radio selection
 function setupPaymentToggle() {
   var radioButtons = document.querySelectorAll('input[name="payment"]');
   var cardFields   = document.getElementById("card-fields");
@@ -73,7 +65,6 @@ function setupPaymentToggle() {
   }
 }
 
-// Validate form and place order
 function setupPlaceOrder() {
   var btn = document.getElementById("placeOrderBtn");
   if (!btn) return;
@@ -86,7 +77,6 @@ function setupPlaceOrder() {
       return;
     }
 
-    // Check delivery fields
     var fname   = document.getElementById("fname");
     var lname   = document.getElementById("lname");
     var phone   = document.getElementById("phone");
@@ -104,7 +94,6 @@ function setupPlaceOrder() {
       return;
     }
 
-    // Check payment details
     var selectedPayment = document.querySelector('input[name="payment"]:checked').value;
     if (selectedPayment === "card") {
       var cardnum  = document.getElementById("cardnum");
@@ -117,13 +106,6 @@ function setupPlaceOrder() {
       if (!cvv.value.trim())      { showToast("Please enter the CVV."); return; }
     }
 
-    // TODO: Send order to backend via fetch/POST before showing success
-    // fetch("server.php?action=placeOrder", {
-    //   method: "POST",
-    //   body: JSON.stringify({ cart: cart, address: { ... } })
-    // }).then(...);
-
-    // Show success popup
     var orderNum = "NGR-2025-" + Math.floor(1000 + Math.random() * 9000);
 
     var overlay = document.createElement("div");
@@ -136,18 +118,15 @@ function setupPlaceOrder() {
         '<div style="background:#f5f5f7; border-radius:8px; padding:12px; margin-bottom:24px; font-size:14px;">' +
           'Order ID: <strong>' + orderNum + '</strong>' +
         '</div>' +
-        '<a href="order-tracking.html" style="background:#0071e3; color:#fff; padding:12px 24px; border-radius:24px; font-size:14px; font-weight:600; text-decoration:none; margin-right:10px;">Track Order</a>' +
-        '<a href="home.html" style="background:#f0f0f0; color:#333; padding:12px 24px; border-radius:24px; font-size:14px; font-weight:600; text-decoration:none;">Back to Home</a>' +
+        '<a href="order-tracking.php" style="background:#0071e3; color:#fff; padding:12px 24px; border-radius:24px; font-size:14px; font-weight:600; text-decoration:none; margin-right:10px;">Track Order</a>' +
+        '<a href="home.php" style="background:#f0f0f0; color:#333; padding:12px 24px; border-radius:24px; font-size:14px; font-weight:600; text-decoration:none;">Back to Home</a>' +
       '</div>';
 
     document.body.appendChild(overlay);
-
-    // Clear the cart
     localStorage.removeItem("nexgear_cart");
   });
 }
 
-// Run on page load
 document.addEventListener("DOMContentLoaded", function() {
   loadCheckoutSummary();
   setupPaymentToggle();

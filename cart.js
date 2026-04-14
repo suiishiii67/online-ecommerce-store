@@ -1,32 +1,24 @@
-// cart.js
-// Cart uses localStorage to store items.
-// Each item is stored as: { id, name, brand, price, icon, qty }
-// Product details come from whatever page added the item (backend renders them).
+// cart uses localStorage to store items
+// each item has: { id, name, brand, price, icon, qty }
 
-// Load cart from localStorage
 function loadCart() {
   var saved = localStorage.getItem("nexgear_cart");
   if (saved) return JSON.parse(saved);
   return [];
 }
 
-// Save cart to localStorage
 function saveCart(cart) {
   localStorage.setItem("nexgear_cart", JSON.stringify(cart));
 }
 
-// Format number as Indian rupees
 function formatPrice(amount) {
   return "₹" + parseInt(amount).toLocaleString("en-IN");
 }
 
-// Add a product to cart
-// Accepts full product details because we have no local product list anymore
 function addToCart(id, name, brand, price, icon) {
   var cart  = loadCart();
   var found = false;
 
-  // If already in cart, just increase qty
   for (var i = 0; i < cart.length; i++) {
     if (cart[i].id === id) {
       cart[i].qty = cart[i].qty + 1;
@@ -35,7 +27,6 @@ function addToCart(id, name, brand, price, icon) {
     }
   }
 
-  // Not in cart yet - add it
   if (!found) {
     cart.push({
       id:    id,
@@ -52,7 +43,6 @@ function addToCart(id, name, brand, price, icon) {
   showToast("Added to cart: " + name);
 }
 
-// Remove item from cart
 function removeFromCart(productId) {
   var cart    = loadCart();
   var newCart = [];
@@ -67,7 +57,6 @@ function removeFromCart(productId) {
   renderCart();
 }
 
-// Change quantity by +1 or -1
 function changeQty(productId, delta) {
   var cart = loadCart();
 
@@ -83,7 +72,6 @@ function changeQty(productId, delta) {
   renderCart();
 }
 
-// Update the cart number badge in the navbar
 function updateCartBadge() {
   var cart     = loadCart();
   var totalQty = 0;
@@ -94,12 +82,11 @@ function updateCartBadge() {
 
   var badge = document.getElementById("nav-cart-count");
   if (badge) {
-    badge.textContent  = totalQty;
+    badge.textContent   = totalQty;
     badge.style.display = totalQty > 0 ? "flex" : "none";
   }
 }
 
-// Calculate and update summary totals
 function updateSummary(subtotal) {
   var delivery = subtotal > 999 ? 0 : 99;
   var discount = Math.floor(subtotal * 0.05);
@@ -118,14 +105,12 @@ function updateSummary(subtotal) {
   set("sum-total",     formatPrice(total));
 }
 
-// Render the cart page
 function renderCart() {
   var wrap = document.getElementById("cart-items-wrap");
-  if (!wrap) return; // not on cart page
+  if (!wrap) return;
 
   var cart = loadCart();
 
-  // Update item count label
   var countLabel = document.getElementById("cart-count-label");
   if (countLabel) {
     var total = 0;
@@ -133,21 +118,19 @@ function renderCart() {
     countLabel.textContent = "(" + total + " item" + (total !== 1 ? "s" : "") + ")";
   }
 
-  // Empty cart state
   if (cart.length === 0) {
     wrap.innerHTML =
       '<div style="text-align:center; padding:60px 20px; color:#6e6e73;">' +
         '<div style="font-size:60px; margin-bottom:16px;">🛒</div>' +
         '<h2 style="font-size:20px; margin-bottom:10px;">Your cart is empty</h2>' +
         '<p style="margin-bottom:20px;">Add some products first.</p>' +
-        '<a href="products.html" class="btn-primary" style="padding:10px 24px; border-radius:24px;">Browse Products</a>' +
+        '<a href="products.php" class="btn-primary" style="padding:10px 24px; border-radius:24px;">Browse Products</a>' +
       '</div>';
     updateSummary(0);
     updateCartBadge();
     return;
   }
 
-  // Build cart HTML directly from stored product details
   var html     = "";
   var subtotal = 0;
 
@@ -179,8 +162,6 @@ function renderCart() {
   updateCartBadge();
 }
 
-// Wire up all "Add to Cart" buttons on the page
-// Buttons must have: data-id, data-name, data-brand, data-price, data-icon
 document.addEventListener("DOMContentLoaded", function() {
   var addBtns = document.querySelectorAll(".btn-add-cart");
 
@@ -197,9 +178,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // Render cart if on cart.html
   renderCart();
-
-  // Always update badge
   updateCartBadge();
 });

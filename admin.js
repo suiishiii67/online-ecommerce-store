@@ -1,15 +1,6 @@
-// admin.js
-// Product inventory management
-// TODO: Connect to backend to load and save real product data
-
-var products = []; // will be filled from backend
+var products = [];
 
 function saveProducts() {
-  // TODO: Send updated products to backend
-  // fetch("server.php?action=saveProducts", {
-  //   method: "POST",
-  //   body: JSON.stringify(products)
-  // });
   localStorage.setItem("admin_products", JSON.stringify(products));
 }
 
@@ -157,15 +148,6 @@ document.getElementById("searchInput").addEventListener("input", function() {
   renderTable(this.value);
 });
 
-// TODO: Load products from backend
-// fetch("server.php?action=getProducts")
-//   .then(function(res) { return res.json(); })
-//   .then(function(data) {
-//     products = data;
-//     renderTable();
-//   });
-
-// Load from localStorage if backend not connected yet
 var saved = localStorage.getItem("admin_products");
 if (saved) products = JSON.parse(saved);
 renderTable();

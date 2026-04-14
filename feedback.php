@@ -1,15 +1,9 @@
 <?php
-// Start the session
-session_start();
+$conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 
-// This stores any message to show the user
 $success = "";
 $error   = "";
 
-// Connect to database
-$conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
-
-// This runs only when the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $first_name = trim($_POST["first_name"]);
@@ -18,20 +12,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $order_id   = trim($_POST["order_id"]);
     $message    = trim($_POST["message"]);
 
-    // Basic validation
     if ($first_name == "" || $last_name == "" || $email == "" || $message == "") {
         $error = "Please fill in all required fields.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email address.";
     } else {
-        // Save the message to the database
         $insert = pg_query_params($conn,
             "INSERT INTO feedback (first_name, last_name, email, order_id, message) VALUES ($1, $2, $3, $4, $5)",
             array($first_name, $last_name, $email, $order_id, $message)
         );
 
         if ($insert) {
-            $success = "Thank you! Your message has been sent. We'll reply within 24 hours.";
+            $success = "Thank you! Your message has been sent.";
         } else {
             $error = "Something went wrong. Please try again.";
         }
@@ -83,13 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="contact-form-box">
         <h2 style="font-size:18px; font-weight:700; margin-bottom:20px;">Send a Message</h2>
 
-        <!-- Show success or error message -->
-        <?php if ($success != ""): ?>
+        <?php if ($success != "") { ?>
           <p style="color:green; font-size:13px; margin-bottom:14px;"><?php echo $success; ?></p>
-        <?php endif; ?>
-        <?php if ($error != ""): ?>
+        <?php } ?>
+        <?php if ($error != "") { ?>
           <p style="color:#dc3545; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
-        <?php endif; ?>
+        <?php } ?>
 
         <form id="contact-form" method="POST" action="feedback.php">
 
