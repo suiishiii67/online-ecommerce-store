@@ -1,13 +1,56 @@
 <?php
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
-
 $error   = "";
 $success = "";
-
+// POST 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $email    = trim($_POST["email"]);
     $password = trim($_POST["password"]);
+
+    if ($email == "") {
+        $error = "Please enter your email address.";
+    } elseif ($password == "") {
+        $error = "Please enter your password.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Please enter a valid email address.";
+    } else {
+        $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
+        $user   = pg_fetch_assoc($result);
+
+        if ($user && password_verify($password, $user["password"])) {
+            $success = "Welcome back, " . $user["name"] . "! Redirecting";
+        } else {
+            $error = "Incorrect email or password.";
+        }
+    }
+}
+// GET 
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["email"]) && isset($_GET["password"])) {
+    $email    = trim($_GET["email"]);
+    $password = trim($_GET["password"]);
+
+    if ($email == "") {
+        $error = "Please enter your email address.";
+    } elseif ($password == "") {
+        $error = "Please enter your password.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Please enter a valid email address.";
+    } else {
+        $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
+        $user   = pg_fetch_assoc($result);
+
+        if ($user && password_verify($password, $user["password"])) {
+            $success = "Welcome back, " . $user["name"] . "! Redirecting...";
+        } else {
+            $error = "Incorrect email or password.";
+        }
+    }
+}
+
+// REQUEST
+if (isset($_REQUEST["email"]) && isset($_REQUEST["password"])) {
+    $email    = trim($_REQUEST["email"]);
+    $password = trim($_REQUEST["password"]);
 
     if ($email == "") {
         $error = "Please enter your email address.";
@@ -84,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="form-group">
           <label class="form-label">Password</label>
-          <input type="password" class="form-input" name="password" id="login-password" placeholder="••••••••" required />
+          <input type="password" class="form-input" name="password" id="login-password" placeholder="••••••" required />
         </div>
 
         <button type="submit" class="login-btn" id="loginBtn">Sign In →</button>
