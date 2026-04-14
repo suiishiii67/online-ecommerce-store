@@ -1,9 +1,12 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NexGear - PC & Gaming Accessories</title>
+  <title>NexGear - PC &amp; Gaming Accessories</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="home.css" />
 </head>
@@ -12,23 +15,23 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="home.html" class="nav-logo">
+      <a href="home.php" class="nav-logo">
         <div class="logo-icon">N</div>
         NexGear
       </a>
       <ul class="nav-links">
-        <li><a href="home.html" class="active">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="cart.html">Cart</a></li>
-        <li><a href="order-tracking.html">Orders</a></li>
-        <li><a href="feedback.html">Contact Us</a></li>
+        <li><a href="home.php" class="active">Home</a></li>
+        <li><a href="products.php">Products</a></li>
+        <li><a href="cart.php">Cart</a></li>
+        <li><a href="order-tracking.php">Orders</a></li>
+        <li><a href="feedback.php">Contact Us</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="cart.html" class="cart-icon-wrap">
+        <a href="cart.php" class="cart-icon-wrap">
           🛒
           <span class="cart-badge" id="nav-cart-count">0</span>
         </a>
-        <a href="login.html" class="btn-primary">Sign In</a>
+        <a href="login.php" class="btn-primary">Sign In</a>
       </div>
     </div>
   </nav>
@@ -38,7 +41,7 @@
     <h1>Level Up Your PC Setup</h1>
     <p>Premium gaming accessories — keyboards, headsets, monitors and more.</p>
     <div style="margin-top: 24px;">
-      <a href="products.html" class="btn-hero">Shop Now</a>
+      <a href="products.php" class="btn-hero">Shop Now</a>
       <a href="#categories" class="btn-hero-outline">Browse Categories</a>
     </div>
 
@@ -82,35 +85,35 @@
       <h2 class="section-title">Shop by Category</h2>
       <p class="section-sub">Find what you need for the perfect gaming setup.</p>
       <div class="category-grid">
-        <a href="products.html" class="category-card">
+        <a href="products.php" class="category-card">
           <div class="cat-icon">🖥️</div>
           <div class="cat-name">Monitors</div>
         </a>
-        <a href="products.html" class="category-card">
+        <a href="products.php" class="category-card">
           <div class="cat-icon">🎧</div>
           <div class="cat-name">Headphones</div>
         </a>
-        <a href="products.html" class="category-card">
+        <a href="products.php" class="category-card">
           <div class="cat-icon">⌨️</div>
           <div class="cat-name">Keyboards</div>
         </a>
-        <a href="products.html" class="category-card">
+        <a href="products.php" class="category-card">
           <div class="cat-icon">🖱️</div>
           <div class="cat-name">Mouse</div>
         </a>
-        <a href="products.html" class="category-card">
+        <a href="products.php" class="category-card">
           <div class="cat-icon">🪑</div>
           <div class="cat-name">Gaming Chairs</div>
         </a>
-        <a href="products.html" class="category-card">
+        <a href="products.php" class="category-card">
           <div class="cat-icon">🎤</div>
           <div class="cat-name">Microphones</div>
         </a>
-        <a href="products.html" class="category-card">
+        <a href="products.php" class="category-card">
           <div class="cat-icon">📷</div>
           <div class="cat-name">Webcams</div>
         </a>
-        <a href="products.html" class="category-card">
+        <a href="products.php" class="category-card">
           <div class="cat-icon">🖥️</div>
           <div class="cat-name">PC Cabinets</div>
         </a>
@@ -130,7 +133,7 @@
       </div>
 
       <div style="text-align: center; margin-top: 24px;">
-        <a href="products.html" class="btn-primary" style="padding: 10px 28px; border-radius: 24px; font-size: 14px;">View All Products →</a>
+        <a href="products.php" class="btn-primary" style="padding: 10px 28px; border-radius: 24px; font-size: 14px;">View All Products →</a>
       </div>
     </div>
   </section>
@@ -139,10 +142,10 @@
   <footer>
     <p>© 2025 NexGear. All rights reserved.</p>
     <div style="margin-top: 8px;">
-      <a href="products.html">Products</a>
-      <a href="cart.html">Cart</a>
-      <a href="feedback.html">Contact</a>
-      <a href="admin.html">Admin</a>
+      <a href="products.php">Products</a>
+      <a href="cart.php">Cart</a>
+      <a href="feedback.php">Contact</a>
+      <a href="admin.php">Admin</a>
     </div>
   </footer>
 

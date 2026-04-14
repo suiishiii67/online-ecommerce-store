@@ -1,3 +1,7 @@
+<?php
+// Start the session so we can check if user is logged in
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +18,8 @@
     <div class="admin-nav-inner">
       <div class="admin-brand">NexGear Admin</div>
       <div class="admin-nav-links">
-        <a href="home.html">Back to Store</a>
-        <a href="admin.html" class="active">Inventory</a>
+        <a href="home.php">Back to Store</a>
+        <a href="admin.php" class="active">Inventory</a>
       </div>
     </div>
   </nav>

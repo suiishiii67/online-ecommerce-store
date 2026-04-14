@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,23 +15,23 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="home.html" class="nav-logo">
+      <a href="home.php" class="nav-logo">
         <div class="logo-icon">N</div>
         NexGear
       </a>
       <ul class="nav-links">
-        <li><a href="home.html">Home</a></li>
-        <li><a href="products.html" class="active">Products</a></li>
-        <li><a href="cart.html">Cart</a></li>
-        <li><a href="order-tracking.html">Orders</a></li>
-        <li><a href="feedback.html">Contact Us</a></li>
+        <li><a href="home.php">Home</a></li>
+        <li><a href="products.php" class="active">Products</a></li>
+        <li><a href="cart.php">Cart</a></li>
+        <li><a href="order-tracking.php">Orders</a></li>
+        <li><a href="feedback.php">Contact Us</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="cart.html" class="cart-icon-wrap">
+        <a href="cart.php" class="cart-icon-wrap">
           🛒
           <span class="cart-badge" id="nav-cart-count">0</span>
         </a>
-        <a href="login.html" class="btn-primary">Sign In</a>
+        <a href="login.php" class="btn-primary">Sign In</a>
       </div>
     </div>
   </nav>
@@ -37,7 +40,7 @@
 
     <!-- Breadcrumb -->
     <div class="breadcrumb">
-      <a href="home.html">Home</a> <span>/</span> All Products
+      <a href="home.php">Home</a> <span>/</span> All Products
     </div>
 
     <div class="products-layout">
@@ -85,15 +88,15 @@
     </div>
   </div>
 
-  <!-- Footer -->
+
   <footer>
     <p>© 2025 NexGear. All rights reserved.</p>
   </footer>
 
-  <!-- Toast -->
+
   <div id="toast-msg"></div>
 
-  <!-- JS Files -->
+
   <script src="cart.js"></script>
   <script src="products-filter.js"></script>
   <script src="ui.js"></script>

@@ -1,3 +1,7 @@
+<?php
+// Start the session so we can check if user is logged in
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,19 +16,19 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="home.html" class="nav-logo">
+      <a href="home.php" class="nav-logo">
         <div class="logo-icon">N</div>
         NexGear
       </a>
       <ul class="nav-links">
-        <li><a href="home.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="cart.html">Cart</a></li>
-        <li><a href="order-tracking.html">Orders</a></li>
-        <li><a href="feedback.html">Contact Us</a></li>
+        <li><a href="home.php">Home</a></li>
+        <li><a href="products.php">Products</a></li>
+        <li><a href="cart.php">Cart</a></li>
+        <li><a href="order-tracking.php">Orders</a></li>
+        <li><a href="feedback.php">Contact Us</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="login.html" class="btn-primary">Sign In</a>
+        <a href="login.php" class="btn-primary">Sign In</a>
       </div>
     </div>
   </nav>
@@ -32,8 +36,8 @@
   <div class="page-wrapper">
 
     <div class="breadcrumb">
-      <a href="home.html">Home</a> <span>/</span>
-      <a href="cart.html">Cart</a> <span>/</span> Checkout
+      <a href="home.php">Home</a> <span>/</span>
+      <a href="cart.php">Cart</a> <span>/</span> Checkout
     </div>
 
     <h1 class="page-title">Checkout</h1>
