@@ -1,56 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexus Admin - Product Inventory</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="admin.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - NexGear</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="admin.css" />
 </head>
-<body class="admin-body">
-  
+<body>
+
+  <!-- Admin Navbar -->
   <nav class="admin-navbar">
-    <div class="admin-container">
-      <div class="admin-brand">
-        <strong>NexGear Admin</strong>
-      </div>
-      <div class="admin-links">
+    <div class="admin-nav-inner">
+      <div class="admin-brand">NexGear Admin</div>
+      <div class="admin-nav-links">
         <a href="home.html">Back to Store</a>
-        <a href="#" class="active">Inventory</a>
+        <a href="admin.html" class="active">Inventory</a>
       </div>
     </div>
   </nav>
 
-  <div class="admin-container">
-    <header class="admin-header">
-      <h1>Inventory Management</h1>
-      <div class="admin-actions">
-        <input type="text" id="adminSearchInput" placeholder="Search products...">
-        <button id="addBtn" class="btn-primary">Add New Product</button>
-      </div>
-    </header>
+  <div class="admin-wrapper">
 
-    <div class="admin-stats">
-      <div class="stat-box">
-        <span class="label">Total Products</span>
-        <span class="value" id="totalProducts">0</span>
-      </div>
-      <div class="stat-box">
-        <span class="label">Inventory Value</span>
-        <span class="value" id="totalValue">₹0</span>
-      </div>
-      <div class="stat-box">
-        <span class="label">Low Stock</span>
-        <span class="value" id="lowStock">0</span>
+    <div class="admin-header">
+      <h1>Inventory Management</h1>
+      <div class="admin-header-actions">
+        <input type="text" id="searchInput" class="form-input" placeholder="Search products..." style="width:220px;" />
+        <button class="btn-primary" id="addBtn" style="padding:9px 18px; border-radius:8px;">+ Add Product</button>
       </div>
     </div>
 
-    <div class="admin-content">
-      <table class="inventory-table">
+    <!-- Stats Row -->
+    <div class="admin-stats">
+      <div class="stat-box">
+        <div class="stat-label">Total Products</div>
+        <div class="stat-value" id="totalProducts">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Inventory Value</div>
+        <div class="stat-value" id="totalValue">₹0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Low Stock Items</div>
+        <div class="stat-value" id="lowStock">0</div>
+      </div>
+    </div>
+
+    <!-- Product Table -->
+    <div class="table-box">
+      <table class="product-table">
         <thead>
           <tr>
             <th>Product Name</th>
+            <th>Brand</th>
             <th>Category</th>
             <th>Price</th>
             <th>Stock</th>
@@ -58,68 +60,68 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="inventoryTableBody">
-          <!-- Table content -->
+        <tbody id="tableBody">
+          <!-- Rows added by admin.js -->
         </tbody>
       </table>
-      <div id="emptyState" style="display: none; text-align: center; padding: 40px; color: #666;">
-        No products found matching your search.
+      <div id="emptyMsg" style="display:none; text-align:center; padding:30px; color:#888; font-size:14px;">
+        No products found.
       </div>
     </div>
+
   </div>
 
-  <div id="productModal" class="modal">
-    <div class="modal-content">
-      <h2 id="modalTitle">Add Product</h2>
+  <!-- Add / Edit Modal -->
+  <div id="productModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <h2 id="modalTitle" style="font-size:18px; font-weight:700; margin-bottom:20px;">Add Product</h2>
       <form id="productForm">
-        <input type="hidden" id="prodId">
-        
+        <input type="hidden" id="prodId" />
+
         <div class="form-group">
-          <label>Product Name</label>
-          <input type="text" id="prodName" required>
+          <label class="form-label">Product Name</label>
+          <input type="text" class="form-input" id="prodName" required />
         </div>
         <div class="form-group">
-          <label>Brand</label>
-          <input type="text" id="prodBrand" required>
+          <label class="form-label">Brand</label>
+          <input type="text" class="form-input" id="prodBrand" required />
         </div>
         <div class="form-group">
-          <label>Category</label>
-          <select id="prodCat">
-            <option value="Headphones">Headphones</option>
-            <option value="Monitors">Monitors</option>
-            <option value="Keyboards">Keyboards</option>
-            <option value="Mouse">Mouse</option>
-            <option value="Microphones">Microphones</option>
-            <option value="Webcams">Webcams</option>
-            <option value="Gaming Chairs">Gaming Chairs</option>
-            <option value="Accessories">Accessories</option>
+          <label class="form-label">Category</label>
+          <select class="form-select" id="prodCat">
+            <option>Headphones</option>
+            <option>Monitors</option>
+            <option>Keyboards</option>
+            <option>Mouse</option>
+            <option>Microphones</option>
+            <option>Webcams</option>
+            <option>Gaming Chairs</option>
+            <option>Accessories</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Price (₹)</label>
-          <input type="number" id="prodPrice" required>
+          <label class="form-label">Price (₹)</label>
+          <input type="number" class="form-input" id="prodPrice" required />
         </div>
         <div class="form-group">
-          <label>Stock</label>
-          <input type="number" id="prodStock" required>
+          <label class="form-label">Stock</label>
+          <input type="number" class="form-input" id="prodStock" required />
         </div>
         <div class="form-group">
-          <label>Icon (Emoji)</label>
-          <input type="text" id="prodIcon">
-        </div>
-        <div class="form-group">
-          <label>Tag</label>
-          <input type="text" id="prodTag">
+          <label class="form-label">Icon (Emoji)</label>
+          <input type="text" class="form-input" id="prodIcon" placeholder="e.g. 🎧" />
         </div>
 
         <div class="modal-buttons">
-          <button type="button" id="cancelModalBtn" class="btn-secondary">Cancel</button>
-          <button type="submit" class="btn-primary">Save Changes</button>
+          <button type="button" id="cancelModalBtn" style="padding:10px 20px; border:1px solid #ccc; border-radius:8px; background:#fff; font-size:14px; cursor:pointer;">Cancel</button>
+          <button type="submit" class="btn-primary" style="padding:10px 20px; border-radius:8px;">Save</button>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- JS File -->
   <script src="admin.js"></script>
+
 </body>
 </html>

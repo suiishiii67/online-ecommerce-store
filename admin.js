@@ -1,158 +1,171 @@
-// admin.js - Simplified Version
+// admin.js
+// Product inventory management
+// TODO: Connect to backend to load and save real product data
 
-const defaultProducts = [
-  { id: "arctis-nova-pro", n: "Arctis Nova Pro Wireless", b: "SteelSeries", p: 24999, c: "Headphones", icon: "🎧", stock: 15 },
-  { id: "lg-ultragear", n: "UltraGear 27GP850-B", b: "LG", p: 32499, c: "Monitors", icon: "🖥️", stock: 5 },
-  { id: "keychron-q3", n: "Q3 Pro Wireless QMK", b: "Keychron", p: 14999, c: "Keyboards", icon: "⌨️", stock: 45 },
-  { id: "logitech-super2", n: "G Pro X Superlight 2", b: "Logitech", p: 13495, c: "Mouse", icon: "🖱️", stock: 12 },
-  { id: "secretlab-titan", n: "TITAN Evo XL Series", b: "SecretLab", p: 42999, c: "Gaming Chairs", icon: "🪑", stock: 2 },
-  { id: "hyperx-quadcast", n: "QuadCast S USB Mic", b: "HyperX", p: 11999, c: "Microphones", icon: "🎤", stock: 0 },
-  { id: "facecam-pro", n: "Facecam Pro 4K", b: "Elgato", p: 19999, c: "Webcams", icon: "📷", stock: 8 },
-];
+var products = []; // will be filled from backend
 
-let products = JSON.parse(localStorage.getItem('admin_products')) || defaultProducts;
-
-function saveToLocalStorage() {
-  localStorage.setItem('admin_products', JSON.stringify(products));
+function saveProducts() {
+  // TODO: Send updated products to backend
+  // fetch("server.php?action=saveProducts", {
+  //   method: "POST",
+  //   body: JSON.stringify(products)
+  // });
+  localStorage.setItem("admin_products", JSON.stringify(products));
 }
 
-function updateSummaryStats() {
-  const totalProductsElement = document.getElementById('totalProducts');
-  const totalValueElement = document.getElementById('totalValue');
-  const lowStockElement = document.getElementById('lowStock');
-
-  totalProductsElement.textContent = products.length;
-
-  let totalValue = 0;
-  let lowStockCount = 0;
-
-  products.forEach(function(product) {
-    const stock = Number(product.stock) || 0;
-    const price = Number(product.p) || 0;
-    totalValue += price * stock;
-    if (stock < 10) {
-      lowStockCount++;
-    }
-  });
-
-  totalValueElement.textContent = '₹' + totalValue.toLocaleString('en-IN');
-  lowStockElement.textContent = lowStockCount;
+function getStatus(stock) {
+  stock = parseInt(stock);
+  if (stock === 0) return { label: "Out of Stock", cls: "status-out" };
+  if (stock < 10)  return { label: "Low Stock",    cls: "status-low" };
+  return                  { label: "In Stock",     cls: "status-in"  };
 }
 
-function renderInventoryTable(filterText = '') {
-  const tableBody = document.getElementById('inventoryTableBody');
-  const emptyState = document.getElementById('emptyState');
-  
-  tableBody.innerHTML = '';
-  
-  const filteredProducts = products.filter(function(product) {
-    const searchString = (product.n + ' ' + product.b + ' ' + product.c).toLowerCase();
-    return searchString.indexOf(filterText.toLowerCase()) !== -1;
-  });
+function updateStats() {
+  var totalVal = 0;
+  var lowCount = 0;
 
-  if (filteredProducts.length === 0) {
-    emptyState.style.display = 'block';
-  } else {
-    emptyState.style.display = 'none';
+  for (var i = 0; i < products.length; i++) {
+    totalVal += parseInt(products[i].p) * parseInt(products[i].stock);
+    if (parseInt(products[i].stock) < 10) lowCount++;
   }
-  
-  filteredProducts.forEach(function(p) {
-    const stock = Number(p.stock) || 0;
-    let statusClass = 'status-in-stock';
-    let statusText = 'In Stock';
-    
-    if (stock === 0) {
-      statusClass = 'status-out-stock';
-      statusText = 'Out of Stock';
-    } else if (stock < 10) {
-      statusClass = 'status-low-stock';
-      statusText = 'Low Stock';
-    }
 
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td><strong>${p.n}</strong><br><small style="color:#666">${p.b}</small></td>
-      <td>${p.c}</td>
-      <td>₹${p.p.toLocaleString('en-IN')}</td>
-      <td>${stock}</td>
-      <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-      <td>
-        <button onclick="editProduct('${p.id}')">Edit</button>
-        <button class="delete" onclick="deleteProduct('${p.id}')">Delete</button>
-      </td>
-    `;
-    tableBody.appendChild(row);
-  });
-
-  updateSummaryStats();
+  document.getElementById("totalProducts").textContent = products.length;
+  document.getElementById("totalValue").textContent    = "₹" + totalVal.toLocaleString("en-IN");
+  document.getElementById("lowStock").textContent      = lowCount;
 }
 
-window.editProduct = function(productId) {
-  const product = products.find(function(p) { return p.id === productId; });
+function renderTable(searchText) {
+  var tbody    = document.getElementById("tableBody");
+  var emptyMsg = document.getElementById("emptyMsg");
+  var filtered = [];
+
+  searchText = searchText ? searchText.toLowerCase() : "";
+
+  for (var i = 0; i < products.length; i++) {
+    var p = products[i];
+    var combined = (p.n + " " + p.b + " " + p.c).toLowerCase();
+    if (combined.indexOf(searchText) !== -1) filtered.push(p);
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML        = "";
+    emptyMsg.style.display = "block";
+    updateStats();
+    return;
+  }
+
+  emptyMsg.style.display = "none";
+  var html = "";
+
+  for (var i = 0; i < filtered.length; i++) {
+    var p      = filtered[i];
+    var status = getStatus(p.stock);
+    html +=
+      "<tr>" +
+        "<td><strong>" + (p.icon || "") + " " + p.n + "</strong></td>" +
+        "<td>" + p.b + "</td>" +
+        "<td>" + p.c + "</td>" +
+        "<td>₹" + parseInt(p.p).toLocaleString("en-IN") + "</td>" +
+        "<td>" + p.stock + "</td>" +
+        "<td><span class='status-badge " + status.cls + "'>" + status.label + "</span></td>" +
+        "<td>" +
+          "<button class='btn-edit' onclick='openEdit(\"" + p.id + "\")'>Edit</button>" +
+          "<button class='btn-delete' onclick='deleteProduct(\"" + p.id + "\")'>Delete</button>" +
+        "</td>" +
+      "</tr>";
+  }
+
+  tbody.innerHTML = html;
+  updateStats();
+}
+
+function openEdit(productId) {
+  var product = null;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === productId) { product = products[i]; break; }
+  }
   if (!product) return;
 
-  document.getElementById('prodId').value = product.id;
-  document.getElementById('prodName').value = product.n;
-  document.getElementById('prodBrand').value = product.b;
-  document.getElementById('prodCat').value = product.c;
-  document.getElementById('prodPrice').value = product.p;
-  document.getElementById('prodStock').value = product.stock;
-  document.getElementById('prodIcon').value = product.icon || '';
-  document.getElementById('prodTag').value = product.tag || '';
+  document.getElementById("modalTitle").textContent = "Edit Product";
+  document.getElementById("prodId").value           = product.id;
+  document.getElementById("prodName").value         = product.n;
+  document.getElementById("prodBrand").value        = product.b;
+  document.getElementById("prodCat").value          = product.c;
+  document.getElementById("prodPrice").value        = product.p;
+  document.getElementById("prodStock").value        = product.stock;
+  document.getElementById("prodIcon").value         = product.icon || "";
 
-  document.getElementById('modalTitle').textContent = 'Edit Product Entry';
-  document.getElementById('productModal').classList.add('active');
-};
+  document.getElementById("productModal").style.display = "flex";
+}
 
-window.deleteProduct = function(productId) {
-  if (confirm('Are you sure you want to delete this product?')) {
-    products = products.filter(function(p) { return p.id !== productId; });
-    saveToLocalStorage();
-    renderInventoryTable(document.getElementById('adminSearchInput').value);
+function deleteProduct(productId) {
+  if (!confirm("Delete this product?")) return;
+
+  var newList = [];
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id !== productId) newList.push(products[i]);
   }
-};
+  products = newList;
+  saveProducts();
+  renderTable(document.getElementById("searchInput").value);
+}
 
-document.getElementById('addBtn').onclick = function() {
-  document.getElementById('productForm').reset();
-  document.getElementById('prodId').value = '';
-  document.getElementById('modalTitle').textContent = 'New Product Entry';
-  document.getElementById('productModal').classList.add('active');
-};
+document.getElementById("addBtn").addEventListener("click", function() {
+  document.getElementById("modalTitle").textContent = "Add Product";
+  document.getElementById("productForm").reset();
+  document.getElementById("prodId").value = "";
+  document.getElementById("productModal").style.display = "flex";
+});
 
-document.getElementById('cancelModalBtn').onclick = function() {
-  document.getElementById('productModal').classList.remove('active');
-};
+document.getElementById("cancelModalBtn").addEventListener("click", function() {
+  document.getElementById("productModal").style.display = "none";
+});
 
-document.getElementById('adminSearchInput').oninput = function(event) {
-  renderInventoryTable(event.target.value);
-};
+document.getElementById("productModal").addEventListener("click", function(e) {
+  if (e.target === this) this.style.display = "none";
+});
 
-document.getElementById('productForm').onsubmit = function(event) {
-  event.preventDefault();
-  
-  const id = document.getElementById('prodId').value || document.getElementById('prodName').value.toLowerCase().replace(/\s+/g, '-');
-  
-  const newProductData = {
-    id: id,
-    n: document.getElementById('prodName').value,
-    b: document.getElementById('prodBrand').value,
-    c: document.getElementById('prodCat').value,
-    icon: document.getElementById('prodIcon').value,
-    p: Number(document.getElementById('prodPrice').value),
-    stock: Number(document.getElementById('prodStock').value),
-    tag: document.getElementById('prodTag').value
+document.getElementById("productForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  var existingId = document.getElementById("prodId").value;
+  var name       = document.getElementById("prodName").value.trim();
+  var newId      = existingId || name.toLowerCase().replace(/\s+/g, "-");
+
+  var updated = {
+    id:    newId,
+    n:     name,
+    b:     document.getElementById("prodBrand").value.trim(),
+    c:     document.getElementById("prodCat").value,
+    p:     parseInt(document.getElementById("prodPrice").value),
+    stock: parseInt(document.getElementById("prodStock").value),
+    icon:  document.getElementById("prodIcon").value.trim() || "📦"
   };
 
-  const idx = products.findIndex(function(p) { return p.id === newProductData.id; });
-  if (idx !== -1) {
-    products[idx] = newProductData;
-  } else {
-    products.push(newProductData);
+  var found = false;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === newId) { products[i] = updated; found = true; break; }
   }
+  if (!found) products.push(updated);
 
-  saveToLocalStorage();
-  document.getElementById('productModal').classList.remove('active');
-  renderInventoryTable();
-};
+  saveProducts();
+  document.getElementById("productModal").style.display = "none";
+  renderTable(document.getElementById("searchInput").value);
+});
 
-renderInventoryTable();
+document.getElementById("searchInput").addEventListener("input", function() {
+  renderTable(this.value);
+});
+
+// TODO: Load products from backend
+// fetch("server.php?action=getProducts")
+//   .then(function(res) { return res.json(); })
+//   .then(function(data) {
+//     products = data;
+//     renderTable();
+//   });
+
+// Load from localStorage if backend not connected yet
+var saved = localStorage.getItem("admin_products");
+if (saved) products = JSON.parse(saved);
+renderTable();

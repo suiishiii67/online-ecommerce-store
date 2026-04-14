@@ -1,305 +1,169 @@
+// checkout.js
+// Handles: showing cart items on checkout, payment toggle, and placing order
 
+// Product list (same as cart.js - needed here too)
+var CHECKOUT_PRODUCTS = {
+  "arctis-nova-pro":  { name: "Arctis Nova Pro Wireless", brand: "SteelSeries", price: 24999, icon: "🎧" },
+  "lg-ultragear":     { name: "UltraGear 27GP850-B",      brand: "LG",          price: 32499, icon: "🖥️" },
+  "keychron-q3":      { name: "Q3 Pro Wireless QMK",      brand: "Keychron",    price: 14999, icon: "⌨️" },
+  "logitech-super2":  { name: "G Pro X Superlight 2",     brand: "Logitech",    price: 13495, icon: "🖱️" },
+  "secretlab-titan":  { name: "TITAN Evo XL Series",      brand: "SecretLab",   price: 42999, icon: "🪑" },
+  "hyperx-quadcast":  { name: "QuadCast S USB Mic",       brand: "HyperX",      price: 11999, icon: "🎤" },
+  "facecam-pro":      { name: "Facecam Pro 4K",           brand: "Elgato",      price: 19999, icon: "📷" },
+  "razer-blackshark": { name: "BlackShark V2 Pro 2023",   brand: "Razer",       price: 17999, icon: "🎧" },
+  "hyperx-cloud3":    { name: "Cloud III Wireless",       brand: "HyperX",      price: 12999, icon: "🎧" },
+  "logitech-g935":    { name: "G935 Wireless 7.1",        brand: "Logitech",    price: 10499, icon: "🎧" },
+  "corsair-hs80":     { name: "HS80 RGB Wireless",        brand: "Corsair",     price: 9999,  icon: "🎧" },
+  "corsair-mat":      { name: "MM700 RGB Desk Mat",       brand: "Corsair",     price: 5499,  icon: "🟦" },
+  "fractal-case":     { name: "Define 7 PC Case",         brand: "Fractal",     price: 9999,  icon: "🖥️" },
+  "asus-rog-monk":    { name: "ROG Gladius III Wireless", brand: "ASUS",        price: 8999,  icon: "🖱️" },
+  "asus-27-monitor":  { name: "ROG Swift 27in QHD 165Hz", brand: "ASUS",       price: 38000, icon: "🖥️" }
+};
 
-function initPaymentMethods() {
-  var methods  = document.querySelectorAll(".payment-method");
-  var cardForm = document.querySelector(".card-form");
-
-  // Additional payment forms (UPI, Net Banking, COD) – we'll create them dynamically
-  var upiForm = document.getElementById("upi-form");
-  var codNote = document.getElementById("cod-note");
-
-  methods.forEach(function(label) {
-    label.addEventListener("click", function() {
-      // Remove active from all labels
-      methods.forEach(function(m) { m.classList.remove("active"); });
-      label.classList.add("active");
-
-      var radio = label.querySelector("input[type='radio']");
-      var value = radio ? radio.value : "";
-
-      // Show/hide the correct sub-form
-      if (cardForm) cardForm.style.display = (value === "card") ? "block" : "none";
-      if (upiForm)  upiForm.style.display  = (value === "upi")  ? "block" : "none";
-      if (codNote)  codNote.style.display  = (value === "cod")  ? "block" : "none";
-    });
-  });
-
-  // Assign values to radio inputs (so we can read them above)
-  var radios = document.querySelectorAll(".payment-method input[type='radio']");
-  var values = ["card", "upi", "netbanking", "cod"];
-  radios.forEach(function(r, i) {
-    r.value = values[i] || "card";
-  });
-}
-
-// ── 2. CARD NUMBER FORMATTING ────────────────────────────────────────────────
-// Converts "1234567890123456" → "1234 5678 9012 3456" as the user types
-
-function initCardFormatting() {
-  var cardInput = document.querySelector('input[placeholder="1234 5678 9012 3456"]');
-  if (!cardInput) return;
-
-  cardInput.addEventListener("input", function() {
-    // Remove all non-digits
-    var digits = cardInput.value.replace(/\D/g, "");
-    // Insert a space every 4 characters
-    var formatted = digits.match(/.{1,4}/g);
-    cardInput.value = formatted ? formatted.join(" ") : "";
-  });
-}
-
-// ── 3. EXPIRY DATE FORMATTING ─────────────────────────────────────────────────
-// Auto-inserts " / " after month is entered: "12" → "12 / "
-
-function initExpiryFormatting() {
-  var expiryInput = document.querySelector('input[placeholder="MM / YY"]');
-  if (!expiryInput) return;
-
-  expiryInput.addEventListener("input", function() {
-    var val = expiryInput.value.replace(/\D/g, ""); // digits only
-    if (val.length >= 2) {
-      // Insert separator after 2nd digit
-      val = val.slice(0, 2) + " / " + val.slice(2, 4);
-    }
-    expiryInput.value = val;
-  });
-}
-
-// ── 4. PLACE ORDER BUTTON → SUCCESS ──────────────────────────────────────────
-
-function initPlaceOrderButton() {
-  var btn = document.querySelector(".btn-place-order");
-  if (!btn) return;
-
-  btn.addEventListener("click", function() {
-    var cart = JSON.parse(localStorage.getItem("nexgear_cart") || "[]");
-    if (cart.length === 0) {
-      if (typeof showToast === "function") {
-        showToast("⚠️ Your cart is empty. Please add items to proceed!");
-      } else {
-        alert("Your cart is empty. Please add items to proceed!");
-      }
-      return;
-    }
-
-    var requiredInputs = document.querySelectorAll(".checkout-forms input");
-    var errorMsg = "";
-
-    for (var i = 0; i < requiredInputs.length; i++) {
-      var input = requiredInputs[i];
-      
-      // Skip optional fields
-      if (input.placeholder.includes("optional")) continue; 
-      
-      // Skip hidden payment forms
-      var paymentForm = input.closest(".payment-form");
-      if (paymentForm && paymentForm.style.display === "none") continue;
-
-      var val = input.value.trim();
-
-      // Basic empty check
-      if (val === "") {
-        // Find the label text if possible for a better error message
-        var label = input.closest(".form-group") ? input.closest(".form-group").querySelector(".form-label") : null;
-        var fieldName = label ? label.textContent : "all required fields";
-        errorMsg = "Please fill in " + fieldName + "!";
-        break;
-      }
-
-      // First Name / Last Name check
-      if (input.placeholder === "John" || input.placeholder === "Doe" || input.placeholder === "As printed on card") {
-        if (!/^[a-zA-Z\s\.\-]{2,}$/.test(val)) {
-          errorMsg = "Please enter a valid name (letters only, min 2 characters).";
-          break;
-        }
-      }
-
-      // Phone check
-      if (input.type === "tel") {
-        var digits = val.replace(/\D/g, "");
-        if (digits.length === 12 && digits.startsWith("91")) {
-            digits = digits.substring(2);
-        }
-        if (digits.length !== 10) {
-          errorMsg = "Phone number must be exactly 10 digits.";
-          break;
-        }
-      }
-
-      // Pincode check
-      if (input.placeholder === "400001") {
-        var digits = val.replace(/\D/g, "");
-        if (digits.length !== 6 || val.replace(/\s/g, "").length !== 6) {
-          errorMsg = "PIN code must be exactly 6 digits.";
-          break;
-        }
-      }
-
-      // Card number check
-      if (input.placeholder === "1234 5678 9012 3456") {
-        var cardDigits = val.replace(/\D/g, "");
-        if (cardDigits.length !== 15 && cardDigits.length !== 16) {
-          errorMsg = "Please enter a valid 15 or 16 digit card number.";
-          break;
-        }
-      }
-
-      // Expiry Date check
-      if (input.placeholder === "MM / YY") {
-        if (!/^\d{2}\s\/\s\d{2}$/.test(val)) {
-          errorMsg = "Please enter a valid expiry date (MM / YY).";
-          break;
-        }
-      }
-
-      // CVV check
-      if (input.placeholder === "•••") {
-        if (!/^\d{3,4}$/.test(val)) {
-          errorMsg = "CVV must be 3 or 4 digits.";
-          break;
-        }
-      }
-    }
-
-    if (errorMsg) {
-      if (typeof showToast === "function") {
-        showToast("⚠️ " + errorMsg);
-      } else {
-        alert(errorMsg);
-      }
-      return;
-    }
-
-    // Show success modal
-    showOrderSuccessModal();
-  });
-}
-
-function showOrderSuccessModal() {
-  // Generate a random order number
-  var orderNum = "NGR-2025-" + Math.floor(1000 + Math.random() * 9000);
-
-  // Create a full-screen overlay
-  var overlay = document.createElement("div");
-  overlay.id = "order-success-overlay";
-  overlay.style.cssText = [
-    "position: fixed",
-    "top: 0", "left: 0",
-    "width: 100%", "height: 100%",
-    "background: rgba(0,0,0,0.6)",
-    "display: flex",
-    "align-items: center",
-    "justify-content: center",
-    "z-index: 9999"
-  ].join(";");
-
-  overlay.innerHTML = [
-    '<div style="background:#fff; border-radius:20px; padding:48px 40px; max-width:440px; width:90%; text-align:center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">',
-    '  <div style="font-size:64px; margin-bottom:16px;">🎉</div>',
-    '  <h2 style="font-size:24px; font-weight:700; margin-bottom:8px; color:#1d1d1f;">Order Placed!</h2>',
-    '  <p style="color:#6e6e73; font-size:15px; margin-bottom:20px;">Your order has been confirmed and will be delivered in 3-5 business days.</p>',
-    '  <div style="background:#f5f5f7; border-radius:12px; padding:14px 20px; margin-bottom:28px; font-size:14px; color:#1d1d1f;">',
-    '    Order ID: <strong>' + orderNum + '</strong>',
-    '  </div>',
-    '  <a href="order-tracking.html" style="display:inline-block; background:#0071e3; color:#fff; padding:14px 32px; border-radius:32px; font-size:15px; font-weight:600; text-decoration:none; margin-right:12px;">Track Order</a>',
-    '  <a href="home.html" style="display:inline-block; background:#f5f5f7; color:#1d1d1f; padding:14px 32px; border-radius:32px; font-size:15px; font-weight:600; text-decoration:none;">Back to Home</a>',
-    '</div>'
-  ].join("");
-
-  document.body.appendChild(overlay);
-
-  // Clear the cart after placing an order
-  localStorage.removeItem("nexgear_cart");
-
-  // Close overlay when clicking outside the card
-  overlay.addEventListener("click", function(e) {
-    if (e.target === overlay) {
-      document.body.removeChild(overlay);
-    }
-  });
-}
-
-// ── 5. POPULATE ORDER SUMMARY FROM CART ──────────────────────────────────────
-
-function populateCheckoutSummary() {
-  // In a real app you'd read from localStorage cart here
+// Load cart items and fill order summary
+function loadCheckoutSummary() {
   var cart = JSON.parse(localStorage.getItem("nexgear_cart") || "[]");
-  var itemsContainer = document.querySelector(".checkout-items");
-  if (!itemsContainer) return;
+  var itemsBox = document.getElementById("checkout-items");
 
+  if (!itemsBox) return;
+
+  // If cart is empty
   if (cart.length === 0) {
-    itemsContainer.innerHTML = '<div style="text-align:center; padding: 30px 10px; color: #86868b; font-size: 15px;">Your cart is empty. <br/><a href="products.html" style="color: #0071e3; text-decoration: none; display: inline-block; margin-top: 10px;">Browse Products</a></div>';
-    
-    // Update summary totals to zero
-    var summaryRows = document.querySelectorAll(".checkout-summary .summary-row span:last-child");
-    if (summaryRows[0]) summaryRows[0].textContent = "₹0";
-    if (summaryRows[1]) summaryRows[1].textContent = "FREE";
-    if (summaryRows[2]) summaryRows[2].textContent = "₹0";
-    if (summaryRows[3]) summaryRows[3].textContent = "₹0";
-
-    var sumTotal = document.querySelector(".checkout-summary .summary-total span:last-child");
-    if (sumTotal) sumTotal.textContent = "₹0";
-
-    var checkoutBtn = document.querySelector(".btn-place-order");
-    if (checkoutBtn) {
-      checkoutBtn.textContent = "Your Cart is Empty";
-      checkoutBtn.style.opacity = "0.5";
-      checkoutBtn.style.cursor = "not-allowed";
-    }
+    itemsBox.innerHTML = '<p style="font-size:13px; color:#888; padding:10px 0;">Cart is empty. <a href="products.html" style="color:#0071e3;">Add items</a></p>';
     return;
   }
 
-  var PRODUCTS = {
-    "arctis-nova-pro": { name: "Arctis Nova Pro Wireless", brand: "SteelSeries", price: 24999, icon: "🎧" },
-    "lg-ultragear":    { name: "UltraGear 27GP850-B",      brand: "LG",          price: 32499, icon: "🖥️" },
-    "keychron-q3":     { name: "Q3 Pro Wireless QMK",      brand: "Keychron",    price: 14999, icon: "⌨️" },
-    "logitech-super2": { name: "G Pro X Superlight 2",     brand: "Logitech",    price: 13495, icon: "🖱️" },
-    "secretlab-titan": { name: "TITAN Evo XL Series",      brand: "SecretLab",   price: 42999, icon: "🪑" },
-    "hyperx-quadcast": { name: "QuadCast S USB Mic",       brand: "HyperX",      price: 11999, icon: "🎤" }
-  };
+  var html = "";
   var subtotal = 0;
-  var html = cart.map(item => {
-    var p = PRODUCTS[item.id];
-    if (!p) return "";
-    var line = p.price * item.qty;
-    subtotal += line;
-    return `
-      <div class="checkout-item">
-        <div class="checkout-item-img">${p.icon}</div>
-        <div class="checkout-item-info">
-          <div class="checkout-item-name">${p.name}</div>
-          <div class="checkout-item-brand">${p.brand} · Qty: ${item.qty}</div>
-        </div>
-        <div class="checkout-item-price">₹${line.toLocaleString("en-IN")}</div>
-      </div>`;
-  }).join("");
 
-  itemsContainer.innerHTML = html;
+  for (var i = 0; i < cart.length; i++) {
+    var item = cart[i];
+    var p = CHECKOUT_PRODUCTS[item.id];
+    if (!p) continue;
 
-  // Recalculate totals
+    var lineTotal = p.price * item.qty;
+    subtotal += lineTotal;
+
+    html += '<div class="co-item">' +
+      '<div class="co-item-icon">' + p.icon + '</div>' +
+      '<div class="co-item-name">' + p.name + '<br><span style="font-weight:400; color:#6e6e73;">Qty: ' + item.qty + '</span></div>' +
+      '<div class="co-item-price">₹' + lineTotal.toLocaleString("en-IN") + '</div>' +
+    '</div>';
+  }
+
+  itemsBox.innerHTML = html;
+
+  // Calculate totals
   var discount = Math.floor(subtotal * 0.05);
   var gst      = Math.floor((subtotal - discount) * 0.18);
   var total    = subtotal - discount + gst;
 
-  var rows = document.querySelectorAll(".checkout-summary .summary-row span:last-child");
-  if (rows[0]) rows[0].textContent = "₹" + subtotal.toLocaleString("en-IN");
-  if (rows[1]) rows[1].textContent = "FREE";
-  if (rows[2]) rows[2].textContent = "−₹" + discount.toLocaleString("en-IN");
-  if (rows[3]) rows[3].textContent = "₹" + gst.toLocaleString("en-IN");
+  // Update totals in DOM
+  var el = function(id) { return document.getElementById(id); };
+  if (el("co-subtotal")) el("co-subtotal").textContent = "₹" + subtotal.toLocaleString("en-IN");
+  if (el("co-discount")) el("co-discount").textContent = "-₹" + discount.toLocaleString("en-IN");
+  if (el("co-gst"))      el("co-gst").textContent      = "₹" + gst.toLocaleString("en-IN");
+  if (el("co-total"))    el("co-total").textContent     = "₹" + total.toLocaleString("en-IN");
 
-  var totalEl = document.querySelector(".checkout-summary .summary-total span:last-child");
-  if (totalEl) totalEl.textContent = "₹" + total.toLocaleString("en-IN");
-
-  var placeBtn = document.querySelector(".btn-place-order");
-  if (placeBtn) placeBtn.textContent = "Place Order & Pay ₹" + total.toLocaleString("en-IN");
+  var btn = document.getElementById("placeOrderBtn");
+  if (btn) btn.textContent = "Place Order & Pay ₹" + total.toLocaleString("en-IN");
 }
 
-// ── 6. INIT ───────────────────────────────────────────────────────────────────
+// Show/hide payment sub-forms based on selection
+function setupPaymentToggle() {
+  var radioButtons = document.querySelectorAll('input[name="payment"]');
+  var cardFields   = document.getElementById("card-fields");
+  var upiFields    = document.getElementById("upi-fields");
+  var codNote      = document.getElementById("cod-note");
 
+  for (var i = 0; i < radioButtons.length; i++) {
+    radioButtons[i].addEventListener("change", function() {
+      // Hide all first
+      if (cardFields) cardFields.style.display = "none";
+      if (upiFields)  upiFields.style.display  = "none";
+      if (codNote)    codNote.style.display    = "none";
+
+      // Show the right one
+      if (this.value === "card" && cardFields)  cardFields.style.display  = "block";
+      if (this.value === "upi"  && upiFields)   upiFields.style.display   = "block";
+      if (this.value === "cod"  && codNote)     codNote.style.display     = "block";
+    });
+  }
+}
+
+// Basic validation and show success message
+function setupPlaceOrder() {
+  var btn = document.getElementById("placeOrderBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", function() {
+    var cart = JSON.parse(localStorage.getItem("nexgear_cart") || "[]");
+
+    // Check cart is not empty
+    if (cart.length === 0) {
+      showToast("Your cart is empty. Please add items first.");
+      return;
+    }
+
+    // Check delivery form fields
+    var fname   = document.getElementById("fname");
+    var lname   = document.getElementById("lname");
+    var phone   = document.getElementById("phone");
+    var addr1   = document.getElementById("addr1");
+    var city    = document.getElementById("city");
+    var pincode = document.getElementById("pincode");
+
+    if (!fname.value.trim()) { showToast("Please enter your first name."); return; }
+    if (!lname.value.trim()) { showToast("Please enter your last name."); return; }
+    if (!phone.value.trim()) { showToast("Please enter your phone number."); return; }
+    if (!addr1.value.trim()) { showToast("Please enter your address."); return; }
+    if (!city.value.trim())  { showToast("Please enter your city."); return; }
+    if (!pincode.value.trim() || pincode.value.trim().length !== 6) {
+      showToast("Please enter a valid 6-digit PIN code.");
+      return;
+    }
+
+    // Check selected payment
+    var selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+    if (selectedPayment === "card") {
+      var cardnum  = document.getElementById("cardnum");
+      var cardname = document.getElementById("cardname");
+      var expiry   = document.getElementById("expiry");
+      var cvv      = document.getElementById("cvv");
+      if (!cardnum.value.trim())  { showToast("Please enter your card number."); return; }
+      if (!cardname.value.trim()) { showToast("Please enter cardholder name."); return; }
+      if (!expiry.value.trim())   { showToast("Please enter expiry date."); return; }
+      if (!cvv.value.trim())      { showToast("Please enter CVV."); return; }
+    }
+
+    // All ok — show success
+    var orderNum = "NGR-2025-" + Math.floor(1000 + Math.random() * 9000);
+
+    var overlay = document.createElement("div");
+    overlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; z-index:9999;";
+
+    overlay.innerHTML =
+      '<div style="background:#fff; border-radius:16px; padding:40px; max-width:400px; width:90%; text-align:center;">' +
+        '<div style="font-size:60px; margin-bottom:16px;">🎉</div>' +
+        '<h2 style="font-size:22px; font-weight:700; margin-bottom:10px;">Order Placed!</h2>' +
+        '<p style="color:#6e6e73; font-size:14px; margin-bottom:20px;">Your order will arrive in 3-5 business days.</p>' +
+        '<div style="background:#f5f5f7; border-radius:8px; padding:12px; margin-bottom:24px; font-size:14px;">' +
+          'Order ID: <strong>' + orderNum + '</strong>' +
+        '</div>' +
+        '<a href="order-tracking.html" style="background:#0071e3; color:#fff; padding:12px 24px; border-radius:24px; font-size:14px; font-weight:600; text-decoration:none; margin-right:10px;">Track Order</a>' +
+        '<a href="home.html" style="background:#f0f0f0; color:#333; padding:12px 24px; border-radius:24px; font-size:14px; font-weight:600; text-decoration:none;">Back to Home</a>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+
+    // Clear the cart
+    localStorage.removeItem("nexgear_cart");
+  });
+}
+
+// Run everything when page loads
 document.addEventListener("DOMContentLoaded", function() {
-  initPaymentMethods();
-  initCardFormatting();
-  initExpiryFormatting();
-  initPlaceOrderButton();
-  populateCheckoutSummary();
+  loadCheckoutSummary();
+  setupPaymentToggle();
+  setupPlaceOrder();
 });
