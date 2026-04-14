@@ -42,24 +42,9 @@
       <a href="#categories" class="btn-hero-outline">Browse Categories</a>
     </div>
 
-    <!-- Simple Stats -->
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">500+</div>
-        <div class="stat-lbl">Products</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">40+</div>
-        <div class="stat-lbl">Brands</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">10K+</div>
-        <div class="stat-lbl">Customers</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">4.8★</div>
-        <div class="stat-lbl">Rating</div>
-      </div>
+    <!-- Stats loaded from backend -->
+    <div class="hero-stats" id="hero-stats" style="display:none;">
+      <!-- filled by backend -->
     </div>
   </section>
 
@@ -100,42 +85,34 @@
         <a href="products.html" class="category-card">
           <div class="cat-icon">🖥️</div>
           <div class="cat-name">Monitors</div>
-          <div class="cat-count">48 Products</div>
         </a>
         <a href="products.html" class="category-card">
           <div class="cat-icon">🎧</div>
           <div class="cat-name">Headphones</div>
-          <div class="cat-count">62 Products</div>
         </a>
         <a href="products.html" class="category-card">
           <div class="cat-icon">⌨️</div>
           <div class="cat-name">Keyboards</div>
-          <div class="cat-count">74 Products</div>
         </a>
         <a href="products.html" class="category-card">
           <div class="cat-icon">🖱️</div>
           <div class="cat-name">Mouse</div>
-          <div class="cat-count">55 Products</div>
         </a>
         <a href="products.html" class="category-card">
           <div class="cat-icon">🪑</div>
           <div class="cat-name">Gaming Chairs</div>
-          <div class="cat-count">29 Products</div>
         </a>
         <a href="products.html" class="category-card">
           <div class="cat-icon">🎤</div>
           <div class="cat-name">Microphones</div>
-          <div class="cat-count">18 Products</div>
         </a>
         <a href="products.html" class="category-card">
           <div class="cat-icon">📷</div>
           <div class="cat-name">Webcams</div>
-          <div class="cat-count">22 Products</div>
         </a>
         <a href="products.html" class="category-card">
           <div class="cat-icon">🖥️</div>
           <div class="cat-name">PC Cabinets</div>
-          <div class="cat-count">38 Products</div>
         </a>
       </div>
     </div>
@@ -147,121 +124,12 @@
       <h2 class="section-title">Featured Products</h2>
       <p class="section-sub">Top picks this month.</p>
 
-      <div class="product-grid">
-
-        <!-- Product 1 -->
-        <div class="product-card">
-          <span class="product-badge new">New</span>
-          <div class="product-image">🎧</div>
-          <div class="product-info">
-            <div class="product-brand">SteelSeries</div>
-            <div class="product-name">Arctis Nova Pro Wireless</div>
-            <div class="product-specs">Hi-Fi Audio · 22hr Battery · ANC</div>
-            <div class="stars">★★★★★</div>
-            <div class="product-footer">
-              <div>
-                <span class="price-current">₹24,999</span>
-                <span class="price-original">₹28,999</span>
-              </div>
-              <button class="btn-add-cart" data-id="arctis-nova-pro">+ Cart</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="product-card">
-          <span class="product-badge sale">Sale</span>
-          <div class="product-image">🖥️</div>
-          <div class="product-info">
-            <div class="product-brand">LG</div>
-            <div class="product-name">UltraGear 27GP850-B</div>
-            <div class="product-specs">27" QHD · 165Hz · Nano IPS · 1ms</div>
-            <div class="stars">★★★★★</div>
-            <div class="product-footer">
-              <div>
-                <span class="price-current">₹32,499</span>
-                <span class="price-original">₹38,000</span>
-              </div>
-              <button class="btn-add-cart" data-id="lg-ultragear">+ Cart</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="product-card">
-          <div class="product-image">⌨️</div>
-          <div class="product-info">
-            <div class="product-brand">Keychron</div>
-            <div class="product-name">Q3 Pro Wireless QMK</div>
-            <div class="product-specs">75% Layout · Gateron G Pro · Hot-swap</div>
-            <div class="stars">★★★★★</div>
-            <div class="product-footer">
-              <div>
-                <span class="price-current">₹14,999</span>
-              </div>
-              <button class="btn-add-cart" data-id="keychron-q3">+ Cart</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-card">
-          <span class="product-badge">Popular</span>
-          <div class="product-image">🖱️</div>
-          <div class="product-info">
-            <div class="product-brand">Logitech</div>
-            <div class="product-name">G Pro X Superlight 2</div>
-            <div class="product-specs">60g Ultra-light · HERO 25K · 95hr Battery</div>
-            <div class="stars">★★★★★</div>
-            <div class="product-footer">
-              <div>
-                <span class="price-current">₹13,495</span>
-                <span class="price-original">₹15,999</span>
-              </div>
-              <button class="btn-add-cart" data-id="logitech-super2">+ Cart</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 5 -->
-        <div class="product-card">
-          <div class="product-image">🪑</div>
-          <div class="product-info">
-            <div class="product-brand">SecretLab</div>
-            <div class="product-name">TITAN Evo XL Series</div>
-            <div class="product-specs">SoftWeave Fabric · 4D Armrests · Lumbar</div>
-            <div class="stars">★★★★★</div>
-            <div class="product-footer">
-              <div>
-                <span class="price-current">₹42,999</span>
-                <span class="price-original">₹48,000</span>
-              </div>
-              <button class="btn-add-cart" data-id="secretlab-titan">+ Cart</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 6 -->
-        <div class="product-card">
-          <span class="product-badge new">New</span>
-          <div class="product-image">🎤</div>
-          <div class="product-info">
-            <div class="product-brand">HyperX</div>
-            <div class="product-name">QuadCast S USB Mic</div>
-            <div class="product-specs">Multi-Pattern · RGB · Anti-Vibration</div>
-            <div class="stars">★★★★★</div>
-            <div class="product-footer">
-              <div>
-                <span class="price-current">₹11,999</span>
-              </div>
-              <button class="btn-add-cart" data-id="hyperx-quadcast">+ Cart</button>
-            </div>
-          </div>
-        </div>
-
+      <!-- Products will be loaded from backend here -->
+      <div style="text-align:center; padding:40px 20px; color:#6e6e73; border:1px dashed #ddd; border-radius:12px;">
+        <p style="font-size:14px;">Products will appear here once backend is connected.</p>
       </div>
 
-      <div style="text-align: center; margin-top: 30px;">
+      <div style="text-align: center; margin-top: 24px;">
         <a href="products.html" class="btn-primary" style="padding: 10px 28px; border-radius: 24px; font-size: 14px;">View All Products →</a>
       </div>
     </div>

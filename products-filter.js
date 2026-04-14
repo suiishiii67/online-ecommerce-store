@@ -20,7 +20,13 @@ function buildProductCard(product) {
       '<div class="stars">★★★★★</div>' +
       '<div class="product-footer">' +
         '<div><span class="price-current">₹' + parseInt(product.price).toLocaleString("en-IN") + '</span></div>' +
-        '<button class="btn-add-cart" data-id="' + product.id + '">+ Cart</button>' +
+        '<button class="btn-add-cart"' +
+          ' data-id="'    + product.id       + '"' +
+          ' data-name="'  + product.name     + '"' +
+          ' data-brand="' + product.brand    + '"' +
+          ' data-price="' + product.price    + '"' +
+          ' data-icon="'  + (product.icon || "📦") + '"' +
+        '>+ Cart</button>' +
       '</div>' +
     '</div>' +
   '</div>';
