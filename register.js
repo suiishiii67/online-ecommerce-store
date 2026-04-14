@@ -1,9 +1,7 @@
-// client-side validation before form submits to register.php
-
 document.getElementById("register-form").addEventListener("submit", function(e) {
-  var name     = document.getElementById("reg-name").value.trim();
-  var email    = document.getElementById("reg-email").value.trim();
-  var phone    = document.getElementById("reg-phone").value.trim();
+  var name = document.getElementById("reg-name").value.trim();
+  var email = document.getElementById("reg-email").value.trim();
+  var phone = document.getElementById("reg-phone").value.trim();
   var password = document.getElementById("reg-password").value.trim();
 
   if (name === "") {

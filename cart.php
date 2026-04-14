@@ -1,5 +1,4 @@
 <?php
-// Start the session so we can check if user is logged in
 session_start();
 ?>
 <!DOCTYPE html>
@@ -13,7 +12,7 @@ session_start();
 </head>
 <body>
 
-  <!-- Navbar -->
+
   <nav class="navbar">
     <div class="nav-container">
       <a href="home.php" class="nav-logo">
@@ -39,7 +38,7 @@ session_start();
 
   <div class="page-wrapper">
 
-    <!-- Breadcrumb -->
+
     <div class="breadcrumb">
       <a href="home.php">Home</a> <span>/</span>
       <a href="products.php">Products</a> <span>/</span> My Cart
@@ -49,12 +48,12 @@ session_start();
 
     <div class="cart-layout">
 
-      <!-- Cart Items -->
+
       <div id="cart-items-wrap">
-        <!-- Items will be added here by cart.js -->
+
       </div>
 
-      <!-- Order Summary -->
+
       <aside class="cart-summary">
         <h2 style="font-size:18px; font-weight:700; margin-bottom:16px;">Order Summary</h2>
         <div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">₹0</span></div>
@@ -71,15 +70,15 @@ session_start();
     </div>
   </div>
 
-  <!-- Footer -->
+
   <footer>
     <p>© 2025 NexGear. All rights reserved.</p>
   </footer>
 
-  <!-- Toast -->
+
   <div id="toast-msg"></div>
 
-  <!-- JS Files -->
+
   <script src="cart.js"></script>
   <script src="ui.js"></script>
 

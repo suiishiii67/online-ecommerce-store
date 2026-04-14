@@ -1,5 +1,4 @@
 <?php
-// Start the session so we can check if user is logged in
 session_start();
 ?>
 <!DOCTYPE html>
@@ -13,7 +12,7 @@ session_start();
 </head>
 <body>
 
-  <!-- Navbar -->
+
   <nav class="navbar">
     <div class="nav-container">
       <a href="home.php" class="nav-logo">
@@ -44,10 +43,10 @@ session_start();
 
     <div class="checkout-layout">
 
-      <!-- LEFT: Form -->
+
       <div class="checkout-forms">
 
-        <!-- Delivery -->
+
         <div class="checkout-card">
           <h2 class="checkout-card-title">Step 1 — Delivery Address</h2>
 
@@ -102,7 +101,7 @@ session_start();
           </div>
         </div>
 
-        <!-- Payment -->
+
         <div class="checkout-card">
           <h2 class="checkout-card-title">Step 2 — Payment Method</h2>
 
@@ -118,7 +117,7 @@ session_start();
             </label>
           </div>
 
-          <!-- Card Fields (shown by default) -->
+
           <div id="card-fields" style="margin-top: 16px;">
             <div class="form-group">
               <label class="form-label">Card Number</label>
@@ -140,7 +139,7 @@ session_start();
             </div>
           </div>
 
-          <!-- UPI Field -->
+
           <div id="upi-fields" style="margin-top:16px; display:none;">
             <div class="form-group">
               <label class="form-label">UPI ID</label>
@@ -148,7 +147,7 @@ session_start();
             </div>
           </div>
 
-          <!-- COD Note -->
+
           <div id="cod-note" style="margin-top:16px; display:none; background:#f5f5f7; padding:12px; border-radius:8px; font-size:13px; color:#555;">
             You will pay cash at the time of delivery.
           </div>
@@ -156,12 +155,12 @@ session_start();
 
       </div>
 
-      <!-- RIGHT: Order Summary -->
+
       <aside class="checkout-summary">
         <h2 style="font-size:18px; font-weight:700; margin-bottom:16px;">Order Summary</h2>
 
         <div id="checkout-items">
-          <!-- filled by checkout.js -->
+
         </div>
 
         <div class="summary-row"><span>Subtotal</span><span id="co-subtotal">₹0</span></div>
@@ -180,15 +179,15 @@ session_start();
     </div>
   </div>
 
-  <!-- Footer -->
+
   <footer>
     <p>© 2025 NexGear. All rights reserved.</p>
   </footer>
 
-  <!-- Toast -->
+
   <div id="toast-msg"></div>
 
-  <!-- JS Files -->
+
   <script src="cart.js"></script>
   <script src="checkout.js"></script>
   <script src="ui.js"></script>

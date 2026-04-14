@@ -1,19 +1,13 @@
 <?php
 session_start();
 
-/* === DATABASE CONNECTION START === */
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
-/* === DATABASE CONNECTION END === */
 
-/* === FETCHING FEATURED PRODUCTS FROM DATABASE START === */
 $featured_result = pg_query($conn, "SELECT * FROM products ORDER BY id DESC LIMIT 4");
 $featured = [];
 while ($row = pg_fetch_assoc($featured_result)) {
     $featured[] = $row;
 }
-/* === FETCHING FEATURED PRODUCTS FROM DATABASE END === */
-
-/* === DATABASE CONNECTION CLOSE === */
 pg_close($conn);
 ?>
 <!DOCTYPE html>
@@ -27,7 +21,7 @@ pg_close($conn);
 </head>
 <body>
 
-  <!-- Navbar -->
+
   <nav class="navbar">
     <div class="nav-container">
       <a href="home.php" class="nav-logo">
@@ -51,7 +45,7 @@ pg_close($conn);
     </div>
   </nav>
 
-  <!-- Hero Section -->
+
   <section class="hero-section">
     <h1>Level Up Your PC Setup</h1>
     <p>Premium gaming accessories — keyboards, headsets, monitors and more.</p>
@@ -60,13 +54,13 @@ pg_close($conn);
       <a href="#categories" class="btn-hero-outline">Browse Categories</a>
     </div>
 
-    <!-- Stats loaded from backend -->
+
     <div class="hero-stats" id="hero-stats" style="display:none;">
-      <!-- filled by backend -->
+
     </div>
   </section>
 
-  <!-- Features Bar -->
+
   <section class="features-bar">
     <div class="container">
       <div class="features-grid">
@@ -94,7 +88,7 @@ pg_close($conn);
     </div>
   </section>
 
-  <!-- Categories -->
+
   <section class="section" id="categories" style="background: #f8f8f8;">
     <div class="container">
       <h2 class="section-title">Shop by Category</h2>
@@ -136,13 +130,13 @@ pg_close($conn);
     </div>
   </section>
 
-  <!-- Featured Products -->
+
   <section class="section">
     <div class="container">
       <h2 class="section-title">Featured Products</h2>
       <p class="section-sub">Top picks this month.</p>
 
-      <!-- === FEATURED PRODUCTS FROM DATABASE START === -->
+
       <?php if (count($featured) > 0) { ?>
       <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:20px;">
         <?php foreach ($featured as $fp) {
@@ -161,7 +155,7 @@ pg_close($conn);
         <p style="font-size:14px;">No products available yet. Add products via Admin Panel.</p>
       </div>
       <?php } ?>
-      <!-- === FEATURED PRODUCTS FROM DATABASE END === -->
+
 
       <div style="text-align: center; margin-top: 24px;">
         <a href="products.php" class="btn-primary" style="padding: 10px 28px; border-radius: 24px; font-size: 14px;">View All Products →</a>
@@ -169,7 +163,7 @@ pg_close($conn);
     </div>
   </section>
 
-  <!-- Footer -->
+
   <footer>
     <p>© 2025 NexGear. All rights reserved.</p>
     <div style="margin-top: 8px;">
@@ -180,10 +174,10 @@ pg_close($conn);
     </div>
   </footer>
 
-  <!-- Toast -->
+
   <div id="toast-msg"></div>
 
-  <!-- JS Files -->
+
   <script src="cart.js"></script>
   <script src="ui.js"></script>
 

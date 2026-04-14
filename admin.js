@@ -1,32 +1,27 @@
 var products = [];
 
-/* === FETCHING PRODUCTS FROM DATABASE START === */
 function loadProducts() {
   fetch('admin.php?action=list')
-    .then(function(response) { return response.json(); })
+    .then(function(res) { return res.json(); })
     .then(function(data) {
       products = data;
       renderTable(document.getElementById('searchInput').value);
     });
 }
-/* === FETCHING PRODUCTS FROM DATABASE END === */
 
 function getStatus(stock) {
   stock = parseInt(stock);
   if (stock === 0) return { label: "Out of Stock", cls: "status-out" };
   if (stock < 10)  return { label: "Low Stock",    cls: "status-low" };
-  return                  { label: "In Stock",     cls: "status-in"  };
+  return               { label: "In Stock",     cls: "status-in"  };
 }
 
 function updateStats() {
-  var totalVal = 0;
-  var lowCount = 0;
-
+  var totalVal = 0, lowCount = 0;
   for (var i = 0; i < products.length; i++) {
     totalVal += parseFloat(products[i].price) * parseInt(products[i].stock);
     if (parseInt(products[i].stock) < 10) lowCount++;
   }
-
   document.getElementById("totalProducts").textContent = products.length;
   document.getElementById("totalValue").textContent    = "₹" + totalVal.toLocaleString("en-IN");
   document.getElementById("lowStock").textContent      = lowCount;
@@ -41,12 +36,12 @@ function renderTable(searchText) {
 
   for (var i = 0; i < products.length; i++) {
     var p = products[i];
-    var combined = (p.name + " " + p.description + " " + p.category).toLowerCase();
-    if (combined.indexOf(searchText) !== -1) filtered.push(p);
+    var text = (p.name + " " + p.description + " " + p.category).toLowerCase();
+    if (text.indexOf(searchText) !== -1) filtered.push(p);
   }
 
   if (filtered.length === 0) {
-    tbody.innerHTML        = "";
+    tbody.innerHTML = "";
     emptyMsg.style.display = "block";
     updateStats();
     return;
@@ -56,21 +51,18 @@ function renderTable(searchText) {
   var html = "";
 
   for (var i = 0; i < filtered.length; i++) {
-    var p      = filtered[i];
-    var status = getStatus(p.stock);
-    html +=
-      "<tr>" +
-        "<td><strong>" + p.name + "</strong></td>" +
-        "<td>" + (p.description || "") + "</td>" +
-        "<td>" + p.category + "</td>" +
-        "<td>₹" + parseFloat(p.price).toLocaleString("en-IN") + "</td>" +
-        "<td>" + p.stock + "</td>" +
-        "<td><span class='status-badge " + status.cls + "'>" + status.label + "</span></td>" +
-        "<td>" +
-          "<button class='btn-edit' onclick='openEdit(" + p.id + ")'>Edit</button>" +
-          "<button class='btn-delete' onclick='deleteProduct(" + p.id + ")'>Delete</button>" +
-        "</td>" +
-      "</tr>";
+    var p = filtered[i];
+    var s = getStatus(p.stock);
+    html += "<tr>";
+    html += "<td><strong>" + p.name + "</strong></td>";
+    html += "<td>" + (p.description || "") + "</td>";
+    html += "<td>" + p.category + "</td>";
+    html += "<td>₹" + parseFloat(p.price).toLocaleString("en-IN") + "</td>";
+    html += "<td>" + p.stock + "</td>";
+    html += "<td><span class='status-badge " + s.cls + "'>" + s.label + "</span></td>";
+    html += "<td><button class='btn-edit' onclick='openEdit(" + p.id + ")'>Edit</button> ";
+    html += "<button class='btn-delete' onclick='deleteProduct(" + p.id + ")'>Delete</button></td>";
+    html += "</tr>";
   }
 
   tbody.innerHTML = html;
@@ -92,11 +84,9 @@ function openEdit(productId) {
   document.getElementById("prodPrice").value        = product.price;
   document.getElementById("prodStock").value        = product.stock;
   document.getElementById("prodImage").value        = product.image_url || "";
-
   document.getElementById("productModal").style.display = "flex";
 }
 
-/* === DELETE PRODUCT FROM DATABASE START === */
 function deleteProduct(productId) {
   if (!confirm("Delete this product?")) return;
 
@@ -105,16 +95,12 @@ function deleteProduct(productId) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id: productId })
   })
-  .then(function(response) { return response.json(); })
+  .then(function(res) { return res.json(); })
   .then(function(result) {
-    if (result.success) {
-      loadProducts();
-    } else {
-      alert("Failed to delete product.");
-    }
+    if (result.success) loadProducts();
+    else alert("Failed to delete product.");
   });
 }
-/* === DELETE PRODUCT FROM DATABASE END === */
 
 document.getElementById("addBtn").addEventListener("click", function() {
   document.getElementById("modalTitle").textContent = "Add Product";
@@ -131,18 +117,13 @@ document.getElementById("productModal").addEventListener("click", function(e) {
   if (e.target === this) this.style.display = "none";
 });
 
-/* === SAVING PRODUCT TO DATABASE START === */
 document.getElementById("productForm").addEventListener("submit", function(e) {
   e.preventDefault();
-
-  // Prevent double submission
   var saveBtn = this.querySelector('button[type="submit"]');
   if (saveBtn.disabled) return;
   saveBtn.disabled = true;
 
   var existingId = document.getElementById("prodId").value;
-  var action     = existingId ? "update" : "add";
-
   var data = {
     name:        document.getElementById("prodName").value.trim(),
     description: document.getElementById("prodDesc").value.trim(),
@@ -151,35 +132,27 @@ document.getElementById("productForm").addEventListener("submit", function(e) {
     stock:       parseInt(document.getElementById("prodStock").value),
     image_url:   document.getElementById("prodImage").value.trim()
   };
-
   if (existingId) data.id = existingId;
 
-  fetch('admin.php?action=' + action, {
+  fetch('admin.php?action=' + (existingId ? "update" : "add"), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-  .then(function(response) { return response.json(); })
+  .then(function(res) { return res.json(); })
   .then(function(result) {
     saveBtn.disabled = false;
-    if (result.success) {
-      document.getElementById("productModal").style.display = "none";
-      loadProducts();
-    } else {
-      alert("Failed to save product.");
-    }
+    if (result.success) { document.getElementById("productModal").style.display = "none"; loadProducts(); }
+    else alert("Failed to save product.");
   })
   .catch(function() {
     saveBtn.disabled = false;
     alert("Error connecting to server.");
   });
 });
-/* === SAVING PRODUCT TO DATABASE END === */
 
 document.getElementById("searchInput").addEventListener("input", function() {
   renderTable(this.value);
 });
 
-/* === INITIAL LOAD FROM DATABASE START === */
 loadProducts();
-/* === INITIAL LOAD FROM DATABASE END === */

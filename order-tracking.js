@@ -1,7 +1,7 @@
 document.getElementById("trackBtn").addEventListener("click", function() {
-  var input     = document.getElementById("trackInput");
+  var input = document.getElementById("trackInput");
   var resultDiv = document.getElementById("track-result");
-  var orderId   = input.value.trim().toUpperCase();
+  var orderId = input.value.trim().toUpperCase();
 
   if (orderId === "") {
     resultDiv.textContent = "Please enter an order ID.";

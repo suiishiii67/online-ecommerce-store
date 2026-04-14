@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="contact-layout">
 
-      <!-- Contact Form -->
+
       <div class="contact-form-box">
         <h2 style="font-size:18px; font-weight:700; margin-bottom:20px;">Send a Message</h2>
 
@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
       </div>
 
-      <!-- Contact Info -->
+
       <div class="contact-info">
         <div class="info-card">
           <div class="info-icon">Address</div>

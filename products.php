@@ -1,11 +1,8 @@
 <?php
 session_start();
 
-/* === DATABASE CONNECTION START === */
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
-/* === DATABASE CONNECTION END === */
 
-/* === FETCHING PRODUCTS FROM DATABASE START === */
 $result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
 $products_for_js = [];
 
@@ -20,9 +17,6 @@ while ($row = pg_fetch_assoc($result)) {
         'stock'    => intval($row['stock'])
     ];
 }
-/* === FETCHING PRODUCTS FROM DATABASE END === */
-
-/* === DATABASE CONNECTION CLOSE === */
 pg_close($conn);
 ?>
 <!DOCTYPE html>
@@ -36,7 +30,7 @@ pg_close($conn);
 </head>
 <body>
 
-  <!-- Navbar -->
+
   <nav class="navbar">
     <div class="nav-container">
       <a href="home.php" class="nav-logo">
@@ -62,14 +56,14 @@ pg_close($conn);
 
   <div class="page-wrapper">
 
-    <!-- Breadcrumb -->
+
     <div class="breadcrumb">
       <a href="home.php">Home</a> <span>/</span> All Products
     </div>
 
     <div class="products-layout">
 
-      <!-- Sidebar Filters -->
+
       <aside class="sidebar">
 
         <div class="filter-block">
@@ -100,7 +94,7 @@ pg_close($conn);
 
       </aside>
 
-      <!-- Product Listing -->
+
       <div class="listing-area">
         <div class="listing-header">
           <h1 id="listing-title" style="font-size:20px; font-weight:700;">All Products</h1>
@@ -108,10 +102,10 @@ pg_close($conn);
         </div>
 
         <div class="product-grid" id="products-container">
-          <!-- Products inserted by JS -->
+
         </div>
 
-        <!-- Pagination buttons inserted by products-filter.js -->
+
         <div id="pagination-controls" style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:28px; margin-bottom:10px;"></div>
 
       </div>
@@ -129,11 +123,11 @@ pg_close($conn);
 
   <script src="cart.js"></script>
 
-  <!-- === LOADING PRODUCTS FROM DATABASE INTO JAVASCRIPT START === -->
+
   <script>
     var allProducts = <?php echo json_encode($products_for_js); ?>;
   </script>
-  <!-- === LOADING PRODUCTS FROM DATABASE INTO JAVASCRIPT END === -->
+
 
   <script src="products-filter.js"></script>
   <script src="ui.js"></script>

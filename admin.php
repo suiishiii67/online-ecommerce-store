@@ -1,19 +1,13 @@
 <?php
-// Start the session so we can check if user is logged in
 session_start();
 
-/* === DATABASE CONNECTION START === */
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
-/* === DATABASE CONNECTION END === */
 
-/* === CRUD OPERATIONS START === */
-// If an action parameter is passed, handle the API request and exit
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
 if ($action != '') {
     header('Content-Type: application/json');
 
-    // READ - Get all products from the database
     if ($action == 'list') {
         $result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
         $products = [];
@@ -23,7 +17,6 @@ if ($action != '') {
         echo json_encode($products);
     }
 
-    // CREATE - Add a new product to the database (POST only)
     elseif ($action == 'add' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -34,7 +27,6 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
-    // UPDATE - Edit an existing product in the database (POST only)
     elseif ($action == 'update' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -45,7 +37,6 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
-    // DELETE - Remove a product from the database (POST only)
     elseif ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -53,13 +44,10 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
-    /* === DATABASE CONNECTION CLOSE === */
     pg_close($conn);
-    exit; // Stop here - don't render the HTML page
+    exit;
 }
-/* === CRUD OPERATIONS END === */
 
-/* === DATABASE CONNECTION CLOSE === */
 pg_close($conn);
 ?>
 <!DOCTYPE html>
@@ -73,7 +61,6 @@ pg_close($conn);
 </head>
 <body>
 
-  <!-- Admin Navbar -->
   <nav class="admin-navbar">
     <div class="admin-nav-inner">
       <div class="admin-brand">NexGear Admin</div>
@@ -94,7 +81,6 @@ pg_close($conn);
       </div>
     </div>
 
-    <!-- Stats Row -->
     <div class="admin-stats">
       <div class="stat-box">
         <div class="stat-label">Total Products</div>
@@ -110,7 +96,6 @@ pg_close($conn);
       </div>
     </div>
 
-    <!-- Product Table -->
     <div class="table-box">
       <table class="product-table">
         <thead>
@@ -125,7 +110,6 @@ pg_close($conn);
           </tr>
         </thead>
         <tbody id="tableBody">
-          <!-- Rows added by admin.js -->
         </tbody>
       </table>
       <div id="emptyMsg" style="display:none; text-align:center; padding:30px; color:#888; font-size:14px;">
@@ -135,7 +119,6 @@ pg_close($conn);
 
   </div>
 
-  <!-- Add / Edit Modal -->
   <div id="productModal" class="modal-overlay" style="display:none;">
     <div class="modal-box">
       <h2 id="modalTitle" style="font-size:18px; font-weight:700; margin-bottom:20px;">Add Product</h2>
@@ -186,7 +169,6 @@ pg_close($conn);
     </div>
   </div>
 
-  <!-- JS File -->
   <script src="admin.js"></script>
 
 </body>

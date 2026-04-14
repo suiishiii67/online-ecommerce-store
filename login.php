@@ -4,7 +4,6 @@ $error        = "";
 $success      = "";
 $redirect_url = "home.php";
 
-// POST 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email    = trim($_POST["email"]);
     $password = trim($_POST["password"]);
@@ -28,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-// GET 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["email"]) && isset($_GET["password"])) {
     $email    = trim($_GET["email"]);
     $password = trim($_GET["password"]);
@@ -53,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["email"]) && isset($_GET[
     }
 }
 
-// REQUEST
 if (isset($_REQUEST["email"]) && isset($_REQUEST["password"])) {
     $email    = trim($_REQUEST["email"]);
     $password = trim($_REQUEST["password"]);

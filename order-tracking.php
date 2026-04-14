@@ -1,5 +1,4 @@
 <?php
-// Start the session so we can check if user is logged in
 session_start();
 ?>
 <!DOCTYPE html>
@@ -40,7 +39,7 @@ session_start();
 
     <h1 class="page-title">My Orders</h1>
 
-    <!-- Track by Order ID -->
+
     <div class="track-form">
       <h3 style="font-size:15px; font-weight:600; margin-bottom:10px;">Track an Order</h3>
       <div style="display:flex; gap:10px;">
@@ -50,7 +49,7 @@ session_start();
       <div id="track-result" style="margin-top:10px; font-size:13px;"></div>
     </div>
 
-    <!-- Orders will be loaded from backend here -->
+
     <div class="orders-list" id="orders-container">
       <div style="text-align:center; padding:60px 20px; color:#6e6e73;">
         <p style="font-size:15px; font-weight:600; margin-bottom:8px;">No orders yet</p>

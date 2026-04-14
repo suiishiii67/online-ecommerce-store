@@ -1,8 +1,6 @@
-// validation before form submits to feedback.php
-
 document.getElementById("contact-form").addEventListener("submit", function(e) {
-  var fname   = document.getElementById("cfname").value.trim();
-  var email   = document.getElementById("cemail").value.trim();
+  var fname = document.getElementById("cfname").value.trim();
+  var email = document.getElementById("cemail").value.trim();
   var message = document.getElementById("cmessage").value.trim();
 
   if (fname === "") {

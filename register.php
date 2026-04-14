@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen($password) < 6) {
         $error = "Password must be at least 6 characters.";
     } else {
-        // check if email already exists
         $check = pg_query_params($conn, "SELECT id FROM users WHERE email = $1", array($email));
 
         if (pg_num_rows($check) > 0) {

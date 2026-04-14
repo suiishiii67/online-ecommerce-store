@@ -2,7 +2,7 @@ function showToast(message) {
   var toast = document.getElementById("toast-msg");
   if (!toast) return;
 
-  toast.textContent   = message;
+  toast.textContent = message;
   toast.style.display = "block";
 
   setTimeout(function() {
@@ -11,13 +11,13 @@ function showToast(message) {
 }
 
 function markActiveNav() {
-  var currentPage = window.location.pathname.split("/").pop();
-  var navLinks    = document.querySelectorAll(".nav-links a");
+  var page = window.location.pathname.split("/").pop();
+  var links = document.querySelectorAll(".nav-links a");
 
-  for (var i = 0; i < navLinks.length; i++) {
-    var href = navLinks[i].getAttribute("href");
-    if (href === currentPage) {
-      navLinks[i].classList.add("active");
+  for (var i = 0; i < links.length; i++) {
+    var href = links[i].getAttribute("href");
+    if (href === page) {
+      links[i].classList.add("active");
     }
   }
 }

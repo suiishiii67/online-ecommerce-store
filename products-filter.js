@@ -4,32 +4,20 @@ var currentPage = 1;
 var productsPerPage = 9;
 var filteredList = [];
 
-function buildProductCard(product) {
-  var badgeHTML = "";
-  if (product.badge) {
-    badgeHTML = '<span class="product-badge ' + product.badgeType + '">' + product.badge + '</span>';
-  }
-
-  return '<div class="product-card">' +
-    badgeHTML +
-    '<div class="product-image">' + (product.icon || "") + '</div>' +
-    '<div class="product-info">' +
-      '<div class="product-brand">' + product.brand + '</div>' +
-      '<div class="product-name">' + product.name + '</div>' +
-      '<div class="product-specs">' + product.category + '</div>' +
-      '<div class="stars">★★★★★</div>' +
-      '<div class="product-footer">' +
-        '<div><span class="price-current">₹' + parseInt(product.price).toLocaleString("en-IN") + '</span></div>' +
-        '<button class="btn-add-cart"' +
-          ' data-id="'    + product.id       + '"' +
-          ' data-name="'  + product.name     + '"' +
-          ' data-brand="' + product.brand    + '"' +
-          ' data-price="' + product.price    + '"' +
-          ' data-icon="'  + (product.icon || "") + '"' +
-        '>+ Cart</button>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
+function buildProductCard(p) {
+  var badge = p.badge ? '<span class="product-badge ' + p.badgeType + '">' + p.badge + '</span>' : "";
+  var card = '<div class="product-card">' + badge;
+  card += '<div class="product-image">' + (p.icon || "") + '</div>';
+  card += '<div class="product-info">';
+  card += '<div class="product-brand">' + p.brand + '</div>';
+  card += '<div class="product-name">' + p.name + '</div>';
+  card += '<div class="product-specs">' + p.category + '</div>';
+  card += '<div class="stars">★★★★★</div>';
+  card += '<div class="product-footer">';
+  card += '<div><span class="price-current">₹' + parseInt(p.price).toLocaleString("en-IN") + '</span></div>';
+  card += '<button class="btn-add-cart" data-id="' + p.id + '" data-name="' + p.name + '" data-brand="' + p.brand + '" data-price="' + p.price + '" data-icon="' + (p.icon || "") + '">+ Cart</button>';
+  card += '</div></div></div>';
+  return card;
 }
 
 function showProducts(list) {
@@ -49,20 +37,19 @@ function renderPage() {
     return;
   }
 
-  // Calculate which products to show on this page
-  var totalPages = Math.ceil(filteredList.length / productsPerPage);
-  var startIndex = (currentPage - 1) * productsPerPage;
-  var endIndex   = startIndex + productsPerPage;
-  var pageItems  = filteredList.slice(startIndex, endIndex);
+  var start     = (currentPage - 1) * productsPerPage;
+  var end       = start + productsPerPage;
+  var pageItems = filteredList.slice(start, end);
+  var html      = "";
 
-  var html = "";
   for (var i = 0; i < pageItems.length; i++) {
     html += buildProductCard(pageItems[i]);
   }
+
   container.innerHTML = html;
 
   if (countEl) {
-    countEl.textContent = "Showing " + (startIndex + 1) + "-" + Math.min(endIndex, filteredList.length) + " of " + filteredList.length + " products";
+    countEl.textContent = "Showing " + (start + 1) + "-" + Math.min(end, filteredList.length) + " of " + filteredList.length + " products";
   }
 
   renderPagination();
@@ -73,23 +60,11 @@ function renderPagination() {
   if (!paginationEl) return;
 
   var totalPages = Math.ceil(filteredList.length / productsPerPage);
-
-  // Hide pagination if only 1 page or no products
-  if (totalPages <= 1) {
-    paginationEl.innerHTML = "";
-    return;
-  }
+  if (totalPages <= 1) { paginationEl.innerHTML = ""; return; }
 
   var html = "";
+  html += currentPage > 1 ? '<button class="page-btn" id="prevPageBtn">Previous</button>' : '<button class="page-btn" disabled>Previous</button>';
 
-  // Previous button
-  if (currentPage > 1) {
-    html += '<button class="page-btn" id="prevPageBtn">Previous</button>';
-  } else {
-    html += '<button class="page-btn" disabled>Previous</button>';
-  }
-
-  // Page numbers
   for (var i = 1; i <= totalPages; i++) {
     if (i === currentPage) {
       html += '<button class="page-btn page-active">' + i + '</button>';
@@ -98,26 +73,20 @@ function renderPagination() {
     }
   }
 
-  // Next button
-  if (currentPage < totalPages) {
-    html += '<button class="page-btn" id="nextPageBtn">Next</button>';
-  } else {
-    html += '<button class="page-btn" disabled>Next</button>';
-  }
-
+  html += currentPage < totalPages ? '<button class="page-btn" id="nextPageBtn">Next</button>' : '<button class="page-btn" disabled>Next</button>';
   paginationEl.innerHTML = html;
 }
 
 function filterProducts() {
-  var selectedCat = document.querySelector('input[name="cat"]:checked').value;
-  var maxPrice    = parseInt(document.getElementById("priceRange").value);
-  var result      = [];
+  var cat      = document.querySelector('input[name="cat"]:checked').value;
+  var maxPrice = parseInt(document.getElementById("priceRange").value);
+  var result   = [];
 
   for (var i = 0; i < allProducts.length; i++) {
-    var p       = allProducts[i];
-    var catOk   = (selectedCat === "all") || (p.category === selectedCat);
-    var priceOk = parseInt(p.price) <= maxPrice;
-    if (catOk && priceOk) result.push(p);
+    var p = allProducts[i];
+    if ((cat === "all" || p.category === cat) && parseInt(p.price) <= maxPrice) {
+      result.push(p);
+    }
   }
 
   showProducts(result);
@@ -136,7 +105,6 @@ document.getElementById("resetFilters").addEventListener("click", function() {
   showProducts(allProducts);
 });
 
-// ONE single click handler for all "Add to Cart" buttons (event delegation)
 var productsContainer = document.getElementById("products-container");
 if (productsContainer) {
   productsContainer.addEventListener("click", function(e) {
@@ -153,25 +121,17 @@ if (productsContainer) {
   });
 }
 
-// Pagination click handler (event delegation)
 var paginationEl = document.getElementById("pagination-controls");
 if (paginationEl) {
   paginationEl.addEventListener("click", function(e) {
     var btn = e.target;
     if (!btn.classList.contains("page-btn") || btn.disabled) return;
 
-    if (btn.id === "prevPageBtn") {
-      currentPage--;
-      renderPage();
-    } else if (btn.id === "nextPageBtn") {
-      currentPage++;
-      renderPage();
-    } else if (btn.classList.contains("page-num")) {
-      currentPage = parseInt(btn.getAttribute("data-page"));
-      renderPage();
-    }
+    if (btn.id === "prevPageBtn")              currentPage--;
+    else if (btn.id === "nextPageBtn")         currentPage++;
+    else if (btn.classList.contains("page-num")) currentPage = parseInt(btn.getAttribute("data-page"));
 
-    // Scroll to top of products
+    renderPage();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
