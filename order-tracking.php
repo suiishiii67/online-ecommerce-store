@@ -53,7 +53,6 @@ session_start();
     <!-- Orders will be loaded from backend here -->
     <div class="orders-list" id="orders-container">
       <div style="text-align:center; padding:60px 20px; color:#6e6e73;">
-        <div style="font-size:48px; margin-bottom:16px;">📦</div>
         <p style="font-size:15px; font-weight:600; margin-bottom:8px;">No orders yet</p>
         <p style="font-size:13px;">Your orders will appear here after you place one.</p>
         <a href="products.php" class="btn-primary" style="display:inline-block; margin-top:20px; padding:10px 24px; border-radius:8px;">Shop Now</a>

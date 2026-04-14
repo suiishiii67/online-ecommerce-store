@@ -108,13 +108,13 @@ session_start();
 
           <div class="payment-options">
             <label class="payment-option">
-              <input type="radio" name="payment" value="card" checked /> 💳 Credit / Debit Card
+              <input type="radio" name="payment" value="card" checked /> Credit / Debit Card
             </label>
             <label class="payment-option">
-              <input type="radio" name="payment" value="upi" /> 📱 UPI
+              <input type="radio" name="payment" value="upi" /> UPI
             </label>
             <label class="payment-option">
-              <input type="radio" name="payment" value="cod" /> 💵 Cash on Delivery
+              <input type="radio" name="payment" value="cod" /> Cash on Delivery
             </label>
           </div>
 

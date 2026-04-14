@@ -1,6 +1,66 @@
 <?php
 // Start the session so we can check if user is logged in
 session_start();
+
+/* === DATABASE CONNECTION START === */
+$conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
+/* === DATABASE CONNECTION END === */
+
+/* === CRUD OPERATIONS START === */
+// If an action parameter is passed, handle the API request and exit
+$action = isset($_GET['action']) ? $_GET['action'] : '';
+
+if ($action != '') {
+    header('Content-Type: application/json');
+
+    // READ - Get all products from the database
+    if ($action == 'list') {
+        $result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
+        $products = [];
+        while ($row = pg_fetch_assoc($result)) {
+            $products[] = $row;
+        }
+        echo json_encode($products);
+    }
+
+    // CREATE - Add a new product to the database (POST only)
+    elseif ($action == 'add' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!$data) { echo json_encode(['success' => false]); exit; }
+        $result = pg_query_params($conn,
+            "INSERT INTO products (name, description, price, category, stock, image_url) VALUES ($1, $2, $3, $4, $5, $6)",
+            array($data['name'], $data['description'], $data['price'], $data['category'], $data['stock'], $data['image_url'])
+        );
+        echo json_encode(['success' => $result ? true : false]);
+    }
+
+    // UPDATE - Edit an existing product in the database (POST only)
+    elseif ($action == 'update' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!$data) { echo json_encode(['success' => false]); exit; }
+        $result = pg_query_params($conn,
+            "UPDATE products SET name=$1, description=$2, price=$3, category=$4, stock=$5, image_url=$6 WHERE id=$7",
+            array($data['name'], $data['description'], $data['price'], $data['category'], $data['stock'], $data['image_url'], $data['id'])
+        );
+        echo json_encode(['success' => $result ? true : false]);
+    }
+
+    // DELETE - Remove a product from the database (POST only)
+    elseif ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!$data) { echo json_encode(['success' => false]); exit; }
+        $result = pg_query_params($conn, "DELETE FROM products WHERE id=$1", array($data['id']));
+        echo json_encode(['success' => $result ? true : false]);
+    }
+
+    /* === DATABASE CONNECTION CLOSE === */
+    pg_close($conn);
+    exit; // Stop here - don't render the HTML page
+}
+/* === CRUD OPERATIONS END === */
+
+/* === DATABASE CONNECTION CLOSE === */
+pg_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +116,7 @@ session_start();
         <thead>
           <tr>
             <th>Product Name</th>
-            <th>Brand</th>
+            <th>Description</th>
             <th>Category</th>
             <th>Price</th>
             <th>Stock</th>
@@ -87,12 +147,15 @@ session_start();
           <input type="text" class="form-input" id="prodName" required />
         </div>
         <div class="form-group">
-          <label class="form-label">Brand</label>
-          <input type="text" class="form-input" id="prodBrand" required />
+          <label class="form-label">Description</label>
+          <input type="text" class="form-input" id="prodDesc" required />
         </div>
         <div class="form-group">
           <label class="form-label">Category</label>
           <select class="form-select" id="prodCat">
+            <option>Peripherals</option>
+            <option>Accessories</option>
+            <option>Audio</option>
             <option>Headphones</option>
             <option>Monitors</option>
             <option>Keyboards</option>
@@ -100,7 +163,6 @@ session_start();
             <option>Microphones</option>
             <option>Webcams</option>
             <option>Gaming Chairs</option>
-            <option>Accessories</option>
           </select>
         </div>
         <div class="form-group">
@@ -112,8 +174,8 @@ session_start();
           <input type="number" class="form-input" id="prodStock" required />
         </div>
         <div class="form-group">
-          <label class="form-label">Icon (Emoji)</label>
-          <input type="text" class="form-input" id="prodIcon" placeholder="e.g. 🎧" />
+          <label class="form-label">Image URL</label>
+          <input type="text" class="form-input" id="prodImage" placeholder="e.g. images/product.jpg" />
         </div>
 
         <div class="modal-buttons">

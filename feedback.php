@@ -118,22 +118,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <!-- Contact Info -->
       <div class="contact-info">
         <div class="info-card">
-          <div class="info-icon">📍</div>
+          <div class="info-icon">Address</div>
           <h3>Our Office</h3>
           <p>42 Tech Park, Whitefield<br>Bengaluru, 560066</p>
         </div>
         <div class="info-card">
-          <div class="info-icon">📧</div>
+          <div class="info-icon">Email</div>
           <h3>Email</h3>
           <p>support@nexgear.in</p>
         </div>
         <div class="info-card">
-          <div class="info-icon">📞</div>
+          <div class="info-icon">Phone</div>
           <h3>Phone</h3>
           <p>+91 98765 43210</p>
         </div>
         <div class="info-card">
-          <div class="info-icon">🕐</div>
+          <div class="info-icon">Hours</div>
           <h3>Working Hours</h3>
           <p>Mon – Sat: 9 AM to 6 PM</p>
         </div>

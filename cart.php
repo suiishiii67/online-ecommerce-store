@@ -29,7 +29,7 @@ session_start();
       </ul>
       <div class="nav-actions">
         <a href="cart.php" class="cart-icon-wrap">
-          🛒
+          Cart
           <span class="cart-badge" id="nav-cart-count">0</span>
         </a>
         <a href="login.php" class="btn-primary">Sign In</a>

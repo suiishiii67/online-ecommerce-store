@@ -33,7 +33,7 @@ function addToCart(id, name, brand, price, icon) {
       name:  name,
       brand: brand,
       price: price,
-      icon:  icon || "📦",
+      icon:  icon || "",
       qty:   1
     });
   }
@@ -121,7 +121,6 @@ function renderCart() {
   if (cart.length === 0) {
     wrap.innerHTML =
       '<div style="text-align:center; padding:60px 20px; color:#6e6e73;">' +
-        '<div style="font-size:60px; margin-bottom:16px;">🛒</div>' +
         '<h2 style="font-size:20px; margin-bottom:10px;">Your cart is empty</h2>' +
         '<p style="margin-bottom:20px;">Add some products first.</p>' +
         '<a href="products.php" class="btn-primary" style="padding:10px 24px; border-radius:24px;">Browse Products</a>' +
@@ -141,7 +140,7 @@ function renderCart() {
 
     html +=
       '<div class="cart-item">' +
-        '<div class="cart-item-image">' + (item.icon || "📦") + '</div>' +
+        '<div class="cart-item-image">' + (item.icon || "") + '</div>' +
         '<div style="flex:1;">' +
           '<div class="cart-item-brand">' + (item.brand || "") + '</div>' +
           '<div class="cart-item-name">'  + item.name + '</div>' +
@@ -163,21 +162,6 @@ function renderCart() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  var addBtns = document.querySelectorAll(".btn-add-cart");
-
-  for (var i = 0; i < addBtns.length; i++) {
-    addBtns[i].addEventListener("click", function(e) {
-      e.stopPropagation();
-      var id    = this.getAttribute("data-id");
-      var name  = this.getAttribute("data-name")  || id;
-      var brand = this.getAttribute("data-brand") || "";
-      var price = this.getAttribute("data-price") || 0;
-      var icon  = this.getAttribute("data-icon")  || "📦";
-
-      if (id) addToCart(id, name, brand, price, icon);
-    });
-  }
-
   renderCart();
   updateCartBadge();
 });

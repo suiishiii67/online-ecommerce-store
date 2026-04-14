@@ -21,7 +21,7 @@ function loadCheckoutSummary() {
 
     html +=
       '<div class="co-item">' +
-        '<div class="co-item-icon">' + (item.icon || "📦") + '</div>' +
+        '<div class="co-item-icon">' + (item.icon || "") + '</div>' +
         '<div class="co-item-name">' +
           item.name +
           '<br><span style="font-weight:400; color:#6e6e73;">Qty: ' + item.qty + '</span>' +
@@ -112,7 +112,6 @@ function setupPlaceOrder() {
     overlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; z-index:9999;";
     overlay.innerHTML =
       '<div style="background:#fff; border-radius:16px; padding:40px; max-width:400px; width:90%; text-align:center;">' +
-        '<div style="font-size:60px; margin-bottom:16px;">🎉</div>' +
         '<h2 style="font-size:22px; font-weight:700; margin-bottom:10px;">Order Placed!</h2>' +
         '<p style="color:#6e6e73; font-size:14px; margin-bottom:20px;">Your order will arrive in 3-5 business days.</p>' +
         '<div style="background:#f5f5f7; border-radius:8px; padding:12px; margin-bottom:24px; font-size:14px;">' +

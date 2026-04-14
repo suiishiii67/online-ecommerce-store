@@ -1,5 +1,29 @@
 <?php
 session_start();
+
+/* === DATABASE CONNECTION START === */
+$conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
+/* === DATABASE CONNECTION END === */
+
+/* === FETCHING PRODUCTS FROM DATABASE START === */
+$result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
+$products_for_js = [];
+
+while ($row = pg_fetch_assoc($result)) {
+    $products_for_js[] = [
+        'id'       => $row['id'],
+        'name'     => $row['name'],
+        'brand'    => $row['description'],
+        'category' => $row['category'],
+        'price'    => floatval($row['price']),
+        'icon'     => '',
+        'stock'    => intval($row['stock'])
+    ];
+}
+/* === FETCHING PRODUCTS FROM DATABASE END === */
+
+/* === DATABASE CONNECTION CLOSE === */
+pg_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +52,7 @@ session_start();
       </ul>
       <div class="nav-actions">
         <a href="cart.php" class="cart-icon-wrap">
-          🛒
+          Cart
           <span class="cart-badge" id="nav-cart-count">0</span>
         </a>
         <a href="login.php" class="btn-primary">Sign In</a>
@@ -52,11 +76,14 @@ session_start();
           <h3 class="filter-heading">Category</h3>
           <ul>
             <li><label><input type="radio" name="cat" value="all" checked /> All Products</label></li>
+            <li><label><input type="radio" name="cat" value="Peripherals" /> Peripherals</label></li>
+            <li><label><input type="radio" name="cat" value="Accessories" /> Accessories</label></li>
+            <li><label><input type="radio" name="cat" value="Audio" /> Audio</label></li>
             <li><label><input type="radio" name="cat" value="Monitors" /> Monitors</label></li>
             <li><label><input type="radio" name="cat" value="Headphones" /> Headphones</label></li>
             <li><label><input type="radio" name="cat" value="Keyboards" /> Keyboards</label></li>
             <li><label><input type="radio" name="cat" value="Mouse" /> Mouse</label></li>
-            <li><label><input type="radio" name="cat" value="Chairs" /> Gaming Chairs</label></li>
+            <li><label><input type="radio" name="cat" value="Gaming Chairs" /> Gaming Chairs</label></li>
             <li><label><input type="radio" name="cat" value="Microphones" /> Microphones</label></li>
             <li><label><input type="radio" name="cat" value="Webcams" /> Webcams</label></li>
           </ul>
@@ -84,6 +111,9 @@ session_start();
           <!-- Products inserted by JS -->
         </div>
 
+        <!-- Pagination buttons inserted by products-filter.js -->
+        <div id="pagination-controls" style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:28px; margin-bottom:10px;"></div>
+
       </div>
     </div>
   </div>
@@ -98,6 +128,13 @@ session_start();
 
 
   <script src="cart.js"></script>
+
+  <!-- === LOADING PRODUCTS FROM DATABASE INTO JAVASCRIPT START === -->
+  <script>
+    var allProducts = <?php echo json_encode($products_for_js); ?>;
+  </script>
+  <!-- === LOADING PRODUCTS FROM DATABASE INTO JAVASCRIPT END === -->
+
   <script src="products-filter.js"></script>
   <script src="ui.js"></script>
 

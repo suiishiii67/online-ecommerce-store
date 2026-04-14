@@ -1,24 +1,28 @@
 <?php
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
-$error   = "";
-$success = "";
+$error        = "";
+$success      = "";
+$redirect_url = "home.php";
+
 // POST 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email    = trim($_POST["email"]);
     $password = trim($_POST["password"]);
-
     if ($email == "") {
         $error = "Please enter your email address.";
     } elseif ($password == "") {
         $error = "Please enter your password.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email address.";
+    } elseif ($email == "admin@gmail.com" && $password == "123") {
+        $success      = "Welcome, Admin! Redirecting to admin panel...";
+        $redirect_url = "admin.php";
     } else {
         $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
         $user   = pg_fetch_assoc($result);
 
         if ($user && password_verify($password, $user["password"])) {
-            $success = "Welcome back, " . $user["name"] . "! Redirecting";
+            $success = "Welcome back, " . $user["name"] . ". Redirecting to home page...";
         } else {
             $error = "Incorrect email or password.";
         }
@@ -28,19 +32,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["email"]) && isset($_GET["password"])) {
     $email    = trim($_GET["email"]);
     $password = trim($_GET["password"]);
-
     if ($email == "") {
         $error = "Please enter your email address.";
     } elseif ($password == "") {
         $error = "Please enter your password.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email address.";
+    } elseif ($email == "admin@gmail.com" && $password == "123") {
+        $success      = "Welcome, Admin! Redirecting to admin panel...";
+        $redirect_url = "admin.php";
     } else {
         $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
         $user   = pg_fetch_assoc($result);
 
         if ($user && password_verify($password, $user["password"])) {
-            $success = "Welcome back, " . $user["name"] . "! Redirecting...";
+            $success = "Welcome back, " . $user["name"] . ". Redirecting to home page...";
         } else {
             $error = "Incorrect email or password.";
         }
@@ -51,19 +57,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["email"]) && isset($_GET[
 if (isset($_REQUEST["email"]) && isset($_REQUEST["password"])) {
     $email    = trim($_REQUEST["email"]);
     $password = trim($_REQUEST["password"]);
-
     if ($email == "") {
         $error = "Please enter your email address.";
     } elseif ($password == "") {
         $error = "Please enter your password.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email address.";
+    } elseif ($email == "admin@gmail.com" && $password == "123") {
+        $success      = "Welcome, Admin! Redirecting to admin panel...";
+        $redirect_url = "admin.php";
     } else {
         $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
         $user   = pg_fetch_assoc($result);
 
         if ($user && password_verify($password, $user["password"])) {
-            $success = "Welcome back, " . $user["name"] . "! Redirecting...";
+            $success = "Welcome back, " . $user["name"] . " Redirecting to home page...";
         } else {
             $error = "Incorrect email or password.";
         }
@@ -79,7 +87,7 @@ if (isset($_REQUEST["email"]) && isset($_REQUEST["password"])) {
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="login.css" />
   <?php if ($success != "") { ?>
-    <meta http-equiv="refresh" content="2;url=home.php" />
+    <meta http-equiv="refresh" content="2;url=<?php echo $redirect_url; ?>" />
   <?php } ?>
 </head>
 <body>

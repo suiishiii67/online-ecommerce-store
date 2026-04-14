@@ -1,4 +1,8 @@
-var allProducts = [];
+if (typeof allProducts === "undefined") { var allProducts = []; }
+
+var currentPage = 1;
+var productsPerPage = 9;
+var filteredList = [];
 
 function buildProductCard(product) {
   var badgeHTML = "";
@@ -8,7 +12,7 @@ function buildProductCard(product) {
 
   return '<div class="product-card">' +
     badgeHTML +
-    '<div class="product-image">' + (product.icon || "📦") + '</div>' +
+    '<div class="product-image">' + (product.icon || "") + '</div>' +
     '<div class="product-info">' +
       '<div class="product-brand">' + product.brand + '</div>' +
       '<div class="product-name">' + product.name + '</div>' +
@@ -21,7 +25,7 @@ function buildProductCard(product) {
           ' data-name="'  + product.name     + '"' +
           ' data-brand="' + product.brand    + '"' +
           ' data-price="' + product.price    + '"' +
-          ' data-icon="'  + (product.icon || "📦") + '"' +
+          ' data-icon="'  + (product.icon || "") + '"' +
         '>+ Cart</button>' +
       '</div>' +
     '</div>' +
@@ -29,30 +33,79 @@ function buildProductCard(product) {
 }
 
 function showProducts(list) {
+  filteredList = list;
+  currentPage = 1;
+  renderPage();
+}
+
+function renderPage() {
   var container = document.getElementById("products-container");
   var countEl   = document.getElementById("listing-count");
 
-  if (list.length === 0) {
+  if (filteredList.length === 0) {
     container.innerHTML = '<p style="color:#888; font-size:14px; padding:20px;">No products found.</p>';
     if (countEl) countEl.textContent = "0 results";
+    renderPagination();
+    return;
+  }
+
+  // Calculate which products to show on this page
+  var totalPages = Math.ceil(filteredList.length / productsPerPage);
+  var startIndex = (currentPage - 1) * productsPerPage;
+  var endIndex   = startIndex + productsPerPage;
+  var pageItems  = filteredList.slice(startIndex, endIndex);
+
+  var html = "";
+  for (var i = 0; i < pageItems.length; i++) {
+    html += buildProductCard(pageItems[i]);
+  }
+  container.innerHTML = html;
+
+  if (countEl) {
+    countEl.textContent = "Showing " + (startIndex + 1) + "-" + Math.min(endIndex, filteredList.length) + " of " + filteredList.length + " products";
+  }
+
+  renderPagination();
+}
+
+function renderPagination() {
+  var paginationEl = document.getElementById("pagination-controls");
+  if (!paginationEl) return;
+
+  var totalPages = Math.ceil(filteredList.length / productsPerPage);
+
+  // Hide pagination if only 1 page or no products
+  if (totalPages <= 1) {
+    paginationEl.innerHTML = "";
     return;
   }
 
   var html = "";
-  for (var i = 0; i < list.length; i++) {
-    html += buildProductCard(list[i]);
-  }
-  container.innerHTML = html;
-  if (countEl) countEl.textContent = "Showing " + list.length + " products";
 
-  var btns = container.querySelectorAll(".btn-add-cart");
-  for (var j = 0; j < btns.length; j++) {
-    btns[j].addEventListener("click", function(e) {
-      e.stopPropagation();
-      var pid = this.getAttribute("data-id");
-      if (typeof addToCart === "function") addToCart(pid);
-    });
+  // Previous button
+  if (currentPage > 1) {
+    html += '<button class="page-btn" id="prevPageBtn">Previous</button>';
+  } else {
+    html += '<button class="page-btn" disabled>Previous</button>';
   }
+
+  // Page numbers
+  for (var i = 1; i <= totalPages; i++) {
+    if (i === currentPage) {
+      html += '<button class="page-btn page-active">' + i + '</button>';
+    } else {
+      html += '<button class="page-btn page-num" data-page="' + i + '">' + i + '</button>';
+    }
+  }
+
+  // Next button
+  if (currentPage < totalPages) {
+    html += '<button class="page-btn" id="nextPageBtn">Next</button>';
+  } else {
+    html += '<button class="page-btn" disabled>Next</button>';
+  }
+
+  paginationEl.innerHTML = html;
 }
 
 function filterProducts() {
@@ -82,5 +135,45 @@ document.getElementById("resetFilters").addEventListener("click", function() {
   document.getElementById("priceLabel").textContent = "₹50,000";
   showProducts(allProducts);
 });
+
+// ONE single click handler for all "Add to Cart" buttons (event delegation)
+var productsContainer = document.getElementById("products-container");
+if (productsContainer) {
+  productsContainer.addEventListener("click", function(e) {
+    var btn = e.target;
+    if (!btn.classList.contains("btn-add-cart")) return;
+
+    var pid   = btn.getAttribute("data-id");
+    var name  = btn.getAttribute("data-name")  || pid;
+    var brand = btn.getAttribute("data-brand") || "";
+    var price = btn.getAttribute("data-price") || 0;
+    var icon  = btn.getAttribute("data-icon")  || "";
+
+    if (typeof addToCart === "function") addToCart(pid, name, brand, price, icon);
+  });
+}
+
+// Pagination click handler (event delegation)
+var paginationEl = document.getElementById("pagination-controls");
+if (paginationEl) {
+  paginationEl.addEventListener("click", function(e) {
+    var btn = e.target;
+    if (!btn.classList.contains("page-btn") || btn.disabled) return;
+
+    if (btn.id === "prevPageBtn") {
+      currentPage--;
+      renderPage();
+    } else if (btn.id === "nextPageBtn") {
+      currentPage++;
+      renderPage();
+    } else if (btn.classList.contains("page-num")) {
+      currentPage = parseInt(btn.getAttribute("data-page"));
+      renderPage();
+    }
+
+    // Scroll to top of products
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
 
 showProducts(allProducts);
