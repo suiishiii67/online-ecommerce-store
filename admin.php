@@ -37,6 +37,16 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
+    elseif ($action == 'update_specs' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!$data) { echo json_encode(['success' => false]); exit; }
+        $result = pg_query_params($conn,
+            "UPDATE products SET specs=$1 WHERE id=$2",
+            array($data['specs'], $data['id'])
+        );
+        echo json_encode(['success' => $result ? true : false]);
+    }
+
     elseif ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -166,6 +176,36 @@ pg_close($conn);
           <button type="submit" class="btn-primary" style="padding:10px 20px; border-radius:8px;">Save</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Spec Management Modal -->
+  <div id="specModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box" style="max-width:520px;">
+      <h2 style="font-size:18px; font-weight:700; margin-bottom:16px;">Manage Specifications</h2>
+      <input type="hidden" id="specProductId" />
+
+      <table style="width:100%; border-collapse:collapse; font-size:13px; margin-bottom:16px;">
+        <thead>
+          <tr style="background:#f5f5f5;">
+            <th style="padding:8px 10px; border:1px solid #ddd; text-align:left;">Spec Name</th>
+            <th style="padding:8px 10px; border:1px solid #ddd; text-align:left;">Value</th>
+            <th style="padding:8px 10px; border:1px solid #ddd; width:40px;"></th>
+          </tr>
+        </thead>
+        <tbody id="specTableBody"></tbody>
+      </table>
+
+      <div style="display:flex; gap:8px; margin-bottom:20px; align-items:center;">
+        <input type="text" id="newSpecName" class="form-input" placeholder="Spec Name (e.g. RAM)" style="flex:1;" />
+        <input type="text" id="newSpecValue" class="form-input" placeholder="Value (e.g. 16GB)" style="flex:1;" />
+        <button onclick="addSpecRow()" class="btn-primary" style="padding:9px 16px; border-radius:8px; white-space:nowrap;">+ Add</button>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="button" onclick="closeSpecModal()" style="padding:10px 20px; border:1px solid #ccc; border-radius:8px; background:#fff; font-size:14px; cursor:pointer;">Cancel</button>
+        <button type="button" id="saveSpecBtn" onclick="saveSpecs()" class="btn-primary" style="padding:10px 20px; border-radius:8px;">Save Specs</button>
+      </div>
     </div>
   </div>
 

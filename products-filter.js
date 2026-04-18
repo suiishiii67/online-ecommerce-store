@@ -6,7 +6,7 @@ var filteredList = [];
 
 function buildProductCard(p) {
   var badge = p.badge ? '<span class="product-badge ' + p.badgeType + '">' + p.badge + '</span>' : "";
-  var card = '<div class="product-card">' + badge;
+  var card = '<div class="product-card" onclick="window.location.href=\'product-detail.php?id=' + p.id + '\'" style="cursor:pointer;">' + badge;
   card += '<div class="product-image">' + (p.icon || "") + '</div>';
   card += '<div class="product-info">';
   card += '<div class="product-brand">' + p.brand + '</div>';
@@ -15,7 +15,7 @@ function buildProductCard(p) {
   card += '<div class="stars">★★★★★</div>';
   card += '<div class="product-footer">';
   card += '<div><span class="price-current">₹' + parseInt(p.price).toLocaleString("en-IN") + '</span></div>';
-  card += '<button class="btn-add-cart" data-id="' + p.id + '" data-name="' + p.name + '" data-brand="' + p.brand + '" data-price="' + p.price + '" data-icon="' + (p.icon || "") + '">+ Cart</button>';
+  card += '<button class="btn-add-cart" onclick="event.stopPropagation();" data-id="' + p.id + '" data-name="' + p.name + '" data-brand="' + p.brand + '" data-price="' + p.price + '" data-icon="' + (p.icon || "") + '">+ Cart</button>';
   card += '</div></div></div>';
   return card;
 }

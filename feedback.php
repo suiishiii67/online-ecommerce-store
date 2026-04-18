@@ -5,7 +5,6 @@ $success = "";
 $error   = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $first_name = trim($_POST["first_name"]);
     $last_name  = trim($_POST["last_name"]);
     $email      = trim($_POST["email"]);
@@ -21,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "INSERT INTO feedback (first_name, last_name, email, order_id, message) VALUES ($1, $2, $3, $4, $5)",
             array($first_name, $last_name, $email, $order_id, $message)
         );
-
         if ($insert) {
             $success = "Thank you! Your message has been sent.";
         } else {
@@ -37,7 +35,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us - NexGear</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="feedback.css" />
+  <style>
+    .contact-layout { display: grid; grid-template-columns: 1fr 240px; gap: 24px; }
+    .contact-form-box { border: 1px solid #ddd; border-radius: 8px; padding: 24px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .contact-info { display: flex; flex-direction: column; gap: 12px; }
+    .info-card { border: 1px solid #ddd; border-radius: 8px; padding: 14px; }
+    .info-icon { font-size: 12px; font-weight: bold; color: #888; text-transform: uppercase; margin-bottom: 6px; }
+    .info-card h3 { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+    .info-card p { font-size: 13px; color: #666; line-height: 1.5; }
+  </style>
 </head>
 <body>
 
@@ -67,54 +74,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <h1 class="page-title">Get in Touch</h1>
-    <p style="color:#6e6e73; font-size:14px; margin-bottom:30px;">We're here to help. Send a message and we'll reply within 24 hours.</p>
+    <p style="color:#666; font-size:14px; margin-bottom:24px;">We're here to help. Send a message and we'll reply within 24 hours.</p>
 
     <div class="contact-layout">
 
-
       <div class="contact-form-box">
-        <h2 style="font-size:18px; font-weight:700; margin-bottom:20px;">Send a Message</h2>
+        <h2 style="font-size:17px; font-weight:bold; margin-bottom:18px;">Send a Message</h2>
 
         <?php if ($success != "") { ?>
-          <p style="color:green; font-size:13px; margin-bottom:14px;"><?php echo $success; ?></p>
+          <p style="color:green; font-size:13px; margin-bottom:12px;"><?php echo $success; ?></p>
         <?php } ?>
         <?php if ($error != "") { ?>
-          <p style="color:#dc3545; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
+          <p style="color:#dc3545; font-size:13px; margin-bottom:12px;"><?php echo $error; ?></p>
         <?php } ?>
 
-        <form id="contact-form" method="POST" action="feedback.php">
+        <form method="POST" action="feedback.php">
 
           <div class="form-row-2">
             <div class="form-group">
               <label class="form-label">First Name</label>
-              <input type="text" class="form-input" name="first_name" id="cfname" placeholder="First Name" required />
+              <input type="text" class="form-input" name="first_name" placeholder="First Name" required />
             </div>
             <div class="form-group">
               <label class="form-label">Last Name</label>
-              <input type="text" class="form-input" name="last_name" id="clname" placeholder="Last Name" required />
+              <input type="text" class="form-input" name="last_name" placeholder="Last Name" required />
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">Email Address</label>
-            <input type="email" class="form-input" name="email" id="cemail" placeholder="you@example.com" required />
+            <input type="email" class="form-input" name="email" placeholder="you@example.com" required />
           </div>
 
           <div class="form-group">
             <label class="form-label">Order ID (optional)</label>
-            <input type="text" class="form-input" name="order_id" id="corderid" placeholder="NGR-2025-XXXX" />
+            <input type="text" class="form-input" name="order_id" placeholder="NGR-2025-XXXX" />
           </div>
 
           <div class="form-group">
             <label class="form-label">Your Message</label>
-            <textarea class="form-textarea" name="message" id="cmessage" rows="5" placeholder="How can we help you?" required></textarea>
+            <textarea class="form-textarea" name="message" rows="5" placeholder="How can we help you?" required></textarea>
           </div>
 
-          <button type="submit" class="btn-primary" style="padding:12px 28px; border-radius:8px; font-size:15px;">Submit</button>
+          <button type="submit" class="btn-primary" style="padding:10px 24px; border-radius:8px; font-size:14px;">Submit</button>
 
         </form>
       </div>
-
 
       <div class="contact-info">
         <div class="info-card">
@@ -145,11 +150,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <footer>
     <p>© 2025 NexGear. All rights reserved.</p>
   </footer>
-
-  <div id="toast-msg"></div>
-
-  <script src="feedback.js"></script>
-  <script src="ui.js"></script>
 
 </body>
 </html>

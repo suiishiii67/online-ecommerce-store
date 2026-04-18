@@ -1,78 +1,108 @@
-function loadCart() {
+// get cart items from browser storage
+function getCart() {
   var data = localStorage.getItem("nexgear_cart");
-  return data ? JSON.parse(data) : [];
+  if (data == null) {
+    return [];
+  }
+  return JSON.parse(data);
 }
 
+// save cart items to browser storage
 function saveCart(cart) {
   localStorage.setItem("nexgear_cart", JSON.stringify(cart));
 }
 
-function formatPrice(n) {
-  return "₹" + parseInt(n).toLocaleString("en-IN");
-}
-
+// add a product to cart (called when user clicks Add to Cart button)
 function addToCart(id, name, brand, price, icon) {
-  var cart = loadCart();
+  var cart = getCart();
   var found = false;
 
+  // check if this product is already in the cart
   for (var i = 0; i < cart.length; i++) {
-    if (cart[i].id === id) {
-      cart[i].qty++;
+    if (cart[i].id == id) {
+      cart[i].qty = cart[i].qty + 1;
       found = true;
       break;
     }
   }
 
-  if (!found) {
-    cart.push({ id: id, name: name, brand: brand, price: price, icon: icon || "", qty: 1 });
+  // if not found, add it as a new item
+  if (found == false) {
+    var newItem = {
+      id: id,
+      name: name,
+      brand: brand,
+      price: price,
+      icon: icon,
+      qty: 1
+    };
+    cart.push(newItem);
   }
 
   saveCart(cart);
-  updateCartBadge();
-  showToast("Added to cart: " + name);
+  updateCartCount();
+  alert(name + " added to cart!");
 }
 
+// remove a product from cart by its id
 function removeFromCart(productId) {
-  var cart = loadCart();
-  var updated = [];
+  var cart = getCart();
+  var newCart = [];
 
   for (var i = 0; i < cart.length; i++) {
-    if (cart[i].id !== productId) updated.push(cart[i]);
+    if (cart[i].id != productId) {
+      newCart.push(cart[i]);
+    }
   }
 
-  saveCart(updated);
-  renderCart();
+  saveCart(newCart);
+  showCart();
 }
 
-function changeQty(productId, delta) {
-  var cart = loadCart();
+// increase or decrease the quantity of a product in cart
+function changeQty(productId, change) {
+  var cart = getCart();
 
   for (var i = 0; i < cart.length; i++) {
-    if (cart[i].id === productId) {
-      cart[i].qty += delta;
-      if (cart[i].qty < 1) cart[i].qty = 1;
+    if (cart[i].id == productId) {
+      cart[i].qty = cart[i].qty + change;
+      if (cart[i].qty < 1) {
+        cart[i].qty = 1;
+      }
       break;
     }
   }
 
   saveCart(cart);
-  renderCart();
+  showCart();
 }
 
-function updateCartBadge() {
-  var cart = loadCart();
-  var count = 0;
-  for (var i = 0; i < cart.length; i++) count += cart[i].qty;
+// update the cart count number shown in the navbar
+function updateCartCount() {
+  var cart = getCart();
+  var total = 0;
+
+  for (var i = 0; i < cart.length; i++) {
+    total = total + cart[i].qty;
+  }
 
   var badge = document.getElementById("nav-cart-count");
-  if (badge) {
-    badge.textContent = count;
-    badge.style.display = count > 0 ? "flex" : "none";
+  if (badge != null) {
+    badge.textContent = total;
+    if (total > 0) {
+      badge.style.display = "flex";
+    } else {
+      badge.style.display = "none";
+    }
   }
 }
 
-function updateSummary(subtotal) {
-  var delivery = subtotal > 999 ? 0 : 99;
+// calculate and display price totals in cart summary
+function updateTotal(subtotal) {
+  var delivery = 0;
+  if (subtotal < 999) {
+    delivery = 99;
+  }
   var discount = Math.floor(subtotal * 0.05);
   var gst = Math.floor((subtotal - discount) * 0.18);
   var total = subtotal - discount + gst + delivery;
@@ -83,48 +113,58 @@ function updateSummary(subtotal) {
   var g = document.getElementById("sum-gst");
   var t = document.getElementById("sum-total");
 
-  if (s) s.textContent = formatPrice(subtotal);
-  if (d) d.textContent = delivery === 0 ? "FREE" : formatPrice(delivery);
-  if (dis) dis.textContent = "-" + formatPrice(discount);
-  if (g) g.textContent = formatPrice(gst);
-  if (t) t.textContent = formatPrice(total);
+  if (s != null) s.textContent = "₹" + subtotal.toLocaleString("en-IN");
+  if (d != null) d.textContent = delivery == 0 ? "FREE" : "₹" + delivery;
+  if (dis != null) dis.textContent = "-₹" + discount.toLocaleString("en-IN");
+  if (g != null) g.textContent = "₹" + gst.toLocaleString("en-IN");
+  if (t != null) t.textContent = "₹" + total.toLocaleString("en-IN");
 }
 
-function renderCart() {
+// show all cart items on the cart page
+function showCart() {
   var wrap = document.getElementById("cart-items-wrap");
-  if (!wrap) return;
+  if (wrap == null) return;
 
-  var cart = loadCart();
+  var cart = getCart();
+
+  // count total items
   var totalQty = 0;
-  for (var i = 0; i < cart.length; i++) totalQty += cart[i].qty;
+  for (var i = 0; i < cart.length; i++) {
+    totalQty = totalQty + cart[i].qty;
+  }
 
   var label = document.getElementById("cart-count-label");
-  if (label) label.textContent = "(" + totalQty + " item" + (totalQty !== 1 ? "s" : "") + ")";
+  if (label != null) {
+    label.textContent = "(" + totalQty + " items)";
+  }
 
-  if (cart.length === 0) {
-    wrap.innerHTML = '<div style="text-align:center; padding:60px 20px; color:#6e6e73;">' +
+  // if cart is empty, show empty message
+  if (cart.length == 0) {
+    wrap.innerHTML =
+      '<div style="text-align:center; padding:60px 20px;">' +
       '<h2 style="font-size:20px; margin-bottom:10px;">Your cart is empty</h2>' +
       '<p style="margin-bottom:20px;">Add some products first.</p>' +
-      '<a href="products.php" class="btn-primary" style="padding:10px 24px; border-radius:24px;">Browse Products</a></div>';
-    updateSummary(0);
-    updateCartBadge();
+      '<a href="products.php" class="btn-primary" style="padding:10px 24px; border-radius:24px;">Browse Products</a>' +
+      '</div>';
+    updateTotal(0);
+    updateCartCount();
     return;
   }
 
+  // build the cart items HTML
   var html = "";
   var subtotal = 0;
 
   for (var i = 0; i < cart.length; i++) {
     var item = cart[i];
     var lineTotal = parseInt(item.price) * item.qty;
-    subtotal += lineTotal;
+    subtotal = subtotal + lineTotal;
 
     html += '<div class="cart-item">';
-    html += '<div class="cart-item-image">' + (item.icon || "") + '</div>';
     html += '<div style="flex:1;">';
-    html += '<div class="cart-item-brand">' + (item.brand || "") + '</div>';
+    html += '<div class="cart-item-brand">' + item.brand + '</div>';
     html += '<div class="cart-item-name">' + item.name + '</div>';
-    html += '<div style="font-size:13px; color:#6e6e73;">' + formatPrice(item.price) + ' each</div>';
+    html += '<div style="font-size:13px; color:#888;">₹' + parseInt(item.price).toLocaleString("en-IN") + ' each</div>';
     html += '<div class="qty-control">';
     html += '<button class="qty-btn" onclick="changeQty(\'' + item.id + '\', -1)">-</button>';
     html += '<span class="qty-value">' + item.qty + '</span>';
@@ -132,16 +172,17 @@ function renderCart() {
     html += '</div>';
     html += '<button class="btn-remove" onclick="removeFromCart(\'' + item.id + '\')">Remove</button>';
     html += '</div>';
-    html += '<div style="font-size:16px; font-weight:700;">' + formatPrice(lineTotal) + '</div>';
+    html += '<div style="font-size:16px; font-weight:bold;">₹' + lineTotal.toLocaleString("en-IN") + '</div>';
     html += '</div>';
   }
 
   wrap.innerHTML = html;
-  updateSummary(subtotal);
-  updateCartBadge();
+  updateTotal(subtotal);
+  updateCartCount();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  renderCart();
-  updateCartBadge();
-});
+// run when the page loads
+window.onload = function() {
+  showCart();
+  updateCartCount();
+};
