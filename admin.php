@@ -179,32 +179,16 @@ pg_close($conn);
     </div>
   </div>
 
-  <!-- Spec Management Modal -->
+  <!-- Spec Modal -->
   <div id="specModal" class="modal-overlay" style="display:none;">
-    <div class="modal-box" style="max-width:520px;">
-      <h2 style="font-size:18px; font-weight:700; margin-bottom:16px;">Manage Specifications</h2>
+    <div class="modal-box" style="max-width:480px;">
+      <h2 style="font-size:18px; font-weight:700; margin-bottom:12px;">Edit Specifications</h2>
+      <p style="font-size:13px; color:#888; margin-bottom:12px;">One spec per line. Format: <strong>Name: Value</strong><br>Example: RAM: 16GB</p>
       <input type="hidden" id="specProductId" />
-
-      <table style="width:100%; border-collapse:collapse; font-size:13px; margin-bottom:16px;">
-        <thead>
-          <tr style="background:#f5f5f5;">
-            <th style="padding:8px 10px; border:1px solid #ddd; text-align:left;">Spec Name</th>
-            <th style="padding:8px 10px; border:1px solid #ddd; text-align:left;">Value</th>
-            <th style="padding:8px 10px; border:1px solid #ddd; width:40px;"></th>
-          </tr>
-        </thead>
-        <tbody id="specTableBody"></tbody>
-      </table>
-
-      <div style="display:flex; gap:8px; margin-bottom:20px; align-items:center;">
-        <input type="text" id="newSpecName" class="form-input" placeholder="Spec Name (e.g. RAM)" style="flex:1;" />
-        <input type="text" id="newSpecValue" class="form-input" placeholder="Value (e.g. 16GB)" style="flex:1;" />
-        <button onclick="addSpecRow()" class="btn-primary" style="padding:9px 16px; border-radius:8px; white-space:nowrap;">+ Add</button>
-      </div>
-
+      <textarea id="specTextarea" rows="8" class="form-input" style="width:100%; font-family:monospace; font-size:13px;" placeholder="RAM: 16GB&#10;Storage: 512GB&#10;Color: Black"></textarea>
       <div class="modal-buttons">
         <button type="button" onclick="closeSpecModal()" style="padding:10px 20px; border:1px solid #ccc; border-radius:8px; background:#fff; font-size:14px; cursor:pointer;">Cancel</button>
-        <button type="button" id="saveSpecBtn" onclick="saveSpecs()" class="btn-primary" style="padding:10px 20px; border-radius:8px;">Save Specs</button>
+        <button type="button" onclick="saveSpecs()" class="btn-primary" style="padding:10px 20px; border-radius:8px;">Save</button>
       </div>
     </div>
   </div>

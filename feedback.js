@@ -1,23 +1,24 @@
-document.getElementById("contact-form").addEventListener("submit", function(e) {
-  var fname = document.getElementById("cfname").value.trim();
-  var email = document.getElementById("cemail").value.trim();
-  var message = document.getElementById("cmessage").value.trim();
+// validate feedback form before submitting
+document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+  var fname   = document.getElementById("fname").value.trim();
+  var email   = document.getElementById("femail").value.trim();
+  var message = document.getElementById("fmessage").value.trim();
 
-  if (fname === "") {
+  if (fname == "") {
     e.preventDefault();
-    showToast("Please enter your first name.");
+    alert("Please enter your first name.");
     return;
   }
 
-  if (email === "" || !email.includes("@")) {
+  if (email == "" || !email.includes("@")) {
     e.preventDefault();
-    showToast("Please enter a valid email address.");
+    alert("Please enter a valid email address.");
     return;
   }
 
-  if (message === "") {
+  if (message == "") {
     e.preventDefault();
-    showToast("Please write a message before submitting.");
+    alert("Please write a message before submitting.");
     return;
   }
 });

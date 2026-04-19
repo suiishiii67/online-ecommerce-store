@@ -1,16 +1,17 @@
-document.getElementById("login-form").addEventListener("submit", function(e) {
-  var email = document.getElementById("login-email").value.trim();
-  var password = document.getElementById("login-password").value.trim();
+// validate login form before submitting
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+  var email    = document.getElementById("email").value.trim();
+  var password = document.getElementById("password").value.trim();
 
-  if (email === "") {
+  if (email == "") {
     e.preventDefault();
-    showToast("Please enter your email address.");
+    alert("Please enter your email address.");
     return;
   }
 
-  if (password === "") {
+  if (password == "") {
     e.preventDefault();
-    showToast("Please enter your password.");
+    alert("Please enter your password.");
     return;
   }
 });

@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <p style="color:red; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
     <?php } ?>
 
-    <form method="POST" action="login.php" onsubmit="return validateLogin()">
+    <form method="POST" action="login.php" id="loginForm">
       <div class="form-group">
         <label class="form-label">Email</label>
         <input type="email" class="form-input" id="email" name="email" placeholder="you@example.com">
@@ -103,25 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 </div>
 
-<script>
-// check the form before submitting
-function validateLogin() {
-  var email = document.getElementById("email").value.trim();
-  var password = document.getElementById("password").value.trim();
-
-  if (email == "") {
-    alert("Please enter your email address.");
-    return false;
-  }
-
-  if (password == "") {
-    alert("Please enter your password.");
-    return false;
-  }
-
-  return true;
-}
-</script>
+<script src="login.js"></script>
 
 </body>
 </html>

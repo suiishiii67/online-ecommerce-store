@@ -85,22 +85,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <p style="color:red; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
     <?php } ?>
 
-    <form method="POST" action="register.php">
+    <form method="POST" action="register.php" id="registerForm">
       <div class="form-group">
         <label class="form-label">Full Name</label>
-        <input type="text" class="form-input" name="name" placeholder="Full Name" required>
+        <input type="text" class="form-input" id="regName" name="name" placeholder="Full Name" required>
       </div>
       <div class="form-group">
         <label class="form-label">Email</label>
-        <input type="email" class="form-input" name="email" placeholder="you@example.com" required>
+        <input type="email" class="form-input" id="regEmail" name="email" placeholder="you@example.com" required>
       </div>
       <div class="form-group">
         <label class="form-label">Phone Number</label>
-        <input type="tel" class="form-input" name="phone" placeholder="10-digit number" required>
+        <input type="tel" class="form-input" id="regPhone" name="phone" placeholder="10-digit number" required>
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>
-        <input type="password" class="form-input" name="password" placeholder="Min 6 characters" required>
+        <input type="password" class="form-input" id="regPassword" name="password" placeholder="Min 6 characters" required>
       </div>
       <button type="submit" class="login-btn">Create Account</button>
     </form>
@@ -109,5 +109,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 </div>
 
+<script src="register.js"></script>
 </body>
 </html>

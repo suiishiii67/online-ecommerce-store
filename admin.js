@@ -1,19 +1,17 @@
 var products = [];
-var specRows  = [];
 
-// ── Helper: send data to server and get response ──────────
+// send data to server and get back a response
 function sendRequest(url, data, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onload = function() {
-    var response = JSON.parse(xhr.responseText);
-    callback(response);
+    callback(JSON.parse(xhr.responseText));
   };
   xhr.send(JSON.stringify(data));
 }
 
-// ── Load all products from the database ──────────────────
+// load all products from the database
 function loadProducts() {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "admin.php?action=list");
@@ -24,15 +22,15 @@ function loadProducts() {
   xhr.send();
 }
 
-// ── Show stock status label ───────────────────────────────
+// return stock status label and css class
 function getStatus(stock) {
   stock = parseInt(stock);
-  if (stock == 0)  return { label: "Out of Stock", cls: "status-out" };
-  if (stock < 10)  return { label: "Low Stock",    cls: "status-low" };
-  return               { label: "In Stock",     cls: "status-in"  };
+  if (stock == 0) return { label: "Out of Stock", cls: "status-out" };
+  if (stock < 10) return { label: "Low Stock",    cls: "status-low" };
+  return              { label: "In Stock",     cls: "status-in"  };
 }
 
-// ── Update the 3 stat boxes at the top ───────────────────
+// update the 3 stat boxes at the top of the page
 function updateStats() {
   var totalValue = 0;
   var lowCount   = 0;
@@ -47,32 +45,20 @@ function updateStats() {
   document.getElementById("lowStock").textContent      = lowCount;
 }
 
-// ── Render the product table (with optional search filter) ─
+// show products in the table, filtered by search text
 function renderTable(searchText) {
   var tbody    = document.getElementById("tableBody");
   var emptyMsg = document.getElementById("emptyMsg");
-  var filtered = [];
+  var html     = "";
 
   searchText = searchText.toLowerCase();
 
   for (var i = 0; i < products.length; i++) {
     var p    = products[i];
     var text = (p.name + " " + p.description + " " + p.category).toLowerCase();
-    if (text.indexOf(searchText) !== -1) filtered.push(p);
-  }
 
-  if (filtered.length == 0) {
-    tbody.innerHTML = "";
-    emptyMsg.style.display = "block";
-    updateStats();
-    return;
-  }
+    if (text.indexOf(searchText) == -1) continue;
 
-  emptyMsg.style.display = "none";
-  var html = "";
-
-  for (var i = 0; i < filtered.length; i++) {
-    var p = filtered[i];
     var s = getStatus(p.stock);
     html += "<tr>";
     html += "<td><strong>" + p.name + "</strong></td>";
@@ -82,47 +68,53 @@ function renderTable(searchText) {
     html += "<td>" + p.stock + "</td>";
     html += "<td><span class='status-badge " + s.cls + "'>" + s.label + "</span></td>";
     html += "<td>";
-    html += "<button class='btn-edit'   onclick='openEdit(" + p.id + ")'>Edit</button> ";
-    html += "<button class='btn-spec'   onclick='openSpecModal(" + p.id + ")'>Spec</button> ";
+    html += "<button class='btn-edit'   onclick='openEdit("   + p.id + ")'>Edit</button> ";
+    html += "<button class='btn-spec'   onclick='openSpec("   + p.id + ")'>Spec</button> ";
     html += "<button class='btn-delete' onclick='deleteProduct(" + p.id + ")'>Delete</button>";
-    html += "</td>";
-    html += "</tr>";
+    html += "</td></tr>";
   }
 
-  tbody.innerHTML = html;
+  if (html == "") {
+    tbody.innerHTML = "";
+    emptyMsg.style.display = "block";
+  } else {
+    emptyMsg.style.display = "none";
+    tbody.innerHTML = html;
+  }
+
   updateStats();
 }
 
-// ── Open the edit modal and fill in the product data ──────
+// open edit modal and fill in the product details
 function openEdit(productId) {
-  var product = null;
   for (var i = 0; i < products.length; i++) {
-    if (parseInt(products[i].id) == productId) { product = products[i]; break; }
+    if (parseInt(products[i].id) == productId) {
+      var p = products[i];
+      document.getElementById("modalTitle").textContent = "Edit Product";
+      document.getElementById("prodId").value           = p.id;
+      document.getElementById("prodName").value         = p.name;
+      document.getElementById("prodDesc").value         = p.description || "";
+      document.getElementById("prodCat").value          = p.category;
+      document.getElementById("prodPrice").value        = p.price;
+      document.getElementById("prodStock").value        = p.stock;
+      document.getElementById("prodImage").value        = p.image_url || "";
+      document.getElementById("productModal").style.display = "flex";
+      break;
+    }
   }
-  if (!product) return;
-
-  document.getElementById("modalTitle").textContent = "Edit Product";
-  document.getElementById("prodId").value           = product.id;
-  document.getElementById("prodName").value         = product.name;
-  document.getElementById("prodDesc").value         = product.description || "";
-  document.getElementById("prodCat").value          = product.category;
-  document.getElementById("prodPrice").value        = product.price;
-  document.getElementById("prodStock").value        = product.stock;
-  document.getElementById("prodImage").value        = product.image_url || "";
-  document.getElementById("productModal").style.display = "flex";
 }
 
-// ── Delete a product ──────────────────────────────────────
+// delete a product after confirmation
 function deleteProduct(productId) {
   if (!confirm("Delete this product?")) return;
 
   sendRequest("admin.php?action=delete", { id: productId }, function(result) {
     if (result.success) loadProducts();
-    else alert("Failed to delete product.");
+    else alert("Failed to delete.");
   });
 }
 
-// ── Save product (add or update) ──────────────────────────
+// save product when form is submitted (add or update)
 document.getElementById("productForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -149,7 +141,7 @@ document.getElementById("productForm").addEventListener("submit", function(e) {
   });
 });
 
-// ── Open/close product modal ──────────────────────────────
+// open add product modal
 document.getElementById("addBtn").addEventListener("click", function() {
   document.getElementById("modalTitle").textContent = "Add Product";
   document.getElementById("productForm").reset();
@@ -157,86 +149,37 @@ document.getElementById("addBtn").addEventListener("click", function() {
   document.getElementById("productModal").style.display = "flex";
 });
 
+// close product modal
 document.getElementById("cancelModalBtn").addEventListener("click", function() {
   document.getElementById("productModal").style.display = "none";
 });
 
-// ── Search box ────────────────────────────────────────────
+// search box
 document.getElementById("searchInput").addEventListener("input", function() {
   renderTable(this.value);
 });
 
-// ── Spec Modal ────────────────────────────────────────────
-function openSpecModal(productId) {
-  var product = null;
+// open spec modal and load existing specs into textarea
+function openSpec(productId) {
   for (var i = 0; i < products.length; i++) {
-    if (parseInt(products[i].id) == productId) { product = products[i]; break; }
-  }
-
-  document.getElementById("specProductId").value = productId;
-  specRows = [];
-
-  if (product && product.specs && product.specs.trim() != "") {
-    var lines = product.specs.split("\n");
-    for (var i = 0; i < lines.length; i++) {
-      var line = lines[i].trim();
-      if (!line) continue;
-      var idx  = line.indexOf(":");
-      var key  = idx != -1 ? line.substring(0, idx).trim() : line;
-      var val  = idx != -1 ? line.substring(idx + 1).trim() : "";
-      specRows.push({ name: key, value: val });
+    if (parseInt(products[i].id) == productId) {
+      document.getElementById("specProductId").value   = productId;
+      document.getElementById("specTextarea").value    = products[i].specs || "";
+      document.getElementById("specModal").style.display = "flex";
+      break;
     }
   }
-
-  renderSpecTable();
-  document.getElementById("specModal").style.display = "flex";
 }
 
-function renderSpecTable() {
-  var tbody = document.getElementById("specTableBody");
-  if (specRows.length == 0) {
-    tbody.innerHTML = "<tr><td colspan='3' style='text-align:center; color:#aaa; padding:12px;'>No specs yet.</td></tr>";
-    return;
-  }
-
-  var html = "";
-  for (var i = 0; i < specRows.length; i++) {
-    html += "<tr>";
-    html += "<td style='padding:8px 10px; border:1px solid #e0e0e0;'>" + specRows[i].name  + "</td>";
-    html += "<td style='padding:8px 10px; border:1px solid #e0e0e0;'>" + specRows[i].value + "</td>";
-    html += "<td style='padding:8px 10px; border:1px solid #e0e0e0; text-align:center;'><button onclick='removeSpec(" + i + ")' style='color:red; border:none; background:none; cursor:pointer;'>✕</button></td>";
-    html += "</tr>";
-  }
-  tbody.innerHTML = html;
-}
-
-function addSpecRow() {
-  var name  = document.getElementById("newSpecName").value.trim();
-  var value = document.getElementById("newSpecValue").value.trim();
-  if (!name || !value) { alert("Please fill both Spec Name and Value."); return; }
-  specRows.push({ name: name, value: value });
-  document.getElementById("newSpecName").value  = "";
-  document.getElementById("newSpecValue").value = "";
-  renderSpecTable();
-}
-
-function removeSpec(index) {
-  specRows.splice(index, 1);
-  renderSpecTable();
-}
-
+// close spec modal
 function closeSpecModal() {
   document.getElementById("specModal").style.display = "none";
-  specRows = [];
 }
 
+// save specs from textarea
 function saveSpecs() {
   var productId = document.getElementById("specProductId").value;
-  var specsText = "";
-
-  for (var i = 0; i < specRows.length; i++) {
-    specsText += specRows[i].name + ": " + specRows[i].value + "\n";
-  }
+  var specsText = document.getElementById("specTextarea").value.trim();
 
   sendRequest("admin.php?action=update_specs", { id: productId, specs: specsText }, function(result) {
     if (result.success) { closeSpecModal(); loadProducts(); }
@@ -244,5 +187,5 @@ function saveSpecs() {
   });
 }
 
-// ── Start: load products when page opens ──────────────────
+// load products when page opens
 loadProducts();

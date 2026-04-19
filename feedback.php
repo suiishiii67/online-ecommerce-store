@@ -94,12 +94,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <p style="color:#dc3545; font-size:13px; margin-bottom:12px;"><?php echo $error; ?></p>
         <?php } ?>
 
-        <form method="POST" action="feedback.php">
+        <form method="POST" action="feedback.php" id="feedbackForm">
 
           <div class="form-row-2">
             <div class="form-group">
               <label class="form-label">First Name</label>
-              <input type="text" class="form-input" name="first_name" placeholder="First Name" required />
+              <input type="text" class="form-input" id="fname" name="first_name" placeholder="First Name" required />
             </div>
             <div class="form-group">
               <label class="form-label">Last Name</label>
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
           <div class="form-group">
             <label class="form-label">Email Address</label>
-            <input type="email" class="form-input" name="email" placeholder="you@example.com" required />
+            <input type="email" class="form-input" id="femail" name="email" placeholder="you@example.com" required />
           </div>
 
           <div class="form-group">
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
           <div class="form-group">
             <label class="form-label">Your Message</label>
-            <textarea class="form-textarea" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+            <textarea class="form-textarea" id="fmessage" name="message" rows="5" placeholder="How can we help you?" required></textarea>
           </div>
 
           <button type="submit" class="btn-primary" style="padding:10px 24px; border-radius:8px; font-size:14px;">Submit</button>
@@ -157,5 +157,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <p>© 2025 NexGear. All rights reserved.</p>
   </footer>
 
+<script src="feedback.js"></script>
 </body>
 </html>
