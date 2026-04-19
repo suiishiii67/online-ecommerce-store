@@ -5,16 +5,21 @@ $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) { header("Location: products.php"); exit; }
 
-$result  = pg_query_params($conn, "SELECT * FROM products WHERE id = $1", array($id));
+// use calculate_gst_total() function and is_in_stock() function from DB
+$result  = pg_query_params($conn,
+    "SELECT *, calculate_gst_total(price) AS price_with_gst, is_in_stock(id) AS available FROM products WHERE id = $1",
+    array($id)
+);
 $product = pg_fetch_assoc($result);
 if (!$product) { header("Location: products.php"); exit; }
 
 pg_close($conn);
 
+// use is_in_stock() result from DB instead of manual PHP check
 $stock = (int)$product['stock'];
-if ($stock > 10)    { $stock_label = "In Stock";         $stock_color = "green"; }
-elseif ($stock > 0) { $stock_label = "Only $stock left"; $stock_color = "orange"; }
-else                { $stock_label = "Out of Stock";      $stock_color = "red"; }
+if ($product['available'] === 't' && $stock > 10) { $stock_label = "In Stock";         $stock_color = "green"; }
+elseif ($product['available'] === 't')             { $stock_label = "Only $stock left"; $stock_color = "orange"; }
+else                                               { $stock_label = "Out of Stock";      $stock_color = "red"; }
 
 $specs_raw = trim($product['specs'] ?? '');
 $spec_rows = [];
@@ -73,7 +78,12 @@ if ($specs_raw != '') {
     </ul>
     <div class="nav-actions">
       <a href="cart.php" class="cart-icon-wrap">Cart <span class="cart-badge" id="nav-cart-count">0</span></a>
-      <a href="login.php" class="btn-primary">Sign In</a>
+      <?php if(isset($_SESSION["username"])): ?>
+        <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
+        <a href="logout.php" class="btn-primary">Sign Out</a>
+      <?php else: ?>
+        <a href="login.php" class="btn-primary">Sign In</a>
+      <?php endif; ?>
     </div>
   </div>
 </nav>
@@ -88,12 +98,21 @@ if ($specs_raw != '') {
 
   <div class="pd-card">
 
-    <div class="pd-image-box">No Image</div>
+    <div class="pd-image-box">
+      <?php if (!empty($product['image_url'])): ?>
+        <img src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" style="width:100%; height:100%; object-fit:contain;">
+      <?php else: ?>
+        No Image
+      <?php endif; ?>
+    </div>
 
     <div class="pd-info">
       <p class="pd-category"><?php echo htmlspecialchars($product['category']); ?></p>
       <h1 class="pd-name"><?php echo htmlspecialchars($product['name']); ?></h1>
       <p class="pd-price">₹<?php echo number_format((float)$product['price']); ?></p>
+      <p style="font-size:13px; color:#888; margin-bottom:6px;">
+        Incl. 18% GST: <strong style="color:#333;">₹<?php echo number_format((float)$product['price_with_gst']); ?></strong>
+      </p>
       <p class="pd-stock" style="color:<?php echo $stock_color; ?>;"><?php echo $stock_label; ?></p>
       <p class="pd-desc"><?php echo htmlspecialchars($product['description']); ?></p>
 

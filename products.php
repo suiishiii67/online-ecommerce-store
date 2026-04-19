@@ -9,8 +9,9 @@ while ($row = pg_fetch_assoc($result)) {
         'name'     => $row['name'],
         'brand'    => $row['description'],
         'category' => $row['category'],
-        'price'    => floatval($row['price']),
-        'stock'    => intval($row['stock'])
+        'price'     => floatval($row['price']),
+        'stock'     => intval($row['stock']),
+        'image_url' => $row['image_url'] ?? ''
     ];
 }
 pg_close($conn);
@@ -50,7 +51,12 @@ pg_close($conn);
     </ul>
     <div class="nav-actions">
       <a href="cart.php" class="cart-icon-wrap">Cart <span class="cart-badge" id="nav-cart-count">0</span></a>
-      <a href="login.php" class="btn-primary">Sign In</a>
+      <?php if(isset($_SESSION["username"])): ?>
+        <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
+        <a href="logout.php" class="btn-primary">Sign Out</a>
+      <?php else: ?>
+        <a href="login.php" class="btn-primary">Sign In</a>
+      <?php endif; ?>
     </div>
   </div>
 </nav>
@@ -117,13 +123,15 @@ var perPage = 9;
 function makeCard(p) {
   var name  = p.name.replace(/'/g, "\\'");
   var brand = p.brand.replace(/'/g, "\\'");
+  var imgHtml = p.image_url
+    ? '<img src="' + p.image_url + '" alt="' + name + '" style="width:100%;height:100%;object-fit:contain;">'
+    : '';
   return '<div class="product-card" onclick="window.location.href=\'product-detail.php?id=' + p.id + '\'" style="cursor:pointer;">' +
-    '<div class="product-image"></div>' +
+    '<div class="product-image">' + imgHtml + '</div>' +
     '<div class="product-info">' +
     '<div class="product-brand">' + p.brand + '</div>' +
     '<div class="product-name">' + p.name + '</div>' +
     '<div class="product-specs">' + p.category + '</div>' +
-    '<div class="stars">★★★★★</div>' +
     '<div class="product-footer">' +
     '<span class="price-current">₹' + parseInt(p.price).toLocaleString("en-IN") + '</span>' +
     '<button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(\'' + p.id + '\', \'' + name + '\', \'' + brand + '\', ' + p.price + ', \'\')">+ Cart</button>' +

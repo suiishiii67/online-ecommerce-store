@@ -194,6 +194,22 @@ body {
   color: #fff;
 }
 
+.btn-spec {
+  background: none;
+  border: 1px solid #888;
+  color: #888;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.btn-spec:hover {
+  background: #888;
+  color: #fff;
+}
+
 /* Modal */
 .modal-overlay {
   position: fixed;

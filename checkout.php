@@ -4,6 +4,34 @@ if(!isset($_SESSION["username"])) {
     header("Location: login.php");
     exit;
 }
+
+$conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
+$order_success = "";
+$order_error   = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
+    $user_id   = $_SESSION["user_id"];
+    $items     = json_decode($_POST["cart_items"], true);
+    $total     = floatval($_POST["grand_total"]);
+    $all_ok    = true;
+
+    foreach ($items as $item) {
+        $item_total = floatval($item["price"]) * intval($item["qty"]);
+        $res = pg_query_params($conn,
+            "CALL place_order($1, $2, $3, $4)",
+            array($user_id, $item["id"], $item["qty"], $item_total)
+        );
+        if (!$res) {
+            $all_ok      = false;
+            $order_error = pg_last_error($conn);
+            break;
+        }
+    }
+
+    if ($all_ok) {
+        $order_success = "Order placed successfully!";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -122,7 +150,18 @@ if(!isset($_SESSION["username"])) {
           <span id="co-total">₹0</span>
         </div>
 
-        <button class="btn-place-order" id="placeOrderBtn">Place Order</button>
+        <?php if ($order_success != ""): ?>
+          <p style="color:green; font-size:13px; margin-bottom:8px;"><?php echo $order_success; ?></p>
+        <?php endif; ?>
+        <?php if ($order_error != ""): ?>
+          <p style="color:red; font-size:13px; margin-bottom:8px;">Error: <?php echo htmlspecialchars($order_error); ?></p>
+        <?php endif; ?>
+        <form id="orderForm" method="POST" action="checkout.php">
+          <input type="hidden" name="place_order" value="1">
+          <input type="hidden" name="cart_items" id="cart_items_input">
+          <input type="hidden" name="grand_total" id="grand_total_input">
+          <button type="submit" class="btn-place-order" id="placeOrderBtn">Place Order</button>
+        </form>
       </aside>
 
     </div>
@@ -133,80 +172,7 @@ if(!isset($_SESSION["username"])) {
   </footer>
 
   <script src="cart.js"></script>
-  <script>
-  // show cart items and calculate total in the order summary
-  function loadOrderSummary() {
-    var cart = getCart();
-    var box = document.getElementById("checkout-items");
-
-    if (cart.length == 0) {
-      box.innerHTML = '<p style="font-size:13px; color:#888; padding:8px 0;">Cart is empty. <a href="products.php" style="color:#0071e3;">Add items</a></p>';
-      return;
-    }
-
-    var html = "";
-    var subtotal = 0;
-
-    for (var i = 0; i < cart.length; i++) {
-      var item = cart[i];
-      var lineTotal = parseInt(item.price) * item.qty;
-      subtotal = subtotal + lineTotal;
-      html += '<div class="co-item">';
-      html += '<span>' + item.name + ' x' + item.qty + '</span>';
-      html += '<span>₹' + lineTotal.toLocaleString("en-IN") + '</span>';
-      html += '</div>';
-    }
-
-    box.innerHTML = html;
-
-    var discount = Math.floor(subtotal * 0.05);
-    var gst = Math.floor((subtotal - discount) * 0.18);
-    var total = subtotal - discount + gst;
-
-    document.getElementById("co-subtotal").textContent = "₹" + subtotal.toLocaleString("en-IN");
-    document.getElementById("co-discount").textContent = "-₹" + discount.toLocaleString("en-IN");
-    document.getElementById("co-gst").textContent = "₹" + gst.toLocaleString("en-IN");
-    document.getElementById("co-total").textContent = "₹" + total.toLocaleString("en-IN");
-    document.getElementById("placeOrderBtn").textContent = "Place Order ₹" + total.toLocaleString("en-IN");
-  }
-
-  // validate address and place the order
-  document.getElementById("placeOrderBtn").addEventListener("click", function() {
-    var cart = getCart();
-    if (cart.length == 0) { alert("Your cart is empty!"); return; }
-
-    if (document.getElementById("fname").value.trim() == "")   { alert("Please enter your first name."); return; }
-    if (document.getElementById("lname").value.trim() == "")   { alert("Please enter your last name."); return; }
-    if (document.getElementById("phone").value.trim() == "")   { alert("Please enter your phone number."); return; }
-    if (document.getElementById("addr").value.trim() == "")    { alert("Please enter your address."); return; }
-    if (document.getElementById("city").value.trim() == "")    { alert("Please enter your city."); return; }
-
-    var pin = document.getElementById("pincode").value.trim();
-    if (pin == "" || pin.length != 6) { alert("Please enter a valid 6-digit PIN code."); return; }
-
-    var orderNum = "NGR-2025-" + Math.floor(1000 + Math.random() * 9000);
-
-    // save this order to order history in browser storage
-    var orders = JSON.parse(localStorage.getItem("nexgear_orders") || "[]");
-    var now = new Date();
-    var dateStr = now.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
-    var timeStr = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
-
-    orders.push({
-      orderId: orderNum,
-      date: dateStr + " " + timeStr,
-      items: cart,
-      total: document.getElementById("co-total").textContent
-    });
-
-    localStorage.setItem("nexgear_orders", JSON.stringify(orders));
-    localStorage.removeItem("nexgear_cart");
-    alert("Order placed!\nYour Order ID: " + orderNum + "\nWe will deliver your order soon.");
-    window.location.href = "order-tracking.php";
-  });
-
-  loadOrderSummary();
-  </script>
+  <script src="checkout.js"></script>
 
 </body>
 </html>

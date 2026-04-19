@@ -1,4 +1,9 @@
 <?php
+session_start();
+if(!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    exit;
+}
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 
 $success = "";
@@ -62,7 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <li><a href="feedback.php" class="active">Contact Us</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="login.php" class="btn-primary">Sign In</a>
+        <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
+        <a href="logout.php" class="btn-primary">Sign Out</a>
       </div>
     </div>
   </nav>

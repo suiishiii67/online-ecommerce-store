@@ -101,11 +101,21 @@ pg_close($conn);
     <?php if (count($featured) > 0) { ?>
     <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:18px;">
       <?php foreach ($featured as $fp) { ?>
-      <div style="background:white; border:1px solid #ddd; border-radius:10px; padding:18px; text-align:center;">
-        <div style="font-size:11px; color:#888; text-transform:uppercase;"><?php echo htmlspecialchars($fp['category']); ?></div>
-        <div style="font-size:15px; font-weight:bold; margin:6px 0;"><?php echo htmlspecialchars($fp['name']); ?></div>
-        <div style="font-size:12px; color:#888; margin-bottom:8px;"><?php echo htmlspecialchars($fp['description']); ?></div>
-        <div style="font-size:16px; font-weight:bold; color:#0071e3;">₹<?php echo number_format(floatval($fp['price'])); ?></div>
+      <div class="product-card" onclick="window.location.href='product-detail.php?id=<?php echo $fp['id']; ?>'" style="cursor:pointer;">
+        <div class="product-image">
+            <?php if (!empty($fp['image_url'])): ?>
+              <img src="<?php echo htmlspecialchars($fp['image_url']); ?>" alt="<?php echo htmlspecialchars($fp['name']); ?>" style="width:100%;height:100%;object-fit:contain;">
+            <?php endif; ?>
+          </div>
+        <div class="product-info">
+          <div class="product-brand"><?php echo htmlspecialchars($fp['description']); ?></div>
+          <div class="product-name"><?php echo htmlspecialchars($fp['name']); ?></div>
+          <div class="product-specs"><?php echo htmlspecialchars($fp['category']); ?></div>
+          <div class="product-footer">
+            <span class="price-current">₹<?php echo number_format(floatval($fp['price'])); ?></span>
+            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('<?php echo $fp['id']; ?>', '<?php echo addslashes($fp['name']); ?>', '<?php echo addslashes($fp['description']); ?>', <?php echo floatval($fp['price']); ?>, '')">+ Cart</button>
+          </div>
+        </div>
       </div>
       <?php } ?>
     </div>

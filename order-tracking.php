@@ -1,5 +1,9 @@
 <?php
 session_start();
+if(!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +39,8 @@ session_start();
         <li><a href="feedback.php">Contact Us</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="login.php" class="btn-primary">Sign In</a>
+        <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
+        <a href="logout.php" class="btn-primary">Sign Out</a>
       </div>
     </div>
   </nav>
