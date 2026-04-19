@@ -22,8 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
         $user = pg_fetch_assoc($result);
         if ($user && password_verify($password, $user["password"])) {
-            $_SESSION["user_id"] = $user["id"];
+            $_SESSION["user_id"]   = $user["id"];
             $_SESSION["user_name"] = $user["name"];
+            $_SESSION["username"]  = $user["name"];
+            echo "session variable is   " . $_SESSION["username"];
+            echo "<br> Welcome " . $_SESSION["username"] . "<br>";
             $success = "Welcome back, " . $user["name"] . "! Redirecting...";
         } else {
             $error = "Wrong email or password.";
@@ -84,14 +87,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <p style="color:red; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
     <?php } ?>
 
-    <form method="POST" action="login.php">
+    <form method="POST" action="login.php" onsubmit="return validateLogin()">
       <div class="form-group">
         <label class="form-label">Email</label>
-        <input type="email" class="form-input" name="email" placeholder="you@example.com" required>
+        <input type="email" class="form-input" id="email" name="email" placeholder="you@example.com">
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>
-        <input type="password" class="form-input" name="password" placeholder="••••••" required>
+        <input type="password" class="form-input" id="password" name="password" placeholder="••••••">
       </div>
       <button type="submit" class="login-btn">Sign In</button>
     </form>
@@ -99,6 +102,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <p class="login-footer">Don't have an account? <a href="register.php">Create one</a></p>
   </div>
 </div>
+
+<script>
+// check the form before submitting
+function validateLogin() {
+  var email = document.getElementById("email").value.trim();
+  var password = document.getElementById("password").value.trim();
+
+  if (email == "") {
+    alert("Please enter your email address.");
+    return false;
+  }
+
+  if (password == "") {
+    alert("Please enter your password.");
+    return false;
+  }
+
+  return true;
+}
+</script>
 
 </body>
 </html>

@@ -29,10 +29,6 @@ pg_close($conn);
     .container { max-width: 1200px; margin: auto; }
     .section-title { font-size: 26px; font-weight: bold; text-align: center; margin-bottom: 8px; }
     .section-sub { font-size: 14px; color: #666; text-align: center; margin-bottom: 24px; }
-    .category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .category-card { border: 1px solid #ddd; border-radius: 10px; padding: 20px 14px; text-align: center; display: block; }
-    .category-card:hover { border-color: #0071e3; }
-    .cat-name { font-size: 14px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -49,7 +45,12 @@ pg_close($conn);
     </ul>
     <div class="nav-actions">
       <a href="cart.php" class="cart-icon-wrap">Cart <span class="cart-badge" id="nav-cart-count">0</span></a>
-      <a href="login.php" class="btn-primary">Sign In</a>
+      <?php if(isset($_SESSION["username"])): ?>
+        <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
+        <a href="logout.php" class="btn-primary">Sign Out</a>
+      <?php else: ?>
+        <a href="login.php" class="btn-primary">Sign In</a>
+      <?php endif; ?>
     </div>
   </div>
 </nav>
@@ -63,26 +64,31 @@ pg_close($conn);
 
 <section class="features-bar">
   <div class="features-grid">
-    <div><div class="feat-title">Free Delivery</div><div class="feat-desc">On orders above ₹999</div></div>
-    <div><div class="feat-title">Secure Payments</div><div class="feat-desc">UPI, Cards, NetBanking</div></div>
-    <div><div class="feat-title">Easy Returns</div><div class="feat-desc">7-day return policy</div></div>
-    <div><div class="feat-title">24/7 Support</div><div class="feat-desc">Always here to help</div></div>
+    <div style="text-align:center;">
+      <img src="pngtree-free-delivery-truck-icon-png-image_6565580.png" alt="Free Delivery" style="height:120px; object-fit:contain;">
+    </div>
+    <div style="text-align:center;">
+      <img src="secure-payment-label-maximum-security-and-reliability-when-paying-online-png.webp" alt="Secure Payment" style="height:120px; object-fit:contain;">
+    </div>
+    <div style="text-align:center;">
+      <img src="pngtree-simple-line-retail-icon-for-easy-returns-great-for-templates-web-png-image_12754937.png" alt="Easy Returns" style="height:120px; object-fit:contain;">
+    </div>
+    <div style="text-align:center;">
+      <img src="pngtree-24-hour-service-vector-design-with-telephone-illustration-png-image_5246998.jpg" alt="24/7 Support" style="height:120px; object-fit:contain;">
+    </div>
   </div>
 </section>
 
-<section class="section" id="categories" style="background: #f8f8f8;">
-  <div class="container">
-    <h2 class="section-title">Shop by Category</h2>
-    <p class="section-sub">Find what you need for the perfect setup.</p>
-    <div class="category-grid">
-      <a href="products.php" class="category-card"><div class="cat-name">Monitors</div></a>
-      <a href="products.php" class="category-card"><div class="cat-name">Headphones</div></a>
-      <a href="products.php" class="category-card"><div class="cat-name">Keyboards</div></a>
-      <a href="products.php" class="category-card"><div class="cat-name">Mouse</div></a>
-      <a href="products.php" class="category-card"><div class="cat-name">Gaming Chairs</div></a>
-      <a href="products.php" class="category-card"><div class="cat-name">Microphones</div></a>
-      <a href="products.php" class="category-card"><div class="cat-name">Webcams</div></a>
-      <a href="products.php" class="category-card"><div class="cat-name">Accessories</div></a>
+
+<section style="padding: 30px 20px;">
+  <div style="max-width:1200px; margin:auto;">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <a href="products.php">
+        <img src="MSI-BANNER.webp" alt="MSI Banner" style="width:100%; height:250px; object-fit:cover; display:block;">
+      </a>
+      <a href="products.php">
+        <img src="keyboard.jpg" alt="Keyboard" style="width:100%; height:250px; object-fit:cover; display:block;">
+      </a>
     </div>
   </div>
 </section>

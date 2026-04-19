@@ -1,4 +1,10 @@
-<?php session_start(); ?>
+<?php
+session_start();
+if(!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +41,8 @@
     </ul>
     <div class="nav-actions">
       <a href="cart.php" class="cart-icon-wrap">Cart <span class="cart-badge" id="nav-cart-count">0</span></a>
-      <a href="login.php" class="btn-primary">Sign In</a>
+      <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
+      <a href="logout.php" class="btn-primary">Sign Out</a>
     </div>
   </div>
 </nav>
