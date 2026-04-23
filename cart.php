@@ -34,7 +34,6 @@ if(!isset($_SESSION["username"])) {
     <ul class="nav-links">
       <li><a href="home.php">Home</a></li>
       <li><a href="products.php">Products</a></li>
-      <li><a href="cart.php" class="active">Cart</a></li>
       <li><a href="order-tracking.php">Orders</a></li>
       <li><a href="feedback.php">Contact Us</a></li>
     </ul>
