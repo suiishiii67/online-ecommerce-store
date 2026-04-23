@@ -1,26 +1,19 @@
 <?php
 session_start();
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
-
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) { header("Location: products.php"); exit; }
-
-// use calculate_gst_total() function and is_in_stock() function from DB
-$result  = pg_query_params($conn,
+$result = pg_query_params($conn,
     "SELECT *, calculate_gst_total(price) AS price_with_gst, is_in_stock(id) AS available FROM products WHERE id = $1",
     array($id)
 );
 $product = pg_fetch_assoc($result);
 if (!$product) { header("Location: products.php"); exit; }
-
 pg_close($conn);
-
-// use is_in_stock() result from DB instead of manual PHP check
 $stock = (int)$product['stock'];
 if ($product['available'] === 't' && $stock > 10) { $stock_label = "In Stock";         $stock_color = "green"; }
 elseif ($product['available'] === 't')             { $stock_label = "Only $stock left"; $stock_color = "orange"; }
 else                                               { $stock_label = "Out of Stock";      $stock_color = "red"; }
-
 $specs_raw = trim($product['specs'] ?? '');
 $spec_rows = [];
 if ($specs_raw != '') {
@@ -63,7 +56,6 @@ if ($specs_raw != '') {
   </style>
 </head>
 <body>
-
 <nav class="navbar">
   <div class="nav-container">
     <a href="home.php" class="nav-logo"><div class="logo-icon">N</div> NexGear</a>
@@ -89,17 +81,13 @@ if ($specs_raw != '') {
     </div>
   </div>
 </nav>
-
 <div class="pd-wrap">
-
   <div class="breadcrumb">
     <a href="home.php">Home</a> <span>/</span>
     <a href="products.php">Products</a> <span>/</span>
     <?php echo htmlspecialchars($product['name']); ?>
   </div>
-
   <div class="pd-card">
-
     <div class="pd-image-box">
       <?php if (!empty($product['image_url'])): ?>
         <img src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" style="width:100%; height:100%; object-fit:contain;">
@@ -107,7 +95,6 @@ if ($specs_raw != '') {
         No Image
       <?php endif; ?>
     </div>
-
     <div class="pd-info">
       <p class="pd-category"><?php echo htmlspecialchars($product['category']); ?></p>
       <h1 class="pd-name"><?php echo htmlspecialchars($product['name']); ?></h1>
@@ -117,7 +104,6 @@ if ($specs_raw != '') {
       </p>
       <p class="pd-stock" style="color:<?php echo $stock_color; ?>;"><?php echo $stock_label; ?></p>
       <p class="pd-desc"><?php echo htmlspecialchars($product['description']); ?></p>
-
       <div class="qty-row">
         <span class="qty-label">Quantity:</span>
         <div class="qty-box">
@@ -126,13 +112,10 @@ if ($specs_raw != '') {
           <button onclick="changeQty(1)">+</button>
         </div>
       </div>
-
       <button class="btn-add-cart" onclick="addWithQty()">+ Add to Cart</button>
       <button class="btn-go-back" onclick="window.history.back()">Go Back</button>
     </div>
-
   </div>
-
   <div class="specs-box">
     <h2>Specifications</h2>
     <?php if (count($spec_rows) > 0): ?>
@@ -148,23 +131,16 @@ if ($specs_raw != '') {
       <p style="font-size:13px; color:#aaa;">No specifications added yet.</p>
     <?php endif; ?>
   </div>
-
 </div>
-
 <footer><p>© 2025 NexGear. All rights reserved.</p></footer>
-
 <script src="cart.js"></script>
 <script>
 var qty = 1;
-
-// increase or decrease the selected quantity, minimum is 1
 function changeQty(change) {
   qty = qty + change;
   if (qty < 1) qty = 1;
   document.getElementById("qty-display").textContent = qty;
 }
-
-// add the product to cart the selected number of times
 function addWithQty() {
   for (var i = 0; i < qty; i++) {
     addToCart(
@@ -177,6 +153,5 @@ function addWithQty() {
   }
 }
 </script>
-
 </body>
 </html>

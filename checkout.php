@@ -4,18 +4,14 @@ if(!isset($_SESSION["username"])) {
     header("Location: login.php");
     exit;
 }
-
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $order_success = "";
 $order_error   = "";
-
-// handle order placement by looping through cart items and calling place_order procedure
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
     $user_id   = $_SESSION["user_id"];
     $items     = json_decode($_POST["cart_items"], true);
     $total     = floatval($_POST["grand_total"]);
     $all_ok    = true;
-
     foreach ($items as $item) {
         $item_total = floatval($item["price"]) * intval($item["qty"]);
         $res = pg_query_params($conn,
@@ -28,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
             break;
         }
     }
-
     if ($all_ok) {
         $order_success = "Order placed successfully!";
     }
@@ -56,13 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
   </style>
 </head>
 <body>
-
   <nav class="navbar">
     <div class="nav-container">
-      <a href="home.php" class="nav-logo">
-        <div class="logo-icon">N</div>
-        NexGear
-      </a>
+      <a href="home.php" class="nav-logo"><div class="logo-icon">N</div> NexGear</a>
       <ul class="nav-links">
         <li><a href="home.php">Home</a></li>
         <li><a href="products.php">Products</a></li>
@@ -80,23 +71,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
       </div>
     </div>
   </nav>
-
   <div class="page-wrapper">
-
     <div class="breadcrumb">
       <a href="home.php">Home</a> <span>/</span>
       <a href="cart.php">Cart</a> <span>/</span> Checkout
     </div>
-
     <h1 class="page-title">Checkout</h1>
-
     <div class="checkout-layout">
-
       <div>
-
         <div class="checkout-card">
           <h2 class="checkout-card-title">Delivery Address</h2>
-
           <div class="form-row-2">
             <div class="form-group">
               <label class="form-label">First Name</label>
@@ -107,17 +91,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
               <input type="text" class="form-input" id="lname" placeholder="Last Name" />
             </div>
           </div>
-
           <div class="form-group">
             <label class="form-label">Phone Number</label>
             <input type="tel" class="form-input" id="phone" placeholder="Phone Number" />
           </div>
-
           <div class="form-group">
             <label class="form-label">Address</label>
             <input type="text" class="form-input" id="addr" placeholder="Flat / House No, Street, Area" />
           </div>
-
           <div class="form-row-2">
             <div class="form-group">
               <label class="form-label">City</label>
@@ -129,7 +110,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
             </div>
           </div>
         </div>
-
         <div class="checkout-card">
           <h2 class="checkout-card-title">Payment Method</h2>
           <div class="cod-note">
@@ -137,24 +117,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
             You will pay cash when the order is delivered.
           </div>
         </div>
-
       </div>
-
       <aside class="checkout-summary">
         <h2 style="font-size:17px; font-weight:bold; margin-bottom:14px;">Order Summary</h2>
-
         <div id="checkout-items"></div>
-
         <div class="summary-row"><span>Subtotal</span><span id="co-subtotal">₹0</span></div>
         <div class="summary-row"><span>Delivery</span><span>FREE</span></div>
         <div class="summary-row"><span>Discount (5%)</span><span id="co-discount" style="color:red;">₹0</span></div>
         <div class="summary-row"><span>GST (18%)</span><span id="co-gst">₹0</span></div>
-
-        <div class="summary-total">
-          <span>Total</span>
-          <span id="co-total">₹0</span>
-        </div>
-
+        <div class="summary-total"><span>Total</span><span id="co-total">₹0</span></div>
         <?php if ($order_success != ""): ?>
           <p style="color:green; font-size:13px; margin-bottom:8px;"><?php echo $order_success; ?></p>
         <?php endif; ?>
@@ -168,16 +139,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
           <button type="submit" class="btn-place-order" id="placeOrderBtn">Place Order</button>
         </form>
       </aside>
-
     </div>
   </div>
-
   <footer>
     <p>© 2025 NexGear. All rights reserved.</p>
   </footer>
-
   <script src="cart.js"></script>
   <script src="checkout.js"></script>
-
 </body>
 </html>

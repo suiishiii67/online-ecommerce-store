@@ -32,7 +32,6 @@ pg_close($conn);
   </style>
 </head>
 <body>
-
 <nav class="navbar">
   <div class="nav-container">
     <a href="home.php" class="nav-logo"><div class="logo-icon">N</div> NexGear</a>
@@ -58,14 +57,12 @@ pg_close($conn);
     </div>
   </div>
 </nav>
-
 <section class="hero-section">
   <h1>Level Up Your PC Setup</h1>
   <p>Gaming accessories — keyboards, headsets, monitors and more.</p>
   <a href="products.php" class="btn-hero">Shop Now</a>
   <a href="#categories" class="btn-hero-outline">Browse Categories</a>
 </section>
-
 <section class="features-bar">
   <div class="features-grid">
     <div style="text-align:center;">
@@ -82,8 +79,6 @@ pg_close($conn);
     </div>
   </div>
 </section>
-
-
 <section style="padding: 30px 20px;">
   <div style="max-width:1200px; margin:auto;">
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
@@ -96,21 +91,19 @@ pg_close($conn);
     </div>
   </div>
 </section>
-
 <section class="section">
   <div class="container">
     <h2 class="section-title">Featured Products</h2>
     <p class="section-sub">Top picks this month.</p>
-
     <?php if (count($featured) > 0) { ?>
     <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:18px;">
       <?php foreach ($featured as $fp) { ?>
       <div class="product-card" onclick="window.location.href='product-detail.php?id=<?php echo $fp['id']; ?>'" style="cursor:pointer;">
         <div class="product-image">
-            <?php if (!empty($fp['image_url'])): ?>
-              <img src="<?php echo htmlspecialchars($fp['image_url']); ?>" alt="<?php echo htmlspecialchars($fp['name']); ?>" style="width:100%;height:100%;object-fit:contain;">
-            <?php endif; ?>
-          </div>
+          <?php if (!empty($fp['image_url'])): ?>
+            <img src="<?php echo htmlspecialchars($fp['image_url']); ?>" alt="<?php echo htmlspecialchars($fp['name']); ?>" style="width:100%;height:100%;object-fit:contain;">
+          <?php endif; ?>
+        </div>
         <div class="product-info">
           <div class="product-brand"><?php echo htmlspecialchars($fp['description']); ?></div>
           <div class="product-name"><?php echo htmlspecialchars($fp['name']); ?></div>
@@ -126,13 +119,11 @@ pg_close($conn);
     <?php } else { ?>
     <p style="text-align:center; color:#888; padding:30px;">No products yet.</p>
     <?php } ?>
-
     <div style="text-align:center; margin-top:24px;">
       <a href="products.php" class="btn-primary" style="padding:10px 26px; border-radius:20px;">View All Products</a>
     </div>
   </div>
 </section>
-
 <footer>
   <p>© 2025 NexGear. All rights reserved.</p>
   <div style="margin-top:8px;">
@@ -142,7 +133,6 @@ pg_close($conn);
     <a href="admin.php">Admin</a>
   </div>
 </footer>
-
 <script src="cart.js"></script>
 </body>
 </html>

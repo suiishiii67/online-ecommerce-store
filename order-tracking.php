@@ -24,13 +24,9 @@ if(!isset($_SESSION["username"])) {
   </style>
 </head>
 <body>
-
   <nav class="navbar">
     <div class="nav-container">
-      <a href="home.php" class="nav-logo">
-        <div class="logo-icon">N</div>
-        NexGear
-      </a>
+      <a href="home.php" class="nav-logo"><div class="logo-icon">N</div> NexGear</a>
       <ul class="nav-links">
         <li><a href="home.php">Home</a></li>
         <li><a href="products.php">Products</a></li>
@@ -48,24 +44,16 @@ if(!isset($_SESSION["username"])) {
       </div>
     </div>
   </nav>
-
   <div class="page-wrapper">
-
     <div class="breadcrumb">
       <a href="home.php">Home</a> <span>/</span> My Orders
     </div>
-
     <h1 class="page-title">My Orders</h1>
-
     <div id="orders-container"></div>
-
   </div>
-
   <footer>
     <p>© 2025 NexGear. All rights reserved.</p>
   </footer>
-
   <script src="order-tracking.js"></script>
-
 </body>
 </html>

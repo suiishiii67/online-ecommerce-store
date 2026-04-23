@@ -4,12 +4,9 @@ $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $error = "";
 $success = "";
 $redirect_url = "home.php";
-
-// handle login form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
-
     if ($email == "") {
         $error = "Please enter your email.";
     } elseif ($password == "") {
@@ -20,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $success = "Welcome Admin! Redirecting...";
         $redirect_url = "admin.php";
     } else {
-        // look up user by email and verify their password
         $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
         $user = pg_fetch_assoc($result);
         if ($user && password_verify($password, $user["password"])) {
@@ -59,7 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </style>
 </head>
 <body>
-
 <nav class="navbar">
   <div class="nav-container">
     <a href="home.php" class="nav-logo"><div class="logo-icon">N</div> NexGear</a>
@@ -79,20 +74,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 </nav>
-
 <div class="login-page">
   <div class="login-card">
     <div class="login-logo">N</div>
     <h1 class="login-title">Welcome Back</h1>
     <p class="login-sub">Sign in to your NexGear account</p>
-
     <?php if ($success != "") { ?>
       <p style="color:green; font-size:13px; margin-bottom:14px;"><?php echo $success; ?></p>
     <?php } ?>
     <?php if ($error != "") { ?>
       <p style="color:red; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
     <?php } ?>
-
     <form method="POST" action="login.php" id="loginForm">
       <div class="form-group">
         <label class="form-label">Email</label>
@@ -104,12 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <button type="submit" class="login-btn">Sign In</button>
     </form>
-
     <p class="login-footer">Don't have an account? <a href="register.php">Create one</a></p>
   </div>
 </div>
-
 <script src="login.js"></script>
-
 </body>
 </html>

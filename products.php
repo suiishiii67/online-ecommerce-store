@@ -1,6 +1,5 @@
 <?php
 session_start();
-// fetch all products from DB and build an array to pass into the JS
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
 $products = [];
@@ -39,7 +38,6 @@ pg_close($conn);
   </style>
 </head>
 <body>
-
 <nav class="navbar">
   <div class="nav-container">
     <a href="home.php" class="nav-logo"><div class="logo-icon">N</div> NexGear</a>
@@ -65,15 +63,11 @@ pg_close($conn);
     </div>
   </div>
 </nav>
-
 <div class="page-wrapper">
-
   <div class="breadcrumb">
     <a href="home.php">Home</a> <span>/</span> All Products
   </div>
-
   <div class="products-layout">
-
     <aside class="sidebar">
       <div class="filter-block">
         <h3 class="filter-heading">Category</h3>
@@ -91,17 +85,14 @@ pg_close($conn);
           <li><label><input type="radio" name="cat" value="Webcams"> Webcams</label></li>
         </ul>
       </div>
-
       <div class="filter-block">
         <h3 class="filter-heading">Max Price (₹)</h3>
         <input type="range" id="priceRange" min="0" max="50000" value="50000" style="width:100%;">
         <p style="font-size:13px; margin-top:6px;">Up to: <span id="priceLabel">₹50,000</span></p>
       </div>
-
       <button class="btn-primary" id="applyFilters" style="width:100%; padding:10px; border-radius:8px; margin-top:10px;">Apply Filters</button>
       <button id="resetFilters" style="width:100%; padding:10px; border-radius:8px; margin-top:8px; border:1px solid #ccc; background:#fff; font-size:13px;">Reset</button>
     </aside>
-
     <div class="listing-area">
       <div class="listing-header">
         <h1 style="font-size:20px; font-weight:700;">All Products</h1>
@@ -110,14 +101,11 @@ pg_close($conn);
       <div class="product-grid" id="products-container"></div>
       <div id="pagination-controls" style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:28px; margin-bottom:10px;"></div>
     </div>
-
   </div>
 </div>
-
 <footer>
   <p>© 2025 NexGear. All rights reserved.</p>
 </footer>
-
 <script src="cart.js"></script>
 <script>
 var allProducts = <?php echo json_encode($products); ?>;

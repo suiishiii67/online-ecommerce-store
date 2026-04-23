@@ -2,14 +2,11 @@
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $error = "";
 $success = "";
-
-// handle registration form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST["name"]);
     $email = trim($_POST["email"]);
     $phone = trim($_POST["phone"]);
     $password = trim($_POST["password"]);
-
     if ($name == "") {
         $error = "Please enter your full name.";
     } elseif ($email == "" || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -19,12 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen($password) < 6) {
         $error = "Password must be at least 6 characters.";
     } else {
-        // don't allow duplicate emails
         $check = pg_query_params($conn, "SELECT id FROM users WHERE email = $1", array($email));
         if (pg_num_rows($check) > 0) {
             $error = "This email is already registered.";
         } else {
-            // hash the password so it's never stored as plain text
             $hashed = password_hash($password, PASSWORD_DEFAULT);
             $insert = pg_query_params($conn,
                 "INSERT INTO users (name, email, phone, password) VALUES ($1, $2, $3, $4)",
@@ -58,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </style>
 </head>
 <body>
-
 <nav class="navbar">
   <div class="nav-container">
     <a href="home.php" class="nav-logo"><div class="logo-icon">N</div> NexGear</a>
@@ -78,20 +72,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 </nav>
-
 <div class="login-page">
   <div class="login-card">
     <div class="login-logo">N</div>
     <h1 class="login-title">Create Account</h1>
     <p class="login-sub">Join NexGear today</p>
-
     <?php if ($success != "") { ?>
       <p style="color:green; font-size:13px; margin-bottom:14px;"><?php echo $success; ?></p>
     <?php } ?>
     <?php if ($error != "") { ?>
       <p style="color:red; font-size:13px; margin-bottom:14px;"><?php echo $error; ?></p>
     <?php } ?>
-
     <form method="POST" action="register.php" id="registerForm">
       <div class="form-group">
         <label class="form-label">Full Name</label>
@@ -111,11 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <button type="submit" class="login-btn">Create Account</button>
     </form>
-
     <p class="login-footer">Already have an account? <a href="login.php">Sign In</a></p>
   </div>
 </div>
-
 <script src="register.js"></script>
 </body>
 </html>

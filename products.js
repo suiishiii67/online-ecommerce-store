@@ -1,9 +1,6 @@
-// allProducts is passed from products.php
 var filtered = allProducts.slice();
 var currentPage = 1;
 var perPage = 9;
-
-// build one product card
 function makeCard(p) {
   var card = document.createElement("div");
   card.className = "product-card";
@@ -11,11 +8,9 @@ function makeCard(p) {
   card.onclick = function() {
     window.location.href = "product-detail.php?id=" + p.id;
   };
-
   var img = p.image_url
     ? '<img src="' + p.image_url + '" style="width:100%;height:100%;object-fit:contain;">'
     : '';
-
   card.innerHTML =
     '<div class="product-image">' + img + '</div>' +
     '<div class="product-info">' +
@@ -27,56 +22,41 @@ function makeCard(p) {
         '<button class="btn-add-cart">+ Cart</button>' +
       '</div>' +
     '</div>';
-
-  // stop card click when add to cart is clicked
   var btn = card.querySelector(".btn-add-cart");
   btn.onclick = function(e) {
     e.stopPropagation();
     addToCart(p.id, p.name, p.brand, p.price, "");
   };
-
   return card;
 }
-
-// show products for current page
 function showPage() {
   var container = document.getElementById("products-container");
   var countEl = document.getElementById("listing-count");
   var start = (currentPage - 1) * perPage;
   var page = filtered.slice(start, start + perPage);
-
   container.innerHTML = "";
-
   if (filtered.length == 0) {
     container.innerHTML = '<p style="color:#888; padding:20px;">No products found.</p>';
     countEl.textContent = "0 results";
     document.getElementById("pagination-controls").innerHTML = "";
     return;
   }
-
   for (var i = 0; i < page.length; i++) {
     container.appendChild(makeCard(page[i]));
   }
-
   countEl.textContent = "Showing " + (start + 1) + " - " + Math.min(start + perPage, filtered.length) + " of " + filtered.length;
   showPagination();
 }
-
-// show page number buttons
 function showPagination() {
   var el = document.getElementById("pagination-controls");
   var totalPages = Math.ceil(filtered.length / perPage);
-
   if (totalPages <= 1) { el.innerHTML = ""; return; }
-
   var html = "";
-
   if (currentPage == 1) {
     html += '<button class="page-btn" disabled>Previous</button>';
   } else {
     html += '<button class="page-btn" onclick="changePage(-1)">Previous</button>';
   }
-
   for (var i = 1; i <= totalPages; i++) {
     if (i == currentPage) {
       html += '<button class="page-btn page-active">' + i + '</button>';
@@ -84,35 +64,26 @@ function showPagination() {
       html += '<button class="page-btn" onclick="gotoPage(' + i + ')">' + i + '</button>';
     }
   }
-
   if (currentPage == totalPages) {
     html += '<button class="page-btn" disabled>Next</button>';
   } else {
     html += '<button class="page-btn" onclick="changePage(1)">Next</button>';
   }
-
   el.innerHTML = html;
 }
-
-// move to the next or previous page
 function changePage(dir) {
   currentPage = currentPage + dir;
   showPage();
   window.scrollTo(0, 0);
 }
-
-// jump to a specific page number
 function gotoPage(n) {
   currentPage = n;
   showPage();
   window.scrollTo(0, 0);
 }
-
-// apply filters
 document.getElementById("applyFilters").addEventListener("click", function() {
   var cat = document.querySelector('input[name="cat"]:checked').value;
   var maxPrice = parseInt(document.getElementById("priceRange").value);
-
   filtered = [];
   for (var i = 0; i < allProducts.length; i++) {
     var p = allProducts[i];
@@ -120,12 +91,9 @@ document.getElementById("applyFilters").addEventListener("click", function() {
       filtered.push(p);
     }
   }
-
   currentPage = 1;
   showPage();
 });
-
-// reset filters
 document.getElementById("resetFilters").addEventListener("click", function() {
   document.querySelector('input[name="cat"][value="all"]').checked = true;
   document.getElementById("priceRange").value = 50000;
@@ -134,13 +102,9 @@ document.getElementById("resetFilters").addEventListener("click", function() {
   currentPage = 1;
   showPage();
 });
-
-// update price label when slider moves
 document.getElementById("priceRange").addEventListener("input", function() {
   document.getElementById("priceLabel").textContent = "₹" + parseInt(this.value).toLocaleString("en-IN");
 });
-
-// if user searched from navbar, filter on page load
 if (typeof searchQuery !== 'undefined' && searchQuery != '') {
   filtered = [];
   for (var i = 0; i < allProducts.length; i++) {
@@ -150,5 +114,4 @@ if (typeof searchQuery !== 'undefined' && searchQuery != '') {
     }
   }
 }
-
 showPage();

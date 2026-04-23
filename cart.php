@@ -28,7 +28,6 @@ if(!isset($_SESSION["username"])) {
   </style>
 </head>
 <body>
-
 <nav class="navbar">
   <div class="nav-container">
     <a href="home.php" class="nav-logo"><div class="logo-icon">N</div> NexGear</a>
@@ -50,14 +49,11 @@ if(!isset($_SESSION["username"])) {
     </div>
   </div>
 </nav>
-
 <div class="page-wrapper">
   <div class="breadcrumb"><a href="home.php">Home</a> <span>/</span> My Cart</div>
   <h1 class="page-title">My Cart <span id="cart-count-label" style="font-size:16px; font-weight:normal; color:#888;"></span></h1>
-
   <div class="cart-layout">
     <div id="cart-items-wrap"></div>
-
     <aside class="cart-summary">
       <h2 style="font-size:18px; font-weight:bold; margin-bottom:14px;">Order Summary</h2>
       <div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">₹0</span></div>
@@ -69,11 +65,9 @@ if(!isset($_SESSION["username"])) {
     </aside>
   </div>
 </div>
-
 <footer>
   <p>© 2025 NexGear. All rights reserved.</p>
 </footer>
-
 <script src="cart.js"></script>
 </body>
 </html>

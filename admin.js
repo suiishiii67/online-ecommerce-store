@@ -1,6 +1,4 @@
 var products = [];
-
-// send a POST request with JSON data and call callback with the result
 function sendRequest(url, data, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url);
@@ -10,8 +8,6 @@ function sendRequest(url, data, callback) {
   };
   xhr.send(JSON.stringify(data));
 }
-
-// fetch all products from server and render the table
 function loadProducts() {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "admin.php?action=list");
@@ -21,43 +17,32 @@ function loadProducts() {
   };
   xhr.send();
 }
-
-// return stock status label and CSS class based on quantity
 function getStatus(stock) {
   stock = parseInt(stock);
   if (stock == 0) return { label: "Out of Stock", cls: "status-out" };
   if (stock < 20) return { label: "Low Stock", cls: "status-low" };
   return { label: "In Stock", cls: "status-in" };
 }
-
-// update the stats bar at the top of the admin page
 function updateStats() {
   var totalValue = 0;
   var lowCount = 0;
-
   for (var i = 0; i < products.length; i++) {
     totalValue += parseFloat(products[i].price) * parseInt(products[i].stock);
     if (parseInt(products[i].stock) < 20) lowCount++;
   }
-
   document.getElementById("totalProducts").textContent = products.length;
   document.getElementById("totalValue").textContent = "₹" + totalValue.toLocaleString("en-IN");
   document.getElementById("lowStock").textContent = lowCount;
 }
-
-// show products in the table
 function renderTable(searchText) {
   var tbody = document.getElementById("tableBody");
   var emptyMsg = document.getElementById("emptyMsg");
   var html = "";
-
   searchText = searchText.toLowerCase();
-
   for (var i = 0; i < products.length; i++) {
     var p = products[i];
     var text = (p.name + " " + p.description + " " + p.category).toLowerCase();
     if (text.indexOf(searchText) == -1) continue;
-
     var s = getStatus(p.stock);
     html += "<tr>";
     html += "<td><strong>" + p.name + "</strong></td>";
@@ -72,7 +57,6 @@ function renderTable(searchText) {
     html += "<button class='btn-delete' onclick='deleteProduct(" + p.id + ")'>Delete</button>";
     html += "</td></tr>";
   }
-
   if (html == "") {
     tbody.innerHTML = "";
     emptyMsg.style.display = "block";
@@ -80,11 +64,8 @@ function renderTable(searchText) {
     emptyMsg.style.display = "none";
     tbody.innerHTML = html;
   }
-
   updateStats();
 }
-
-// open edit form and fill in product details
 function openEdit(productId) {
   for (var i = 0; i < products.length; i++) {
     if (parseInt(products[i].id) == productId) {
@@ -110,24 +91,17 @@ function openEdit(productId) {
     }
   }
 }
-
-// delete a product
 function deleteProduct(productId) {
   if (!confirm("Delete this product?")) return;
-
   sendRequest("admin.php?action=delete", { id: productId }, function(result) {
     if (result.success) loadProducts();
     else alert("Failed to delete.");
   });
 }
-
-// save product (add or update)
 document.getElementById("productForm").addEventListener("submit", function(e) {
   e.preventDefault();
-
   var existingId = document.getElementById("prodId").value;
   var action = existingId ? "update" : "add";
-
   var data = {
     name: document.getElementById("prodName").value.trim(),
     description: document.getElementById("prodDesc").value.trim(),
@@ -137,7 +111,6 @@ document.getElementById("productForm").addEventListener("submit", function(e) {
     image_url: document.getElementById("prodImage").value.trim()
   };
   if (existingId) data.id = existingId;
-
   sendRequest("admin.php?action=" + action, data, function(result) {
     if (result.success) {
       document.getElementById("productModal").style.display = "none";
@@ -147,18 +120,13 @@ document.getElementById("productForm").addEventListener("submit", function(e) {
     }
   });
 });
-
-// upload selected image file to server and set the path in the URL field
 document.getElementById("prodImageFile").addEventListener("change", function() {
   var file = this.files[0];
   if (!file) return;
-
   var status = document.getElementById("uploadStatus");
   status.textContent = "Uploading...";
-
   var formData = new FormData();
   formData.append("image", file);
-
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "admin.php?action=upload_image");
   xhr.onload = function() {
@@ -174,8 +142,6 @@ document.getElementById("prodImageFile").addEventListener("change", function() {
   };
   xhr.send(formData);
 });
-
-// show image preview when a URL is typed manually into the field
 document.getElementById("prodImage").addEventListener("input", function() {
   var val = this.value.trim();
   if (val) {
@@ -185,8 +151,6 @@ document.getElementById("prodImage").addEventListener("input", function() {
     document.getElementById("imagePreview").style.display = "none";
   }
 });
-
-// open add product form
 document.getElementById("addBtn").addEventListener("click", function() {
   document.getElementById("modalTitle").textContent = "Add Product";
   document.getElementById("productForm").reset();
@@ -195,18 +159,12 @@ document.getElementById("addBtn").addEventListener("click", function() {
   document.getElementById("uploadStatus").textContent = "";
   document.getElementById("productModal").style.display = "flex";
 });
-
-// close product form
 document.getElementById("cancelModalBtn").addEventListener("click", function() {
   document.getElementById("productModal").style.display = "none";
 });
-
-// search box filter
 document.getElementById("searchInput").addEventListener("input", function() {
   renderTable(this.value);
 });
-
-// open spec form
 function openSpec(productId) {
   for (var i = 0; i < products.length; i++) {
     if (parseInt(products[i].id) == productId) {
@@ -217,27 +175,19 @@ function openSpec(productId) {
     }
   }
 }
-
-// close spec form
 function closeSpecModal() {
   document.getElementById("specModal").style.display = "none";
 }
-
-// save specs
 function saveSpecs() {
   var productId = document.getElementById("specProductId").value;
   var specsText = document.getElementById("specTextarea").value.trim();
-
   sendRequest("admin.php?action=update_specs", { id: productId, specs: specsText }, function(result) {
     if (result.success) { closeSpecModal(); loadProducts(); }
     else alert("Failed to save specs.");
   });
 }
-
 loadProducts();
 loadFeedbacks();
-
-// fetch all feedback from server and show in table
 function loadFeedbacks() {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "admin.php?action=feedbacks");
@@ -246,13 +196,11 @@ function loadFeedbacks() {
     var tbody = document.getElementById("feedbackBody");
     var empty = document.getElementById("feedbackEmpty");
     document.getElementById("feedbackCount").textContent = feedbacks.length;
-
     if (feedbacks.length == 0) {
       tbody.innerHTML = "";
       empty.style.display = "block";
       return;
     }
-
     empty.style.display = "none";
     var html = "";
     for (var i = 0; i < feedbacks.length; i++) {

@@ -1,14 +1,9 @@
 <?php
 session_start();
-
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
-
 $action = isset($_GET['action']) ? $_GET['action'] : '';
-
 if ($action != '') {
     header('Content-Type: application/json');
-
-    // send back all products as a JSON list
     if ($action == 'list') {
         $result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
         $products = [];
@@ -16,10 +11,7 @@ if ($action != '') {
             $products[] = $row;
         }
         echo json_encode($products);
-    }
-
-    // add a new product row to the DB
-    elseif ($action == 'add' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    } elseif ($action == 'add' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
         $result = pg_query_params($conn,
@@ -27,10 +19,7 @@ if ($action != '') {
             array($data['name'], $data['description'], $data['price'], $data['category'], $data['stock'], $data['image_url'])
         );
         echo json_encode(['success' => $result ? true : false]);
-    }
-
-    // update an existing product's fields
-    elseif ($action == 'update' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    } elseif ($action == 'update' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
         $result = pg_query_params($conn,
@@ -38,10 +27,7 @@ if ($action != '') {
             array($data['name'], $data['description'], $data['price'], $data['category'], $data['stock'], $data['image_url'], $data['id'])
         );
         echo json_encode(['success' => $result ? true : false]);
-    }
-
-    // save the specs text for a specific product
-    elseif ($action == 'update_specs' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    } elseif ($action == 'update_specs' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
         $result = pg_query_params($conn,
@@ -49,33 +35,23 @@ if ($action != '') {
             array($data['specs'], $data['id'])
         );
         echo json_encode(['success' => $result ? true : false]);
-    }
-
-    // remove a product from the DB using its ID
-    elseif ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    } elseif ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
         $result = pg_query_params($conn, "DELETE FROM products WHERE id=$1", array($data['id']));
         echo json_encode(['success' => $result ? true : false]);
-    }
-
-    // fetch all customer messages from the feedback table
-    elseif ($action == 'feedbacks') {
+    } elseif ($action == 'feedbacks') {
         $result = pg_query($conn, "SELECT * FROM feedback ORDER BY submitted_at DESC");
         $feedbacks = [];
         while ($row = pg_fetch_assoc($result)) {
             $feedbacks[] = $row;
         }
         echo json_encode($feedbacks);
-    }
-
-    // save uploaded image to images/products/ and return the path
-    elseif ($action == 'upload_image' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    } elseif ($action == 'upload_image' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
             echo json_encode(['success' => false, 'error' => 'No file uploaded']);
             exit;
         }
-        // only allow real image types, reject everything else
         $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
         $mime = mime_content_type($_FILES['image']['tmp_name']);
         if (!in_array($mime, $allowed)) {
@@ -91,11 +67,9 @@ if ($action != '') {
             echo json_encode(['success' => false, 'error' => 'Failed to save file']);
         }
     }
-
     pg_close($conn);
     exit;
 }
-
 pg_close($conn);
 ?>
 <!DOCTYPE html>
@@ -108,7 +82,6 @@ pg_close($conn);
   <link rel="stylesheet" href="admin.css" />
 </head>
 <body>
-
   <nav class="admin-navbar">
     <div class="admin-nav-inner">
       <div class="admin-brand">NexGear Admin</div>
@@ -119,58 +92,47 @@ pg_close($conn);
       </div>
     </div>
   </nav>
-
   <div class="admin-wrapper">
-
     <div id="inventory-section">
-
-    <div class="admin-header">
-      <h1>Inventory Management</h1>
-      <div class="admin-header-actions">
-        <input type="text" id="searchInput" class="form-input" placeholder="Search products..." style="width:220px;" />
-        <button class="btn-primary" id="addBtn" style="padding:9px 18px; border-radius:8px;">+ Add Product</button>
+      <div class="admin-header">
+        <h1>Inventory Management</h1>
+        <div class="admin-header-actions">
+          <input type="text" id="searchInput" class="form-input" placeholder="Search products..." style="width:220px;" />
+          <button class="btn-primary" id="addBtn" style="padding:9px 18px; border-radius:8px;">+ Add Product</button>
+        </div>
+      </div>
+      <div class="admin-stats">
+        <div class="stat-box">
+          <div class="stat-label">Total Products</div>
+          <div class="stat-value" id="totalProducts">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Inventory Value</div>
+          <div class="stat-value" id="totalValue">₹0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Low Stock Items</div>
+          <div class="stat-value" id="lowStock">0</div>
+        </div>
+      </div>
+      <div class="table-box">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+        <div id="emptyMsg" style="display:none; text-align:center; padding:30px; color:#888; font-size:14px;">No products found.</div>
       </div>
     </div>
-
-    <div class="admin-stats">
-      <div class="stat-box">
-        <div class="stat-label">Total Products</div>
-        <div class="stat-value" id="totalProducts">0</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">Inventory Value</div>
-        <div class="stat-value" id="totalValue">₹0</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">Low Stock Items</div>
-        <div class="stat-value" id="lowStock">0</div>
-      </div>
-    </div>
-
-    <div class="table-box">
-      <table class="product-table">
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-        </tbody>
-      </table>
-      <div id="emptyMsg" style="display:none; text-align:center; padding:30px; color:#888; font-size:14px;">
-        No products found.
-      </div>
-    </div>
-
-    </div> <!-- end inventory-section -->
-
-    <!-- Feedback Section -->
     <div id="feedback-section" style="margin-top: 40px;">
       <div class="admin-header">
         <h1>Customer Feedback</h1>
@@ -178,7 +140,6 @@ pg_close($conn);
           Total: <strong id="feedbackCount">0</strong>
         </div>
       </div>
-
       <div class="table-box">
         <table class="product-table">
           <thead>
@@ -192,20 +153,15 @@ pg_close($conn);
           </thead>
           <tbody id="feedbackBody"></tbody>
         </table>
-        <div id="feedbackEmpty" style="display:none; text-align:center; padding:30px; color:#888; font-size:14px;">
-          No feedback received yet.
-        </div>
+        <div id="feedbackEmpty" style="display:none; text-align:center; padding:30px; color:#888; font-size:14px;">No feedback received yet.</div>
       </div>
     </div>
-
   </div>
-
   <div id="productModal" class="modal-overlay" style="display:none;">
     <div class="modal-box">
       <h2 id="modalTitle" style="font-size:18px; font-weight:700; margin-bottom:20px;">Add Product</h2>
       <form id="productForm">
         <input type="hidden" id="prodId" />
-
         <div class="form-group">
           <label class="form-label">Product Name</label>
           <input type="text" class="form-input" id="prodName" required />
@@ -251,7 +207,6 @@ pg_close($conn);
           </div>
           <p id="uploadStatus" style="font-size:12px; color:#888; margin-top:4px;"></p>
         </div>
-
         <div class="modal-buttons">
           <button type="button" id="cancelModalBtn" style="padding:10px 20px; border:1px solid #ccc; border-radius:8px; background:#fff; font-size:14px; cursor:pointer;">Cancel</button>
           <button type="submit" class="btn-primary" style="padding:10px 20px; border-radius:8px;">Save</button>
@@ -259,8 +214,6 @@ pg_close($conn);
       </form>
     </div>
   </div>
-
-  <!-- Spec Modal -->
   <div id="specModal" class="modal-overlay" style="display:none;">
     <div class="modal-box" style="max-width:480px;">
       <h2 style="font-size:18px; font-weight:700; margin-bottom:12px;">Edit Specifications</h2>
@@ -273,8 +226,6 @@ pg_close($conn);
       </div>
     </div>
   </div>
-
   <script src="admin.js"></script>
-
 </body>
 </html>
