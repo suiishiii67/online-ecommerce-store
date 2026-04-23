@@ -74,7 +74,14 @@ pg_close($conn);
       <img src="images/pngtree-simple-line-retail-icon-for-easy-returns-great-for-templates-web-png-image_12754937.png" alt="Easy Returns" style="height:120px; object-fit:contain;">
     </div>
     <div style="text-align:center;">
-      <img src="images/pngtree-24-hour-service-vector-design-with-telephone-illustration-png-image_5246998.jpg" alt="24/7 Support" style="height:120px; object-fit:contain;">
+      <div style="height:120px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="30" fill="#e8f0fc" stroke="#0071e3" stroke-width="2"/>
+          <text x="32" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0071e3" font-family="Arial">24/7</text>
+          <path d="M20 38 Q20 44 26 44 Q28 44 30 42 L28 38 Q26 38 26 36 Q26 30 32 26 Q38 22 42 24 L44 28 Q42 30 40 28 Q38 28 36 34 Q34 40 38 42 Q40 44 42 42 Q44 40 44 38" stroke="#0071e3" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span style="font-size:12px; font-weight:bold; color:#333;">24/7 Support</span>
+      </div>
     </div>
   </div>
 </section>
