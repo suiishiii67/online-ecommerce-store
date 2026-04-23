@@ -1,23 +1,20 @@
-// get cart items from browser storage
+// get cart from browser storage
 function getCart() {
   var data = localStorage.getItem("nexgear_cart");
-  if (data == null) {
-    return [];
-  }
+  if (data == null) return [];
   return JSON.parse(data);
 }
 
-// save cart items to browser storage
+// save cart to browser storage
 function saveCart(cart) {
   localStorage.setItem("nexgear_cart", JSON.stringify(cart));
 }
 
-// add a product to cart (called when user clicks Add to Cart button)
+// add a product to cart
 function addToCart(id, name, brand, price, icon) {
   var cart = getCart();
   var found = false;
 
-  // check if this product is already in the cart
   for (var i = 0; i < cart.length; i++) {
     if (cart[i].id == id) {
       cart[i].qty = cart[i].qty + 1;
@@ -26,17 +23,8 @@ function addToCart(id, name, brand, price, icon) {
     }
   }
 
-  // if not found, add it as a new item
   if (found == false) {
-    var newItem = {
-      id: id,
-      name: name,
-      brand: brand,
-      price: price,
-      icon: icon,
-      qty: 1
-    };
-    cart.push(newItem);
+    cart.push({ id: id, name: name, brand: brand, price: price, icon: icon, qty: 1 });
   }
 
   saveCart(cart);
@@ -44,31 +32,27 @@ function addToCart(id, name, brand, price, icon) {
   alert(name + " added to cart!");
 }
 
-// remove a product from cart by its id
+// remove a product from cart
 function removeFromCart(productId) {
   var cart = getCart();
   var newCart = [];
 
   for (var i = 0; i < cart.length; i++) {
-    if (cart[i].id != productId) {
-      newCart.push(cart[i]);
-    }
+    if (cart[i].id != productId) newCart.push(cart[i]);
   }
 
   saveCart(newCart);
   showCart();
 }
 
-// increase or decrease the quantity of a product in cart
+// increase or decrease quantity
 function changeQty(productId, change) {
   var cart = getCart();
 
   for (var i = 0; i < cart.length; i++) {
     if (cart[i].id == productId) {
       cart[i].qty = cart[i].qty + change;
-      if (cart[i].qty < 1) {
-        cart[i].qty = 1;
-      }
+      if (cart[i].qty < 1) cart[i].qty = 1;
       break;
     }
   }
@@ -77,7 +61,7 @@ function changeQty(productId, change) {
   showCart();
 }
 
-// update the cart count number shown in the navbar
+// update cart count in navbar
 function updateCartCount() {
   var cart = getCart();
   var total = 0;
@@ -89,20 +73,13 @@ function updateCartCount() {
   var badge = document.getElementById("nav-cart-count");
   if (badge != null) {
     badge.textContent = total;
-    if (total > 0) {
-      badge.style.display = "flex";
-    } else {
-      badge.style.display = "none";
-    }
+    badge.style.display = total > 0 ? "flex" : "none";
   }
 }
 
-// calculate and display price totals in cart summary
+// calculate and show price totals
 function updateTotal(subtotal) {
-  var delivery = 0;
-  if (subtotal < 999) {
-    delivery = 99;
-  }
+  var delivery = subtotal < 999 ? 99 : 0;
   var discount = Math.floor(subtotal * 0.05);
   var gst = Math.floor((subtotal - discount) * 0.18);
   var total = subtotal - discount + gst + delivery;
@@ -113,11 +90,11 @@ function updateTotal(subtotal) {
   var g = document.getElementById("sum-gst");
   var t = document.getElementById("sum-total");
 
-  if (s != null) s.textContent = "₹" + subtotal.toLocaleString("en-IN");
-  if (d != null) d.textContent = delivery == 0 ? "FREE" : "₹" + delivery;
-  if (dis != null) dis.textContent = "-₹" + discount.toLocaleString("en-IN");
-  if (g != null) g.textContent = "₹" + gst.toLocaleString("en-IN");
-  if (t != null) t.textContent = "₹" + total.toLocaleString("en-IN");
+  if (s) s.textContent = "₹" + subtotal.toLocaleString("en-IN");
+  if (d) d.textContent = delivery == 0 ? "FREE" : "₹" + delivery;
+  if (dis) dis.textContent = "-₹" + discount.toLocaleString("en-IN");
+  if (g) g.textContent = "₹" + gst.toLocaleString("en-IN");
+  if (t) t.textContent = "₹" + total.toLocaleString("en-IN");
 }
 
 // show all cart items on the cart page
@@ -127,18 +104,12 @@ function showCart() {
 
   var cart = getCart();
 
-  // count total items
   var totalQty = 0;
-  for (var i = 0; i < cart.length; i++) {
-    totalQty = totalQty + cart[i].qty;
-  }
+  for (var i = 0; i < cart.length; i++) totalQty += cart[i].qty;
 
   var label = document.getElementById("cart-count-label");
-  if (label != null) {
-    label.textContent = "(" + totalQty + " items)";
-  }
+  if (label) label.textContent = "(" + totalQty + " items)";
 
-  // if cart is empty, show empty message
   if (cart.length == 0) {
     wrap.innerHTML =
       '<div style="text-align:center; padding:60px 20px;">' +
@@ -151,14 +122,13 @@ function showCart() {
     return;
   }
 
-  // build the cart items HTML
   var html = "";
   var subtotal = 0;
 
   for (var i = 0; i < cart.length; i++) {
     var item = cart[i];
     var lineTotal = parseInt(item.price) * item.qty;
-    subtotal = subtotal + lineTotal;
+    subtotal += lineTotal;
 
     html += '<div class="cart-item">';
     html += '<div style="flex:1;">';
@@ -181,7 +151,6 @@ function showCart() {
   updateCartCount();
 }
 
-// run when the page loads
 window.onload = function() {
   showCart();
   updateCartCount();

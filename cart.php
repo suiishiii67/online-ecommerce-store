@@ -39,6 +39,10 @@ if(!isset($_SESSION["username"])) {
       <li><a href="order-tracking.php">Orders</a></li>
       <li><a href="feedback.php">Contact Us</a></li>
     </ul>
+    <form class="nav-search" action="products.php" method="get">
+      <input type="text" name="search" placeholder="Search products...">
+      <button type="submit">Search</button>
+    </form>
     <div class="nav-actions">
       <a href="cart.php" class="cart-icon-wrap">Cart <span class="cart-badge" id="nav-cart-count">0</span></a>
       <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>

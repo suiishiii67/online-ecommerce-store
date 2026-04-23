@@ -9,6 +9,7 @@ $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $order_success = "";
 $order_error   = "";
 
+// handle order placement by looping through cart items and calling place_order procedure
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
     $user_id   = $_SESSION["user_id"];
     $items     = json_decode($_POST["cart_items"], true);
@@ -69,6 +70,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["place_order"])) {
         <li><a href="order-tracking.php">Orders</a></li>
         <li><a href="feedback.php">Contact Us</a></li>
       </ul>
+      <form class="nav-search" action="products.php" method="get">
+        <input type="text" name="search" placeholder="Search products...">
+        <button type="submit">Search</button>
+      </form>
       <div class="nav-actions">
         <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
         <a href="logout.php" class="btn-primary">Sign Out</a>

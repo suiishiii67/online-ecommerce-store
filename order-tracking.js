@@ -1,6 +1,6 @@
-// read orders from localStorage and show them on the page
+// show orders from localStorage
 function showOrders() {
-  var orders    = JSON.parse(localStorage.getItem("nexgear_orders") || "[]");
+  var orders = JSON.parse(localStorage.getItem("nexgear_orders") || "[]");
   var container = document.getElementById("orders-container");
 
   if (orders.length == 0) {

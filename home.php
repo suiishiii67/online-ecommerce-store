@@ -43,6 +43,10 @@ pg_close($conn);
       <li><a href="order-tracking.php">Orders</a></li>
       <li><a href="feedback.php">Contact Us</a></li>
     </ul>
+    <form class="nav-search" action="products.php" method="get">
+      <input type="text" name="search" placeholder="Search products...">
+      <button type="submit">Search</button>
+    </form>
     <div class="nav-actions">
       <a href="cart.php" class="cart-icon-wrap">Cart <span class="cart-badge" id="nav-cart-count">0</span></a>
       <?php if(isset($_SESSION["username"])): ?>
@@ -65,16 +69,16 @@ pg_close($conn);
 <section class="features-bar">
   <div class="features-grid">
     <div style="text-align:center;">
-      <img src="pngtree-free-delivery-truck-icon-png-image_6565580.png" alt="Free Delivery" style="height:120px; object-fit:contain;">
+      <img src="images/pngtree-free-delivery-truck-icon-png-image_6565580.png" alt="Free Delivery" style="height:120px; object-fit:contain;">
     </div>
     <div style="text-align:center;">
-      <img src="secure-payment-label-maximum-security-and-reliability-when-paying-online-png.webp" alt="Secure Payment" style="height:120px; object-fit:contain;">
+      <img src="images/secure-payment-label-maximum-security-and-reliability-when-paying-online-png.webp" alt="Secure Payment" style="height:120px; object-fit:contain;">
     </div>
     <div style="text-align:center;">
-      <img src="pngtree-simple-line-retail-icon-for-easy-returns-great-for-templates-web-png-image_12754937.png" alt="Easy Returns" style="height:120px; object-fit:contain;">
+      <img src="images/pngtree-simple-line-retail-icon-for-easy-returns-great-for-templates-web-png-image_12754937.png" alt="Easy Returns" style="height:120px; object-fit:contain;">
     </div>
     <div style="text-align:center;">
-      <img src="pngtree-24-hour-service-vector-design-with-telephone-illustration-png-image_5246998.jpg" alt="24/7 Support" style="height:120px; object-fit:contain;">
+      <img src="images/pngtree-24-hour-service-vector-design-with-telephone-illustration-png-image_5246998.jpg" alt="24/7 Support" style="height:120px; object-fit:contain;">
     </div>
   </div>
 </section>
@@ -84,10 +88,10 @@ pg_close($conn);
   <div style="max-width:1200px; margin:auto;">
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
       <a href="products.php">
-        <img src="MSI-BANNER.webp" alt="MSI Banner" style="width:100%; height:250px; object-fit:cover; display:block;">
+        <img src="images/MSI-BANNER.webp" alt="MSI Banner" style="width:100%; height:250px; object-fit:cover; display:block;">
       </a>
       <a href="products.php">
-        <img src="keyboard.jpg" alt="Keyboard" style="width:100%; height:250px; object-fit:cover; display:block;">
+        <img src="images/keyboard.jpg" alt="Keyboard" style="width:100%; height:250px; object-fit:cover; display:block;">
       </a>
     </div>
   </div>

@@ -1,110 +1,75 @@
-/* admin.css - Styles for the admin page */
-
 body {
-  background: #f5f5f7;
+  background: #f0f0f0;
+  font-family: Arial;
+  margin: 0;
 }
 
-/* Admin Navbar */
 .admin-navbar {
-  background: #1d1d1f;
-  padding: 0 30px;
-  height: 54px;
+  background: #222222;
+  padding: 12px 20px;
   display: flex;
-  align-items: center;
-}
-
-.admin-nav-inner {
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .admin-brand {
-  color: #fff;
+  color: white;
   font-size: 16px;
-  font-weight: 700;
 }
 
 .admin-nav-links {
   display: flex;
-  gap: 20px;
+  gap: 16px;
 }
 
 .admin-nav-links a {
-  color: rgba(255,255,255,0.6);
-  font-size: 13px;
+  color: #aaaaaa;
   text-decoration: none;
+  font-size: 13px;
 }
 
-.admin-nav-links a:hover,
-.admin-nav-links a.active {
-  color: #fff;
+.admin-nav-links a:hover {
+  color: white;
 }
 
-/* Admin Page Wrapper */
 .admin-wrapper {
-  max-width: 1200px;
-  margin: 30px auto;
-  padding: 0 20px;
+  width: 90%;
+  margin: 20px auto;
 }
 
-/* Header Row */
 .admin-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 16px;
+}
+
+.admin-stats {
+  display: flex;
+  gap: 12px;
   margin-bottom: 20px;
 }
 
-.admin-header h1 {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.admin-header-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-/* Stats */
-.admin-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
 .stat-box {
-  background: #fff;
-  border: 1px solid #e0e0e5;
-  border-radius: 10px;
-  padding: 16px 20px;
+  background: white;
+  border: 1px solid #cccccc;
+  padding: 14px;
+  flex: 1;
 }
 
 .stat-label {
   font-size: 12px;
-  color: #6e6e73;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 6px;
+  color: #666666;
 }
 
 .stat-value {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1d1d1f;
+  font-size: 22px;
+  font-weight: bold;
 }
 
-/* Table */
 .table-box {
-  background: #fff;
-  border: 1px solid #e0e0e5;
-  border-radius: 10px;
-  overflow: hidden;
+  background: white;
+  border: 1px solid #cccccc;
 }
 
 .product-table {
@@ -113,104 +78,39 @@ body {
 }
 
 .product-table th {
-  background: #f5f5f7;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #6e6e73;
-  padding: 12px 16px;
+  background: #eeeeee;
   text-align: left;
-  border-bottom: 1px solid #e0e0e5;
+  padding: 10px;
+  font-size: 13px;
+  border-bottom: 1px solid #cccccc;
 }
 
 .product-table td {
-  padding: 13px 16px;
+  padding: 10px;
   font-size: 14px;
-  border-bottom: 1px solid #f0f0f0;
-  vertical-align: middle;
+  border-bottom: 1px solid #eeeeee;
 }
 
-.product-table tr:last-child td {
-  border-bottom: none;
-}
-
-.product-table tr:hover td {
-  background: #fafafa;
-}
-
-/* Status badges */
 .status-badge {
-  font-size: 11px;
-  font-weight: 700;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-in  { background: #d4edda; color: #155724; }
+.status-low { background: #fff3cd; color: #856404; }
+.status-out { background: #f8d7da; color: #721c24; }
+
+.btn-edit, .btn-spec, .btn-delete {
+  background: white;
   padding: 4px 10px;
-  border-radius: 16px;
-}
-
-.status-in {
-  background: #d4edda;
-  color: #155724;
-}
-
-.status-low {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.status-out {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-/* Table action buttons */
-.btn-edit {
-  background: none;
-  border: 1px solid #0071e3;
-  color: #0071e3;
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  cursor: pointer;
-  margin-right: 6px;
-}
-
-.btn-edit:hover {
-  background: #0071e3;
-  color: #fff;
-}
-
-.btn-delete {
-  background: none;
-  border: 1px solid #dc3545;
-  color: #dc3545;
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 12px;
   cursor: pointer;
 }
 
-.btn-delete:hover {
-  background: #dc3545;
-  color: #fff;
-}
+.btn-edit   { border: 1px solid #0071e3; color: #0071e3; }
+.btn-spec   { border: 1px solid #888888; color: #888888; }
+.btn-delete { border: 1px solid #dc3545; color: #dc3545; }
 
-.btn-spec {
-  background: none;
-  border: 1px solid #888;
-  color: #888;
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  cursor: pointer;
-  margin-right: 6px;
-}
-
-.btn-spec:hover {
-  background: #888;
-  color: #fff;
-}
-
-/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -221,15 +121,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
 }
 
 .modal-box {
-  background: #fff;
-  border-radius: 14px;
-  padding: 30px;
-  width: 100%;
-  max-width: 460px;
+  background: white;
+  padding: 24px;
+  width: 440px;
   max-height: 90vh;
   overflow-y: auto;
 }
@@ -237,6 +134,6 @@ body {
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 8px;
+  margin-top: 16px;
 }

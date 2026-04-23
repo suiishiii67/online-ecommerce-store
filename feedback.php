@@ -9,21 +9,20 @@ $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $success = "";
 $error   = "";
 
+// handle contact form submission and save to database
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = trim($_POST["first_name"]);
-    $last_name  = trim($_POST["last_name"]);
-    $email      = trim($_POST["email"]);
-    $order_id   = trim($_POST["order_id"]);
-    $message    = trim($_POST["message"]);
+    $name    = trim($_POST["first_name"]) . " " . trim($_POST["last_name"]);
+    $email   = trim($_POST["email"]);
+    $message = trim($_POST["message"]);
 
-    if ($first_name == "" || $last_name == "" || $email == "" || $message == "") {
+    if (trim($_POST["first_name"]) == "" || trim($_POST["last_name"]) == "" || $email == "" || $message == "") {
         $error = "Please fill in all required fields.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email address.";
     } else {
         $insert = pg_query_params($conn,
-            "INSERT INTO feedback (first_name, last_name, email, order_id, message) VALUES ($1, $2, $3, $4, $5)",
-            array($first_name, $last_name, $email, $order_id, $message)
+            "INSERT INTO feedback (name, email, message) VALUES ($1, $2, $3)",
+            array($name, $email, $message)
         );
         if ($insert) {
             $success = "Thank you! Your message has been sent.";
@@ -66,6 +65,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <li><a href="order-tracking.php">Orders</a></li>
         <li><a href="feedback.php" class="active">Contact Us</a></li>
       </ul>
+      <form class="nav-search" action="products.php" method="get">
+        <input type="text" name="search" placeholder="Search products...">
+        <button type="submit">Search</button>
+      </form>
       <div class="nav-actions">
         <span style="font-size:13px; color:#333;">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
         <a href="logout.php" class="btn-primary">Sign Out</a>

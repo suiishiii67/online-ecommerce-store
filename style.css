@@ -211,6 +211,28 @@ footer {
 
 footer a { color: #aaa; margin: 0 8px; }
 
+/* navbar search */
+.nav-search {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-search input {
+  padding: 6px 10px;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  width: 180px;
+}
+
+.nav-search button {
+  padding: 6px 12px;
+  background: #0071e3;
+  color: white;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
 /* toast */
 #toast-msg {
   position: fixed;

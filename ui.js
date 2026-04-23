@@ -1,3 +1,4 @@
+// show a temporary popup message at the bottom of the screen
 function showToast(message) {
   var toast = document.getElementById("toast-msg");
   if (!toast) return;
@@ -10,6 +11,7 @@ function showToast(message) {
   }, 3000);
 }
 
+// highlight the current page link in the navbar
 function markActiveNav() {
   var page = window.location.pathname.split("/").pop();
   var links = document.querySelectorAll(".nav-links a");

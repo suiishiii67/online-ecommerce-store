@@ -5,6 +5,7 @@ $error = "";
 $success = "";
 $redirect_url = "home.php";
 
+// handle login form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
@@ -68,6 +69,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <li><a href="order-tracking.php">Orders</a></li>
       <li><a href="feedback.php">Contact Us</a></li>
     </ul>
+    <form class="nav-search" action="products.php" method="get">
+      <input type="text" name="search" placeholder="Search products...">
+      <button type="submit">Search</button>
+    </form>
     <div class="nav-actions">
       <a href="login.php" class="btn-primary">Sign In</a>
     </div>

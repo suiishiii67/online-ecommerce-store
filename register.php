@@ -3,6 +3,7 @@ $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $error = "";
 $success = "";
 
+// handle registration form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST["name"]);
     $email = trim($_POST["email"]);
@@ -66,6 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <li><a href="order-tracking.php">Orders</a></li>
       <li><a href="feedback.php">Contact Us</a></li>
     </ul>
+    <form class="nav-search" action="products.php" method="get">
+      <input type="text" name="search" placeholder="Search products...">
+      <button type="submit">Search</button>
+    </form>
     <div class="nav-actions">
       <a href="login.php" class="btn-primary">Sign In</a>
     </div>

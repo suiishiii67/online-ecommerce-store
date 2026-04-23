@@ -8,6 +8,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : '';
 if ($action != '') {
     header('Content-Type: application/json');
 
+    // return all products as JSON
     if ($action == 'list') {
         $result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
         $products = [];
@@ -17,6 +18,7 @@ if ($action != '') {
         echo json_encode($products);
     }
 
+    // insert a new product into the database
     elseif ($action == 'add' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -27,6 +29,7 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
+    // update an existing product's details
     elseif ($action == 'update' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -37,6 +40,7 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
+    // save the specs text for a product
     elseif ($action == 'update_specs' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -47,11 +51,44 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
+    // delete a product by ID
     elseif ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
         $result = pg_query_params($conn, "DELETE FROM products WHERE id=$1", array($data['id']));
         echo json_encode(['success' => $result ? true : false]);
+    }
+
+    // return all feedback messages as JSON
+    elseif ($action == 'feedbacks') {
+        $result = pg_query($conn, "SELECT * FROM feedback ORDER BY submitted_at DESC");
+        $feedbacks = [];
+        while ($row = pg_fetch_assoc($result)) {
+            $feedbacks[] = $row;
+        }
+        echo json_encode($feedbacks);
+    }
+
+    // upload a product image and return its saved path
+    elseif ($action == 'upload_image' && $_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            echo json_encode(['success' => false, 'error' => 'No file uploaded']);
+            exit;
+        }
+        $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $mime = mime_content_type($_FILES['image']['tmp_name']);
+        if (!in_array($mime, $allowed)) {
+            echo json_encode(['success' => false, 'error' => 'Invalid file type']);
+            exit;
+        }
+        $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+        $filename = uniqid('product_') . '.' . strtolower($ext);
+        $dest = __DIR__ . '/images/products/' . $filename;
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $dest)) {
+            echo json_encode(['success' => true, 'path' => 'images/products/' . $filename]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Failed to save file']);
+        }
     }
 
     pg_close($conn);
@@ -76,12 +113,15 @@ pg_close($conn);
       <div class="admin-brand">NexGear Admin</div>
       <div class="admin-nav-links">
         <a href="home.php">Back to Store</a>
-        <a href="admin.php" class="active">Inventory</a>
+        <a href="#inventory-section">Inventory</a>
+        <a href="#feedback-section">Feedback</a>
       </div>
     </div>
   </nav>
 
   <div class="admin-wrapper">
+
+    <div id="inventory-section">
 
     <div class="admin-header">
       <h1>Inventory Management</h1>
@@ -127,6 +167,36 @@ pg_close($conn);
       </div>
     </div>
 
+    </div> <!-- end inventory-section -->
+
+    <!-- Feedback Section -->
+    <div id="feedback-section" style="margin-top: 40px;">
+      <div class="admin-header">
+        <h1>Customer Feedback</h1>
+        <div class="stat-box" style="padding:8px 16px;">
+          Total: <strong id="feedbackCount">0</strong>
+        </div>
+      </div>
+
+      <div class="table-box">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="feedbackBody"></tbody>
+        </table>
+        <div id="feedbackEmpty" style="display:none; text-align:center; padding:30px; color:#888; font-size:14px;">
+          No feedback received yet.
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div id="productModal" class="modal-overlay" style="display:none;">
@@ -167,8 +237,18 @@ pg_close($conn);
           <input type="number" class="form-input" id="prodStock" required />
         </div>
         <div class="form-group">
-          <label class="form-label">Image URL</label>
-          <input type="text" class="form-input" id="prodImage" placeholder="e.g. images/product.jpg" />
+          <label class="form-label">Product Image</label>
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <input type="text" class="form-input" id="prodImage" placeholder="e.g. images/products/photo.jpg" style="flex:1; min-width:180px;" />
+            <label style="cursor:pointer; padding:8px 14px; background:#f0f0f0; border:1px solid #ccc; border-radius:8px; font-size:13px; white-space:nowrap;">
+              Upload File
+              <input type="file" id="prodImageFile" accept="image/*" style="display:none;" />
+            </label>
+          </div>
+          <div id="imagePreview" style="margin-top:10px; display:none;">
+            <img id="previewImg" src="" alt="Preview" style="max-height:120px; max-width:100%; border:1px solid #ddd; border-radius:6px; object-fit:contain;" />
+          </div>
+          <p id="uploadStatus" style="font-size:12px; color:#888; margin-top:4px;"></p>
         </div>
 
         <div class="modal-buttons">

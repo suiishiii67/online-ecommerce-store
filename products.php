@@ -49,6 +49,10 @@ pg_close($conn);
       <li><a href="order-tracking.php">Orders</a></li>
       <li><a href="feedback.php">Contact Us</a></li>
     </ul>
+    <form class="nav-search" action="products.php" method="get">
+      <input type="text" name="search" placeholder="Search products..." value="<?php echo htmlspecialchars(isset($_GET['search']) ? $_GET['search'] : ''); ?>">
+      <button type="submit">Search</button>
+    </form>
     <div class="nav-actions">
       <a href="cart.php" class="cart-icon-wrap">Cart <span class="cart-badge" id="nav-cart-count">0</span></a>
       <?php if(isset($_SESSION["username"])): ?>
@@ -116,6 +120,7 @@ pg_close($conn);
 <script src="cart.js"></script>
 <script>
 var allProducts = <?php echo json_encode($products); ?>;
+var searchQuery = <?php echo json_encode(isset($_GET['search']) ? trim($_GET['search']) : ''); ?>;
 </script>
 <script src="products.js"></script>
 </body>
