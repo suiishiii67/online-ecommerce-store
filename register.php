@@ -19,10 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen($password) < 6) {
         $error = "Password must be at least 6 characters.";
     } else {
+        // don't allow duplicate emails
         $check = pg_query_params($conn, "SELECT id FROM users WHERE email = $1", array($email));
         if (pg_num_rows($check) > 0) {
             $error = "This email is already registered.";
         } else {
+            // hash the password so it's never stored as plain text
             $hashed = password_hash($password, PASSWORD_DEFAULT);
             $insert = pg_query_params($conn,
                 "INSERT INTO users (name, email, phone, password) VALUES ($1, $2, $3, $4)",

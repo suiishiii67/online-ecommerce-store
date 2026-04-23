@@ -8,7 +8,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : '';
 if ($action != '') {
     header('Content-Type: application/json');
 
-    // return all products as JSON
+    // send back all products as a JSON list
     if ($action == 'list') {
         $result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
         $products = [];
@@ -18,7 +18,7 @@ if ($action != '') {
         echo json_encode($products);
     }
 
-    // insert a new product into the database
+    // add a new product row to the DB
     elseif ($action == 'add' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -29,7 +29,7 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
-    // update an existing product's details
+    // update an existing product's fields
     elseif ($action == 'update' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -40,7 +40,7 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
-    // save the specs text for a product
+    // save the specs text for a specific product
     elseif ($action == 'update_specs' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -51,7 +51,7 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
-    // delete a product by ID
+    // remove a product from the DB using its ID
     elseif ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) { echo json_encode(['success' => false]); exit; }
@@ -59,7 +59,7 @@ if ($action != '') {
         echo json_encode(['success' => $result ? true : false]);
     }
 
-    // return all feedback messages as JSON
+    // fetch all customer messages from the feedback table
     elseif ($action == 'feedbacks') {
         $result = pg_query($conn, "SELECT * FROM feedback ORDER BY submitted_at DESC");
         $feedbacks = [];
@@ -69,12 +69,13 @@ if ($action != '') {
         echo json_encode($feedbacks);
     }
 
-    // upload a product image and return its saved path
+    // save uploaded image to images/products/ and return the path
     elseif ($action == 'upload_image' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
             echo json_encode(['success' => false, 'error' => 'No file uploaded']);
             exit;
         }
+        // only allow real image types, reject everything else
         $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
         $mime = mime_content_type($_FILES['image']['tmp_name']);
         if (!in_array($mime, $allowed)) {

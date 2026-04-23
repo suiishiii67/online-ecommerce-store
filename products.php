@@ -1,5 +1,6 @@
 <?php
 session_start();
+// fetch all products from DB and build an array to pass into the JS
 $conn = pg_connect("host=localhost dbname=wpl_lab user=postgres password=1234");
 $result = pg_query($conn, "SELECT * FROM products ORDER BY id ASC");
 $products = [];

@@ -15,11 +15,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email   = trim($_POST["email"]);
     $message = trim($_POST["message"]);
 
+    // check that all fields are filled and email is valid
     if (trim($_POST["first_name"]) == "" || trim($_POST["last_name"]) == "" || $email == "" || $message == "") {
         $error = "Please fill in all required fields.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Please enter a valid email address.";
     } else {
+        // save the message to the feedback table
         $insert = pg_query_params($conn,
             "INSERT INTO feedback (name, email, message) VALUES ($1, $2, $3)",
             array($name, $email, $message)

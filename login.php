@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $success = "Welcome Admin! Redirecting...";
         $redirect_url = "admin.php";
     } else {
+        // look up user by email and verify their password
         $result = pg_query_params($conn, "SELECT * FROM users WHERE email = $1", array($email));
         $user = pg_fetch_assoc($result);
         if ($user && password_verify($password, $user["password"])) {
